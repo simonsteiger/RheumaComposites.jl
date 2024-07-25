@@ -1,7 +1,10 @@
-name = "RheumaResponse"
+name = "RheumaComposites"
 uuid = "579811c7-86f9-4c5f-9fea-fbfdecde0101"
 authors = ["simonsteiger <simon.j.steiger@gmail.com> and contributors"]
 version = "1.0.0-DEV"
+
+[deps]
+Term = "22787eb5-b846-44ae-b979-8e399b8463ab"
 
 [compat]
 julia = "1.6.7"
