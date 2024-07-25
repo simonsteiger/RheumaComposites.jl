@@ -1,3 +1,5 @@
+__precompile__(true)
+
 module RheumaComposites
 
 using Term
@@ -10,13 +12,14 @@ export intercept
 export SDAI
 export weight
 export score
-
+export isremission
 
 include("types/composites.jl")
 include("types/das28.jl")
-# include("types/sdai.jl")
+include("types/sdai.jl")
 include("utils/weight.jl")
 include("utils/score.jl")
-# include("utils/cutoff.jl")
+include("utils/remission.jl")
+# include("utils/categorise.jl")
 
 end

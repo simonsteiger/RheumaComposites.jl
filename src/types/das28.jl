@@ -35,9 +35,9 @@ struct DAS28CRP <: DAS28
     function DAS28CRP(; t28, s28, pga, apr)
         foreach([t28, s28]) do joints
             Base.isbetween(0, joints, 28) || throw(DomainError(joints, "only defined for 0 < joints < 28."))
-            Base.isbetween(0, pga, 100) || throw(DomainError(pga, "VAS global must be between 0 and 100.")) # What is more common, 10cm or 100mm?
-            apr >= 0 || throw(DomainError(apr, "CRP must be positive."))
         end
+        Base.isbetween(0, pga, 100) || throw(DomainError(pga, "VAS global must be between 0 and 100.")) # What is more common, 10cm or 100mm?
+        apr >= 0 || throw(DomainError(apr, "CRP must be positive."))
         return new(t28, s28, pga, apr)
     end
 end
@@ -75,9 +75,9 @@ struct DAS28ESR <: DAS28
     function DAS28ESR(; t28, s28, pga, apr)
         foreach([t28, s28]) do joints
             Base.isbetween(0, joints, 28) || throw(DomainError(joints, "only defined for 0 < joints < 28."))
-            Base.isbetween(0, pga, 100) || throw(DomainError(pga, "VAS global must be between 0 and 100.")) # What is more common, 10cm or 100mm?
-            apr >= 0 || throw(DomainError(apr, "ESR must be positive."))
         end
+        Base.isbetween(0, pga, 100) || throw(DomainError(pga, "VAS global must be between 0 and 100.")) # What is more common, 10cm or 100mm?
+        apr >= 0 || throw(DomainError(apr, "ESR must be positive."))
         return new(t28, s28, pga, apr)
     end
 end
