@@ -4,6 +4,8 @@ module RheumaComposites
 
 using Term
 
+export AbstractComponent
+export PGA, SJC28
 export AbstractComposite
 export ContinuousComposite, BooleanComposite
 export DAS28
@@ -14,6 +16,7 @@ export weight
 export score
 export isremission
 
+include("types/components.jl")
 include("types/composites.jl")
 include("types/das28.jl")
 include("types/sdai.jl")
