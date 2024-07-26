@@ -1,6 +1,6 @@
 abstract type DAS28 <: ContinuousComposite end
 
-WeightingStyle(::Type{<:DAS28}) = IsWeighted()
+WeightingScheme(::Type{<:DAS28}) = IsWeighted()
 
 """
     DAS28CRP(t28, s28, pga, apr)
@@ -30,7 +30,7 @@ julia> DAS28CRP(4, 5, 12, 44)
 struct DAS28CRP <: DAS28
     t28::Int64
     s28::Int64
-    pga::Float64
+    pga::Float64 # currently in mm!
     apr::Float64
     function DAS28CRP(; t28, s28, pga, apr)
         foreach([t28, s28]) do joints
@@ -70,7 +70,7 @@ julia> DAS28ESR(4, 5, 12, 44)
 struct DAS28ESR <: DAS28
     t28::Int64
     s28::Int64
-    pga::Float64
+    pga::Float64 # currently in mm!
     apr::Float64
     function DAS28ESR(; t28, s28, pga, apr)
         foreach([t28, s28]) do joints

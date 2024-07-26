@@ -25,9 +25,9 @@ julia> SDAI(4, 5, 12, 5, 44)
 struct SDAI <: ContinuousComposite
     t28::Int64
     s28::Int64
-    pga::Float64
+    pga::Float64 # in cm, not mm!
     ega::Float64
-    crp::Float64
+    crp::Float64 # in mg/dl!
     function SDAI(; t28, s28, pga, ega, crp)
         foreach([t28, s28]) do joints
             Base.isbetween(0, joints, 28) || throw(DomainError(joints, "only defined for 0 < joints < 28."))
@@ -38,3 +38,8 @@ struct SDAI <: ContinuousComposite
         return new(t28, s28, pga, ega, crp)
     end
 end
+
+WeightingScheme(::Type{<:SDAI}) = IsUnweighted()
+
+ega(x::SDAI) = x.ega
+crp(x::SDAI) = x.crp

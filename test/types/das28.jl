@@ -12,6 +12,10 @@ ref_value_crp = 4.24
     @test d28e isa ContinuousComposite
     @test d28e isa DAS28
     @test d28e isa DAS28ESR
+    @test t28(d28e) isa Real
+    @test s28(d28e) isa Real
+    @test pga(d28e) isa Real
+    @test apr(d28e) isa Real
 end
 
 @testset "Score DAS28ESR" begin
@@ -31,6 +35,10 @@ end
     @test d28c isa ContinuousComposite
     @test d28c isa DAS28
     @test d28c isa DAS28CRP
+    @test t28(d28c) isa Real
+    @test s28(d28c) isa Real
+    @test pga(d28c) isa Real
+    @test apr(d28c) isa Real
 end
 
 @testset "Score DAS28CRP" begin

@@ -30,7 +30,9 @@ julia> weight(DAS28CRP(4, 5, 12, 44), :pga)
 > 0.168
 ```
 """
-weight(x::T) where {T} = weight(WeightingStyle(T), x)
+weight(x::T) where {T} = weight(WeightingScheme(T), x)
+
+weight(::IsUnweightable, x::T) where {T} = throw(ErrorException("$(typeof(x)) type is unweightable."))
 
 weight(::IsUnweighted, x::T) where {T} = getproperty.(Ref(x), fieldnames(T))
 

@@ -5,6 +5,11 @@ sdai = SDAI(t28=1, s28=0, pga=1, ega=0, crp=1)
     @test sdai isa AbstractComposite
     @test sdai isa ContinuousComposite
     @test sdai isa SDAI
+    @test t28(sdai) isa Real
+    @test s28(sdai) isa Real
+    @test pga(sdai) isa Real
+    @test ega(sdai) isa Real
+    @test crp(sdai) isa Real
 end
 
 @testset "Score SDAI" begin

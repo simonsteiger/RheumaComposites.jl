@@ -7,11 +7,17 @@ using Term
 export AbstractComponent
 export PGA, SJC28
 export AbstractComposite
-export ContinuousComposite, BooleanComposite
+export ContinuousComposite
+export BooleanComposite
+export ModifiedComposite
 export DAS28
-export DAS28ESR, DAS28CRP
-export intercept
+export DAS28ESR
+export DAS28CRP
 export SDAI
+export BooleanRemission
+export revised, threeitem
+export intercept
+export t28, s28, pga, apr, ega, crp
 export weight
 export score
 export isremission
@@ -20,6 +26,7 @@ include("types/components.jl")
 include("types/composites.jl")
 include("types/das28.jl")
 include("types/sdai.jl")
+include("types/boolean.jl")
 include("utils/weight.jl")
 include("utils/score.jl")
 include("utils/remission.jl")
