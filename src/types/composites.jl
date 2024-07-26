@@ -46,7 +46,7 @@ julia> intercept(DAS28CRP(4, 5, 12, 44))
 intercept(x::ContinuousComposite) = 0.0
 
 function Base.show(io::IO, ::MIME"text/plain", x::AbstractComposite)
-    header = @bold string(typeof(x))
+    header = Term.@bold string(typeof(x))
     fields = map(fieldnames(typeof(x))) do component
         "$((uppercase ∘ string)(component)): $(getproperty(x, component))"
     end

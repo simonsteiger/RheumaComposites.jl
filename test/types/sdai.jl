@@ -1,5 +1,5 @@
 # Dummy SDAI for testing
-sdai = SDAI(t28=1, s28=0, pga=1, ega=0, crp=1)
+sdai = SDAI(t28=1, s28=0, pga=1u"cm", ega=0u"cm", crp=0.1u"mg/dL")
 
 @testset "Construct SDAI" begin
     @test sdai isa AbstractComposite
@@ -7,9 +7,9 @@ sdai = SDAI(t28=1, s28=0, pga=1, ega=0, crp=1)
     @test sdai isa SDAI
     @test t28(sdai) isa Real
     @test s28(sdai) isa Real
-    @test pga(sdai) isa Real
-    @test ega(sdai) isa Real
-    @test crp(sdai) isa Real
+    @test pga(sdai) isa Unitful.AbstractQuantity
+    @test ega(sdai) isa Unitful.AbstractQuantity
+    @test crp(sdai) isa Unitful.AbstractQuantity
 end
 
 @testset "Score SDAI" begin
@@ -21,5 +21,5 @@ end
 
 @testset "SDAI Remission" begin
     @test isremission(sdai)
-    @test !isremission(SDAI(t28=3, s28=4, pga=4, ega=4, crp=5))
+    @test !isremission(SDAI(t28=3, s28=4, pga=4u"cm", ega=4u"cm", crp=5u"mg/dL"))
 end

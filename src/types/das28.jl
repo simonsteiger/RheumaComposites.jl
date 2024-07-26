@@ -30,15 +30,15 @@ julia> DAS28CRP(4, 5, 12, 44)
 struct DAS28CRP <: DAS28
     t28::Int64
     s28::Int64
-    pga::Float64 # currently in mm!
-    apr::Float64
-    function DAS28CRP(; t28, s28, pga, apr)
+    pga::Unitful.AbstractQuantity
+    apr::Unitful.AbstractQuantity
+    function DAS28CRP(; t28, s28, pga::Unitful.AbstractQuantity, apr::Unitful.AbstractQuantity)
         foreach([t28, s28]) do joints
             Base.isbetween(0, joints, 28) || throw(DomainError(joints, "only defined for 0 < joints < 28."))
         end
-        Base.isbetween(0, pga, 100) || throw(DomainError(pga, "VAS global must be between 0 and 100.")) # What is more common, 10cm or 100mm?
-        apr >= 0 || throw(DomainError(apr, "CRP must be positive."))
-        return new(t28, s28, pga, apr)
+        Base.isbetween(0units.das28_vas, units.das28_vas(pga), 100units.das28_vas) || throw(DomainError(units.das28_vas(pga), "only defined for 0cm < pga < 100cm."))
+        apr >= 0units.das28_crp || throw(DomainError(apr, "CRP must be positive."))
+        return new(t28, s28, units.das28_vas(pga), units.das28_crp(apr))
     end
 end
 
@@ -70,15 +70,15 @@ julia> DAS28ESR(4, 5, 12, 44)
 struct DAS28ESR <: DAS28
     t28::Int64
     s28::Int64
-    pga::Float64 # currently in mm!
-    apr::Float64
-    function DAS28ESR(; t28, s28, pga, apr)
+    pga::Unitful.AbstractQuantity
+    apr::Unitful.AbstractQuantity
+    function DAS28ESR(; t28, s28, pga::Unitful.AbstractQuantity, apr::Unitful.AbstractQuantity)
         foreach([t28, s28]) do joints
             Base.isbetween(0, joints, 28) || throw(DomainError(joints, "only defined for 0 < joints < 28."))
         end
-        Base.isbetween(0, pga, 100) || throw(DomainError(pga, "VAS global must be between 0 and 100.")) # What is more common, 10cm or 100mm?
-        apr >= 0 || throw(DomainError(apr, "ESR must be positive."))
-        return new(t28, s28, pga, apr)
+        Base.isbetween(0units.das28_vas, units.das28_vas(pga), 100units.das28_vas) || throw(DomainError(units.das28_vas(pga), "only defined for 0 mm < pga < 100 mm."))
+        units.das28_esr(apr) >= 0units.das28_esr || throw(DomainError(units.das28_esr(apr), "ESR must be positive."))
+        return new(t28, s28, units.das28_vas(pga), units.das28_esr(apr))
     end
 end
 

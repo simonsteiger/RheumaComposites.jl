@@ -2,7 +2,8 @@ __precompile__(true)
 
 module RheumaComposites
 
-using Term
+import Term
+using Unitful
 
 export AbstractComponent
 export PGA, SJC28
@@ -22,6 +23,7 @@ export weight
 export score
 export isremission
 
+include("types/units.jl")
 include("types/components.jl")
 include("types/composites.jl")
 include("types/das28.jl")

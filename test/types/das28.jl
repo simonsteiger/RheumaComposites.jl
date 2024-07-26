@@ -1,6 +1,6 @@
 # Dummy DAS28ESR for testing
-d28e = DAS28ESR(t28=4, s28=5, pga=12, apr=44)
-d28c = DAS28CRP(t28=4, s28=5, pga=12, apr=44)
+d28e = DAS28ESR(t28=4, s28=5, pga=12u"mm", apr=44u"mm/hr")
+d28c = DAS28CRP(t28=4, s28=5, pga=12u"mm", apr=44u"mg/L")
 
 # A reference value for comparison
 # calculated using https://www.4s-dawn.com/DAS28/
@@ -14,8 +14,8 @@ ref_value_crp = 4.24
     @test d28e isa DAS28ESR
     @test t28(d28e) isa Real
     @test s28(d28e) isa Real
-    @test pga(d28e) isa Real
-    @test apr(d28e) isa Real
+    @test pga(d28e) isa Unitful.AbstractQuantity
+    @test apr(d28e) isa Unitful.AbstractQuantity
 end
 
 @testset "Score DAS28ESR" begin
@@ -27,7 +27,7 @@ end
 
 @testset "DAS28ESR Remission" begin
     @test !isremission(d28e)
-    @test isremission(DAS28ESR(t28=0, s28=0, pga=8, apr=2))
+    @test isremission(DAS28ESR(t28=0, s28=0, pga=8u"mm", apr=2u"mm/hr"))
 end
 
 @testset "Construct DAS28CRP" begin
@@ -37,8 +37,8 @@ end
     @test d28c isa DAS28CRP
     @test t28(d28c) isa Real
     @test s28(d28c) isa Real
-    @test pga(d28c) isa Real
-    @test apr(d28c) isa Real
+    @test pga(d28c) isa Unitful.AbstractQuantity
+    @test apr(d28c) isa Unitful.AbstractQuantity
 end
 
 @testset "Score DAS28CRP" begin
@@ -50,5 +50,5 @@ end
 
 @testset "DAS28CRP remission" begin
     @test !isremission(d28c)
-    @test isremission(DAS28CRP(t28=0, s28=0, pga=8, apr=2))
+    @test isremission(DAS28CRP(t28=0, s28=0, pga=8u"mm", apr=2u"mg/L"))
 end

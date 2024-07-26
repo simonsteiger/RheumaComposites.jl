@@ -5,6 +5,7 @@ version = "1.0.0-DEV"
 
 [deps]
 Term = "22787eb5-b846-44ae-b979-8e399b8463ab"
+Unitful = "1986cc42-f94f-5a68-af5c-568840ba703d"
 
 [compat]
 julia = "1.6.7"

@@ -34,12 +34,12 @@ weight(x::T) where {T} = weight(WeightingScheme(T), x)
 
 weight(::IsUnweightable, x::T) where {T} = throw(ErrorException("$(typeof(x)) type is unweightable."))
 
-weight(::IsUnweighted, x::T) where {T} = getproperty.(Ref(x), fieldnames(T))
+weight(::IsUnweighted, x::T) where {T} = ustrip.(getproperty.(Ref(x), fieldnames(T)))
 
 function weight(::IsWeighted, x::T) where {T}
     weightfuns_t = getproperty(weightfuns, Symbol(T))
     weighted_values = map(fieldnames(T)) do component
-        component_value = getproperty(x, component)
+        component_value = ustrip(getproperty(x, component))
         weight_t = getproperty(weightfuns_t, component)
         weight_t(x, component_value)
     end

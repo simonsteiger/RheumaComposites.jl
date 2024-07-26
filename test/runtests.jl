@@ -1,18 +1,19 @@
 using RheumaComposites
 using Test
+using Unitful
 
 @testset "Components" begin
-    include("essential/components.jl")
+    include("types/components.jl")
 end
 
 @testset "DAS28" begin
-    include("essential/das28.jl")
+    include("types/das28.jl")
 end
 
 @testset "SDAI" begin
-    include("essential/sdai.jl")
+    include("types/sdai.jl")
 end
 
 @testset "Boolean" begin
-    include("essential/boolean.jl")
+    include("types/boolean.jl")
 end

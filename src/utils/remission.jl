@@ -6,13 +6,13 @@ isremission(x::PGA) = x.value <= 10.0
 isremission(x::SJC28) = x.value == 0
 
 function isremission(x::BooleanRemission)
-    return t28(x) <= 1 && s28(x) <= 1 && pga(x) <= 10.0 && crp(x) <= 1.0 # in mg/dl!
+    return t28(x) <= 1 && s28(x) <= 1 && pga(x) <= 10.0u"mm" && crp(x) <= 1.0u"mg/dL"
 end
 
 function isremission(x::Revised{<:BooleanRemission})
-    return t28(x) <= 1 && s28(x) <= 1 && pga(x) <= 20.0 && crp(x) <= 1.0 # in mg/dl!
+    return t28(x) <= 1 && s28(x) <= 1 && pga(x) <= 20.0u"mm" && crp(x) <= 1.0u"mg/dL"
 end
 
 function isremission(x::ThreeItem{<:BooleanRemission})
-    return t28(x) <= 1 && s28(x) <= 1 && crp(x) <= 1.0 # in mg/dl!
+    return t28(x) <= 1 && s28(x) <= 1 && crp(x) <= 1.0u"mg/dL"
 end
