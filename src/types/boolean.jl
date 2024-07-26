@@ -4,12 +4,10 @@ struct BooleanRemission <: BooleanComposite
     pga::Unitful.AbstractQuantity
     crp::Unitful.AbstractQuantity
     function BooleanRemission(; t28, s28, pga::Unitful.AbstractQuantity, crp::Unitful.AbstractQuantity)
-        foreach([t28, s28]) do joints
-            Base.isbetween(0, joints, 28) || throw(DomainError(joints, "only defined for 0 < joints < 28."))
-        end
-        Base.isbetween(0units.brem_vas, units.brem_vas(pga), 100units.brem_vas) || throw(DomainError(units.brem_vas(pga), "only defined for 0 mm < pga < 100 mm."))
-        units.brem_crp(crp) >= 0units.brem_crp || throw(DomainError(units.brem_crp(crp), "CRP must be positive."))
-        return new(t28, s28, pga, units.brem_crp(crp))
+        valid_joints.([t28, s28])
+        valid_vas(pga)
+        valid_apr(crp)
+        return new(t28, s28, pga, uconvert(units.brem_crp, crp))
     end
 end
 

@@ -32,13 +32,23 @@ struct DAS28CRP <: DAS28
     s28::Int64
     pga::Unitful.AbstractQuantity
     apr::Unitful.AbstractQuantity
-    function DAS28CRP(; t28, s28, pga::Unitful.AbstractQuantity, apr::Unitful.AbstractQuantity)
-        foreach([t28, s28]) do joints
-            Base.isbetween(0, joints, 28) || throw(DomainError(joints, "only defined for 0 < joints < 28."))
-        end
-        Base.isbetween(0units.das28_vas, units.das28_vas(pga), 100units.das28_vas) || throw(DomainError(units.das28_vas(pga), "only defined for 0cm < pga < 100cm."))
-        apr >= 0units.das28_crp || throw(DomainError(apr, "CRP must be positive."))
-        return new(t28, s28, units.das28_vas(pga), units.das28_crp(apr))
+    function DAS28CRP(;
+        t28,
+        s28,
+        pga::Unitful.AbstractQuantity,
+        apr::Unitful.AbstractQuantity,
+    )
+        valid_joints.([t28, s28])
+        valid_vas(pga)
+        valid_apr(apr)
+        
+        # Must convert because weights do not adjust to measurement
+        return new(
+            t28,
+            s28,
+            uconvert(units.das28_vas, pga),
+            uconvert(units.das28_crp, apr)
+        )
     end
 end
 
@@ -72,13 +82,21 @@ struct DAS28ESR <: DAS28
     s28::Int64
     pga::Unitful.AbstractQuantity
     apr::Unitful.AbstractQuantity
-    function DAS28ESR(; t28, s28, pga::Unitful.AbstractQuantity, apr::Unitful.AbstractQuantity)
-        foreach([t28, s28]) do joints
-            Base.isbetween(0, joints, 28) || throw(DomainError(joints, "only defined for 0 < joints < 28."))
-        end
-        Base.isbetween(0units.das28_vas, units.das28_vas(pga), 100units.das28_vas) || throw(DomainError(units.das28_vas(pga), "only defined for 0 mm < pga < 100 mm."))
-        units.das28_esr(apr) >= 0units.das28_esr || throw(DomainError(units.das28_esr(apr), "ESR must be positive."))
-        return new(t28, s28, units.das28_vas(pga), units.das28_esr(apr))
+    function DAS28ESR(;
+        t28,
+        s28,
+        pga::Unitful.AbstractQuantity,
+        apr::Unitful.AbstractQuantity,
+    )
+        valid_joints.([t28, s28])
+        valid_vas(pga)
+        valid_apr(apr)
+        return new(
+            t28,
+            s28,
+            uconvert(units.das28_vas, pga),
+            uconvert(units.das28_esr, apr)
+        )
     end
 end
 

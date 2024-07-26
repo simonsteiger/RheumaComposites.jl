@@ -11,7 +11,7 @@ This package implements the most common composite scores used for evaluating dis
 - Revised ACR / EULAR Boolean remission
 - Three-item ACR / EULAR Boolean remission
 
-In addition to composite measures, this package also testing for further remission definitions:
+In addition to composite measures, this package allows testing for further remission definitions:
 
 - SJC28 remission
 - PGA remission
