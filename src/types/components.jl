@@ -5,9 +5,9 @@
 abstract type AbstractComponent end
 
 struct PGA <: AbstractComponent
-    value::Float64
+    value::Unitful.AbstractQuantity
     function PGA(x)
-        Base.isbetween(0, x, 100) || throw(DomainError(x, "VAS global must be between 0 and 100."))
+        valid_vas(x)
         return new(x)
     end
 end
@@ -15,7 +15,7 @@ end
 struct SJC28 <: AbstractComponent
     value::Int64
     function SJC28(x)
-        Base.isbetween(0, x, 28) || throw(DomainError(x, "only defined for 0 < joints < 28."))
+        valid_joints(x)
         return new(x)
     end
 end

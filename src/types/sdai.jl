@@ -28,14 +28,25 @@ struct SDAI <: ContinuousComposite
     pga::Unitful.AbstractQuantity
     ega::Unitful.AbstractQuantity
     crp::Unitful.AbstractQuantity
-    function SDAI(; t28, s28, pga::Unitful.AbstractQuantity, ega::Unitful.AbstractQuantity, crp::Unitful.AbstractQuantity)
-        foreach([t28, s28]) do joints
-            Base.isbetween(0, joints, 28) || throw(DomainError(joints, "only defined for 0 < joints < 28."))
-        end
-        Base.isbetween(0units.sdai_vas, units.sdai_vas(pga), 10units.sdai_vas) || throw(DomainError(units.sdai_vas(pga), "only defined for 0 cm < pga < 10 cm."))
-        Base.isbetween(0units.sdai_vas, units.sdai_vas(ega), 10units.sdai_vas) || throw(DomainError(units.sdai_vas(pga), "only defined for 0 cm < ega < 10 cm."))
-        units.sdai_crp(crp) >= 0units.sdai_crp || throw(DomainError(units.sdai_crp(crp), "ESR must be positive."))
-        return new(t28, s28, units.sdai_vas(pga), units.sdai_vas(ega), units.sdai_crp(crp))
+    function SDAI(;
+        t28,
+        s28,
+        pga::Unitful.AbstractQuantity,
+        ega::Unitful.AbstractQuantity,
+        crp::Unitful.AbstractQuantity,
+    )
+        valid_joints.([t28, s28])
+        valid_vas.([pga, ega])
+        valid_apr(crp)
+        
+        # Must convert because weights do not adjust to measurement
+        return new(
+            t28,
+            s28,
+            uconvert(units.sdai_vas, pga),
+            uconvert(units.sdai_vas, ega),
+            uconvert(units.sdai_crp, crp)
+        )
     end
 end
 

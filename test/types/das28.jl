@@ -1,6 +1,11 @@
-# Dummy DAS28ESR for testing
+# Dummy DAS28s for testing
 d28e = DAS28ESR(t28=4, s28=5, pga=12u"mm", apr=44u"mm/hr")
 d28c = DAS28CRP(t28=4, s28=5, pga=12u"mm", apr=44u"mg/L")
+# Test if different unit scales lead to same results
+das28e_u1 = DAS28CRP(t28=0, s28=1, pga=10u"mm", apr=1u"mg/dL")
+das28e_u2 = DAS28CRP(t28=0, s28=1, pga=1u"cm", apr=10u"mg/L")
+das28c_u1 = DAS28CRP(t28=0, s28=1, pga=10u"mm", apr=1u"mg/dL")
+das28c_u2 = DAS28CRP(t28=0, s28=1, pga=1u"cm", apr=10u"mg/L")
 
 # A reference value for comparison
 # calculated using https://www.4s-dawn.com/DAS28/
@@ -23,11 +28,13 @@ end
     @test score(d28e) isa Float64
     @test score(d28e) ≈ intercept(d28e) + sum(weight(d28e)) atol = 1e-3
     @test score(d28e) ≈ ref_value_esr atol = 1e-2
+    @test score(das28e_u1) ≈ score(das28e_u2) atol = 1e-3
 end
 
 @testset "DAS28ESR Remission" begin
     @test !isremission(d28e)
     @test isremission(DAS28ESR(t28=0, s28=0, pga=8u"mm", apr=2u"mm/hr"))
+    @test isremission(das28e_u1) == isremission(das28e_u2)
 end
 
 @testset "Construct DAS28CRP" begin
@@ -46,9 +53,11 @@ end
     @test score(d28c) isa Float64
     @test score(d28c) ≈ intercept(d28c) + sum(weight(d28c)) atol = 1e-3
     @test score(d28c) ≈ ref_value_crp atol = 1e-2
+    @test score(das28c_u1) ≈ score(das28c_u2) atol = 1e-3
 end
 
 @testset "DAS28CRP remission" begin
     @test !isremission(d28c)
     @test isremission(DAS28CRP(t28=0, s28=0, pga=8u"mm", apr=2u"mg/L"))
+    @test isremission(das28c_u1) == isremission(das28c_u2)
 end
