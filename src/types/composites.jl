@@ -36,19 +36,19 @@ See also [`revised`](@ref), [`threeitem`](@ref), [`BooleanComposite`](@ref).
 """
 abstract type ModifiedComposite <: AbstractComposite end
 
-"Return the value of the 28 tender-joint count."
+"Return the 28 tender-joint count."
 t28(x::AbstractComposite) = x.t28
 t28(x::ModifiedComposite) = t28(x.c0)
 
-"Return the value of the 28 swollen-joint count."
+"Return the 28 swollen-joint count."
 s28(x::AbstractComposite) = x.s28
 s28(x::ModifiedComposite) = s28(x.c0)
 
-"Return the value of the patient global assessment."
+"Return the patient global assessment."
 pga(x::AbstractComposite) = x.pga
 pga(x::ModifiedComposite) = pga(x.c0)
 
-"Return the value of the acute phase reactant."
+"Return the acute phase reactant."
 apr(x::AbstractComposite) = x.apr
 apr(x::ModifiedComposite) = apr(x.c0)
 
@@ -62,7 +62,6 @@ WeightingScheme(::Type) = IsUnweightable()
 "Return the intercept of a ContinuousComposite."
 intercept(x::ContinuousComposite) = 0.0
 
-# FIXME this is currently not correctly exported it seems
 Base.show(io::IO, x::AbstractComposite) = print(io, "$(nameof(typeof(x))) composite")
 
 function Base.show(io::IO, ::MIME"text/plain", x::AbstractComposite)

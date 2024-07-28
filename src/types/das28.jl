@@ -2,30 +2,25 @@ abstract type DAS28 <: ContinuousComposite end
 
 WeightingScheme(::Type{<:DAS28}) = IsWeighted()
 
+# TODO add weighting formula to docstring
 """
-    DAS28CRP(t28, s28, pga, apr)
+    DAS28CRP(; t28, s28, pga, apr)
 
-Store component measures of DAS28CRP.
+Store the component measures of the DAS28CRP.
 
-# Components
-
-- 28 tender joint count (`t28`)
-- 28 swollen joint count (`s28`)
-- patient global assessment (`pga`)
-- acute-phase-reactant, here CRP (`apr`)
-
-# Weighing
-
-The components are then weighed according to the following formula:
-
-...
+See also [`score`](@ref), [`isremission`](@ref), [`DAS28ESR`](@ref).
 
 # Example
 
-```julia-repl
-julia> DAS28CRP(4, 5, 12, 44)
-> DAS28CRP(4.0, 5.0, 12.0, 44.0)
+```jldoctest
+julia> DAS28CRP(t28=4, s28=5, pga=12u"mm", apr=44u"mg/L")
+DAS28CRP
+[...]
 ```
+
+# External links
+
+- The DAS28 calculator [https://www.4s-dawn.com/DAS28/](https://www.4s-dawn.com/DAS28/)
 """
 struct DAS28CRP <: DAS28
     t28::Int64
@@ -53,29 +48,23 @@ struct DAS28CRP <: DAS28
 end
 
 """
-    DAS28ESR(t28, s28, pga, apr)
+    DAS28ESR(; t28, s28, pga, apr)
 
-Store component measures of DAS28ESR.
+Store the component measures of the DAS28ESR.
 
-# Components
-
-- 28 tender joint count (`t28`)
-- 28 swollen joint count (`s28`)
-- patient global assessment (`pga`)
-- acute-phase-reactant, here ESR (`apr`)
-
-# Weighing
-
-The components are then weighed according to the following formula:
-
-...
+See also [`score`](@ref), [`isremission`](@ref), [`DAS28ESR`](@ref).
 
 # Example
 
-```julia-repl
-julia> DAS28ESR(4, 5, 12, 44)
-> DAS28ESR(4.0, 5.0, 12.0, 44.0)
+```jldoctest
+julia> DAS28ESR(t28=4, s28=5, pga=12u"mm", apr=44u"mg/L")
+DAS28ESR
+[...]
 ```
+
+# External links
+
+- DAS28 calculator [https://www.4s-dawn.com/DAS28/](https://www.4s-dawn.com/DAS28/)
 """
 struct DAS28ESR <: DAS28
     t28::Int64
