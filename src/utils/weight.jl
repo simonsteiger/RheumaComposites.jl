@@ -13,15 +13,15 @@ weights_das28crp = (
 )
 
 """
-    weight(c::T, v::Symbol)
+    weight(x::T) where {T}
 
-Calculate the degree to which score `s` is made up of component `v`. The weighed components of `s` sum to 1.
+Weight a composite score's components according to its weighting scheme.
 
 # Example
 
-```julia-repl
-julia> weight(DAS28CRP(4, 5, 12, 44), :pga)
-> 0.168
+```jldoctest
+julia> DAS28CRP(t28=2, s28=2, pga=54u"mm", apr=19u"mg/L") |> weight
+(0.7919595949289333, 0.39597979746446665, 0.756, 1.0784636184794367)
 ```
 """
 weight(x::T) where {T} = weight(WeightingScheme(T), x)
@@ -30,7 +30,7 @@ weight(::IsUnweightable, x::T) where {T} = throw(ErrorException("$(typeof(x)) ty
 
 weight(::IsUnweighted, x::T) where {T} = ustrip.(getproperty.(Ref(x), fieldnames(T)))
 
-function _map_weights(weights, x)
+function map_weights(weights, x)
     weighted_values = map(fieldnames(typeof(x))) do component
         component_value = ustrip(getproperty(x, component))
         component_weight = getproperty(weights, component)
@@ -41,12 +41,12 @@ end
 
 function weight(::IsWeighted, x::DAS28CRP)
     weights = weights_das28crp
-    weighted_values = _map_weights(weights, x)
+    weighted_values = map_weights(weights, x)
     return weighted_values
 end
 
 function weight(::IsWeighted, x::DAS28ESR)
     weights = weights_das28esr
-    weighted_values = _map_weights(weights, x)
+    weighted_values = map_weights(weights, x)
     return weighted_values
 end
