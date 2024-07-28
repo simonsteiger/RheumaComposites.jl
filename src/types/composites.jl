@@ -1,16 +1,56 @@
+"""
+   AbstractComposite
+
+Abstract type that specifies the category of composites.
+
+It is either [`ContinuousComposite`](@ref), [`BooleanComposite`](@ref), or [`ModifiedComposite`](@ref).
+"""
 abstract type AbstractComposite end
+
+"""
+    ContinuousComposite <: AbstractComposite
+
+Abstract type that encompasses all composites whose score is a real number.
+
+See also [`score`](@ref), [`BooleanComposite`](@ref).
+"""
 abstract type ContinuousComposite <: AbstractComposite end
+
+# TODO implement ScoringScheme that allows `score` to be used on all composites?
+# Would call isremission for BooleanComposites
+"""
+    BooleanComposite <: AbstractComposite
+
+Abstract type that encompasses all composites who directly evaluate to a Boolean value.
+
+See also [`score`](@ref), [`isremission`](@ref), [`ContinuousComposite`](@ref), [`ModifiedComposite`](@ref).
+"""
 abstract type BooleanComposite <: AbstractComposite end
+
+"""
+    ModifiedComposite <: AbstractComposite
+
+Abstract type representing alterations to the behaviour of existing composites by, e.g., changing remission thresholds.
+
+See also [`revised`](@ref), [`threeitem`](@ref), [`BooleanComposite`](@ref).
+"""
 abstract type ModifiedComposite <: AbstractComposite end
 
+"Return the 28 tender-joint count."
 t28(x::AbstractComposite) = x.t28
+t28(x::ModifiedComposite) = t28(x.c0)
+
+"Return the 28 swollen-joint count."
 s28(x::AbstractComposite) = x.s28
+s28(x::ModifiedComposite) = s28(x.c0)
+
+"Return the patient global assessment."
 pga(x::AbstractComposite) = x.pga
+pga(x::ModifiedComposite) = pga(x.c0)
+
+"Return the acute phase reactant."
 apr(x::AbstractComposite) = x.apr
-t28(x::T) where {T<:ModifiedComposite} = t28(x.c0)
-s28(x::T) where {T<:ModifiedComposite} = s28(x.c0)
-pga(x::T) where {T<:ModifiedComposite} = pga(x.c0)
-apr(x::T) where {T<:ModifiedComposite} = apr(x.c0)
+apr(x::ModifiedComposite) = apr(x.c0)
 
 abstract type WeightingScheme end
 struct IsUnweightable <: WeightingScheme end
@@ -19,31 +59,10 @@ struct IsWeighted <: WeightingScheme end
 
 WeightingScheme(::Type) = IsUnweightable()
 
-"""
-    intercept(x::ContinuousComposite)
-
-Return the intercept of a ContinuousComposite `x`.
-This defaults to zero if no intercept is defined for this specific Composite.
-
-# Example
-
-```julia-repl
-julia> intercept(DAS28ESR(4, 5, 12, 44))
-> 0.0
-```
-
-    intercept(x::DAS28CRP)
-
-Return the intercept of a DAS28CRP `x`.
-
-# Example
-
-```julia-repl
-julia> intercept(DAS28CRP(4, 5, 12, 44))
-> 0.96
-```
-"""
+"Return the intercept of a ContinuousComposite."
 intercept(x::ContinuousComposite) = 0.0
+
+Base.show(io::IO, x::AbstractComposite) = print(io, "$(nameof(typeof(x))) composite")
 
 function Base.show(io::IO, ::MIME"text/plain", x::AbstractComposite)
     header = Term.@bold string(typeof(x))
