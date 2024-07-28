@@ -1,21 +1,15 @@
-# FIXME Should these Dicts be NamedTuples? Probably only a speed buff?
-weightfuns_das28esr = (
-    t28=(x, t28) -> sqrt(t28) * 0.56,
-    s28=(x, s28) -> sqrt(s28) * 0.28,
-    pga=(x, pga) -> pga * 0.014,
-    apr=(x, apr) -> log(apr) * 0.7,
+weights_das28esr = (
+    t28=t28 -> sqrt(t28) * 0.56,
+    s28=s28 -> sqrt(s28) * 0.28,
+    pga=pga -> pga * 0.014,
+    apr=apr -> log(apr) * 0.7,
 )
 
-weightfuns_das28crp = (
-    t28=(x, t28) -> sqrt(t28) * 0.56,
-    s28=(x, s28) -> sqrt(s28) * 0.28,
-    pga=(x, pga) -> pga * 0.014,
-    apr=(x, apr) -> log1p(apr) * 0.36,
-)
-
-weightfuns = (
-    DAS28ESR=weightfuns_das28esr,
-    DAS28CRP=weightfuns_das28crp,
+weights_das28crp = (
+    t28=t28 -> sqrt(t28) * 0.56,
+    s28=s28 -> sqrt(s28) * 0.28,
+    pga=pga -> pga * 0.014,
+    apr=apr -> log1p(apr) * 0.36,
 )
 
 """
@@ -36,12 +30,23 @@ weight(::IsUnweightable, x::T) where {T} = throw(ErrorException("$(typeof(x)) ty
 
 weight(::IsUnweighted, x::T) where {T} = ustrip.(getproperty.(Ref(x), fieldnames(T)))
 
-function weight(::IsWeighted, x::T) where {T}
-    weightfuns_t = getproperty(weightfuns, Symbol(T))
-    weighted_values = map(fieldnames(T)) do component
+function _map_weights(weights, x)
+    weighted_values = map(fieldnames(typeof(x))) do component
         component_value = ustrip(getproperty(x, component))
-        weight_t = getproperty(weightfuns_t, component)
-        weight_t(x, component_value)
+        component_weight = getproperty(weights, component)
+        component_weight(component_value)
     end
+    return weighted_values
+end
+
+function weight(::IsWeighted, x::DAS28CRP)
+    weights = weights_das28crp
+    weighted_values = _map_weights(weights, x)
+    return weighted_values
+end
+
+function weight(::IsWeighted, x::DAS28ESR)
+    weights = weights_das28esr
+    weighted_values = _map_weights(weights, x)
     return weighted_values
 end
