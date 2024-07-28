@@ -17,7 +17,6 @@ export DAS28CRP
 export SDAI
 export BooleanRemission
 export revised, threeitem
-export intercept
 export t28, s28, pga, apr, ega, crp
 export weight
 export score
