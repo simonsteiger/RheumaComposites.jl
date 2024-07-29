@@ -15,6 +15,7 @@ export DAS28
 export DAS28ESR
 export DAS28CRP
 export SDAI
+export faceted
 export BooleanRemission
 export revised, threeitem
 export t28, s28, pga, apr, ega, crp
@@ -30,6 +31,7 @@ include("types/composites.jl")
 include("types/das28.jl")
 include("types/sdai.jl")
 include("types/boolean.jl")
+include("types/modified.jl")
 include("utils/weight.jl")
 include("utils/score.jl")
 include("utils/remission.jl")

@@ -16,8 +16,6 @@ See also [`score`](@ref), [`BooleanComposite`](@ref).
 """
 abstract type ContinuousComposite <: AbstractComposite end
 
-# TODO implement ScoringScheme that allows `score` to be used on all composites?
-# Would call isremission for BooleanComposites
 """
     BooleanComposite <: AbstractComposite
 
@@ -27,30 +25,17 @@ See also [`score`](@ref), [`isremission`](@ref), [`ContinuousComposite`](@ref), 
 """
 abstract type BooleanComposite <: AbstractComposite end
 
-"""
-    ModifiedComposite <: AbstractComposite
-
-Abstract type representing alterations to the behaviour of existing composites by, e.g., changing remission thresholds.
-
-See also [`revised`](@ref), [`threeitem`](@ref), [`BooleanComposite`](@ref).
-"""
-abstract type ModifiedComposite <: AbstractComposite end
-
 "Return the 28 tender-joint count."
 t28(x::AbstractComposite) = x.t28
-t28(x::ModifiedComposite) = t28(x.c0)
 
 "Return the 28 swollen-joint count."
 s28(x::AbstractComposite) = x.s28
-s28(x::ModifiedComposite) = s28(x.c0)
 
 "Return the patient global assessment."
 pga(x::AbstractComposite) = x.pga
-pga(x::ModifiedComposite) = pga(x.c0)
 
 "Return the acute phase reactant."
 apr(x::AbstractComposite) = x.apr
-apr(x::ModifiedComposite) = apr(x.c0)
 
 abstract type WeightingScheme end
 struct IsUnweightable <: WeightingScheme end

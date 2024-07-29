@@ -12,6 +12,8 @@ das28e_u2 = DAS28CRP(t28=0, s28=1, pga=1u"cm", apr=10u"mg/L")
 das28c_u1 = DAS28CRP(t28=0, s28=1, pga=10u"mm", apr=1u"mg/dL")
 das28c_u2 = DAS28CRP(t28=0, s28=1, pga=1u"cm", apr=10u"mg/L")
 
+facets = (objective=[:s28, :apr], subjective=[:t28, :pga])
+
 # A reference value for comparison
 # calculated using https://www.4s-dawn.com/DAS28/
 ref_value_esr = 4.56
@@ -42,6 +44,12 @@ end
     @test isremission(das28e_u1) == isremission(das28e_u2)
 end
 
+@testset "Faceted DAS28ESR" begin
+    @test faceted(das28e, facets) isa Faceted{<:ContinuousComposite}
+    @test score(faceted(das28e, facets)) == score(das28e)
+    @test sum(decompose(faceted(das28e, facets), digits=5)) ≈ 1.0 atol = 1e-5
+end
+
 @testset "Construct DAS28CRP" begin
     @test d28c isa AbstractComposite
     @test d28c isa ContinuousComposite
@@ -65,4 +73,10 @@ end
     @test !isremission(d28c)
     @test isremission(DAS28CRP(t28=0, s28=0, pga=8u"mm", apr=2u"mg/L"))
     @test isremission(das28c_u1) == isremission(das28c_u2)
+end
+
+@testset "Faceted DAS28CRP" begin
+    @test faceted(das28c, facets) isa Faceted{<:ContinuousComposite}
+    @test score(faceted(das28c, facets)) == score(das28c)
+    @test sum(decompose(faceted(das28c, facets), digits=5)) ≈ 1.0 atol = 1e-5
 end
