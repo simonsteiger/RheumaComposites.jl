@@ -23,6 +23,7 @@ export weight
 export score
 export isremission
 export decompose
+export categorise
 
 include("utils/units.jl")
 include("utils/valid.jl")
@@ -36,6 +37,6 @@ include("utils/weight.jl")
 include("utils/score.jl")
 include("utils/remission.jl")
 include("utils/decompose.jl")
-# include("utils/categorise.jl")
+include("utils/categorise.jl")
 
 end

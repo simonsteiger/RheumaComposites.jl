@@ -33,3 +33,10 @@ end
     @test isremission(sdai)
     @test !isremission(SDAI(t28=3, s28=4, pga=4u"cm", ega=4u"cm", crp=5u"mg/dL"))
 end
+
+@testset "Categorise SDAI" begin
+    @test categorise(sdai) == "Remission"
+    @test categorise.(SDAI, [3.29, 3.31]) == ["Remission", "Low"]
+    @test categorise.(SDAI, [10.99, 11.01]) == ["Low", "Moderate"]
+    @test categorise.(SDAI, [25.99, 26.01]) == ["Moderate", "High"]
+end

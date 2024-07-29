@@ -51,6 +51,13 @@ end
     @test sum(decompose(faceted(das28e, facets), digits=5)) ≈ 1.0 atol = 1e-5
 end
 
+@testset "Categorise DAS28ESR" begin
+    @test categorise(das28e) == "Moderate"
+    @test categorise.(DAS28ESR, [2.59, 2.61]) == ["Remission", "Low"]
+    @test categorise.(DAS28ESR, [3.19, 3.21]) == ["Low", "Moderate"]
+    @test categorise.(DAS28ESR, [5.09, 5.11]) == ["Moderate", "High"]
+end
+
 @testset "Construct DAS28CRP" begin
     @test das28c isa AbstractComposite
     @test das28c isa ContinuousComposite
@@ -81,4 +88,11 @@ end
     @test faceted(das28c, facets) isa Faceted{<:ContinuousComposite}
     @test score(faceted(das28c, facets)) == score(das28c)
     @test sum(decompose(faceted(das28c, facets), digits=5)) ≈ 1.0 atol = 1e-5
+end
+
+@testset "Categorise DAS28CRP" begin
+    @test categorise(das28c) == "Moderate"
+    @test categorise.(DAS28CRP, [2.39, 2.51]) == ["Remission", "Low"]
+    @test categorise.(DAS28CRP, [2.89, 2.91]) == ["Low", "Moderate"]
+    @test categorise.(DAS28CRP, [4.59, 4.61]) == ["Moderate", "High"]
 end
