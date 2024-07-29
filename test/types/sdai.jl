@@ -1,5 +1,7 @@
 # Dummy SDAIs for testing
 sdai = SDAI(t28=1, s28=0, pga=1u"cm", ega=0u"cm", crp=0.1u"mg/dL")
+# See https://www.mdcalc.com/calc/2194/simple-disease-activity-index-sdai-rheumatoid-arthritis
+sdai_ref = 2.1 
 
 # Intercept
 i_sdai = RheumaComposites.intercept(sdai)
