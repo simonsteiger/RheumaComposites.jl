@@ -1,5 +1,11 @@
 # Dummy SDAIs for testing
 sdai = SDAI(t28=1, s28=0, pga=1u"cm", ega=0u"cm", crp=0.1u"mg/dL")
+# See https://www.mdcalc.com/calc/2194/simple-disease-activity-index-sdai-rheumatoid-arthritis
+sdai_ref = 2.1 
+
+# Intercept
+i_sdai = RheumaComposites.intercept(sdai)
+
 # Test if different unit scales lead to same results
 sdai_u1 = SDAI(t28=0, s28=1, pga=10u"mm", ega=10u"mm", crp=1u"mg/dL")
 sdai_u2 = SDAI(t28=0, s28=1, pga=1u"cm", ega=1u"cm", crp=10u"mg/L")
@@ -16,10 +22,10 @@ sdai_u2 = SDAI(t28=0, s28=1, pga=1u"cm", ega=1u"cm", crp=10u"mg/L")
 end
 
 @testset "Score SDAI" begin
-    @test intercept(sdai) == 0.0
+    @test i_sdai == 0.0
     @test score(sdai) isa Float64
-    @test score(sdai) ≈ intercept(sdai) + sum(weight(sdai)) atol = 1e-3
-    @test score(sdai) ≈ 3.0 atol = 1e-2
+    @test score(sdai) ≈ i_sdai + sum(weight(sdai)) atol = 1e-3
+    @test score(sdai) ≈ sdai_ref atol = 1e-2
     @test score(sdai_u1) ≈ score(sdai_u2) atol = 1e-3
 end
 

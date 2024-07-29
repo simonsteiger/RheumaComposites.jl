@@ -15,7 +15,7 @@ SDAI
 
 # External links
 
-- SDAI calculator [https://www.mdcalc.com/calc/2194/simple-disease-activity-index-sdai-rheumatoid-arthritis](https://www.mdcalc.com/calc/2194/simple-disease-activity-index-sdai-rheumatoid-arthritis)
+* [SDAI calculator](https://www.mdcalc.com/calc/2194/simple-disease-activity-index-sdai-rheumatoid-arthritis)
 """
 struct SDAI <: ContinuousComposite
     t28::Int64

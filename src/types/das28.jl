@@ -20,7 +20,7 @@ DAS28CRP
 
 # External links
 
-- The DAS28 calculator [https://www.4s-dawn.com/DAS28/](https://www.4s-dawn.com/DAS28/)
+* [The DAS28 calculator](https://www.4s-dawn.com/DAS28/)
 """
 struct DAS28CRP <: DAS28
     t28::Int64
