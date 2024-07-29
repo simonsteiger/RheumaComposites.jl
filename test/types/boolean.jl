@@ -14,6 +14,7 @@ end
 
 @testset "Revised BoolRem" begin
     @test revised(boolrem) isa ModifiedComposite
+    @test revised(boolrem) isa Revised{<:BooleanComposite}
     @test try weight(revised(boolrem)) catch e; e isa ErrorException end
     # should we add a scoring style?
     @test isremission(revised(boolrem))
@@ -24,8 +25,8 @@ end
 end
 
 @testset "Three-item BoolRem" begin
-    @test threeitem(boolrem) isa AbstractComposite
     @test threeitem(boolrem) isa ModifiedComposite
+    @test threeitem(boolrem) isa ThreeItem{<:BooleanComposite}
     @test try weight(threeitem(boolrem)) catch e; e isa ErrorException end
     # should we add a scoring style?
     @test isremission(threeitem(boolrem))

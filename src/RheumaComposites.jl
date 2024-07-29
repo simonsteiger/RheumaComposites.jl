@@ -15,9 +15,9 @@ export DAS28
 export DAS28ESR
 export DAS28CRP
 export SDAI
-export faceted
+export faceted, Faceted
 export BooleanRemission
-export revised, threeitem
+export revised, Revised, threeitem, ThreeItem
 export t28, s28, pga, apr, ega, crp
 export weight
 export score

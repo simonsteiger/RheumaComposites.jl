@@ -45,6 +45,7 @@ end
 end
 
 @testset "Faceted DAS28ESR" begin
+    @test faceted(das28e, facets) isa ModifiedComposite
     @test faceted(das28e, facets) isa Faceted{<:ContinuousComposite}
     @test score(faceted(das28e, facets)) == score(das28e)
     @test sum(decompose(faceted(das28e, facets), digits=5)) ≈ 1.0 atol = 1e-5
@@ -76,6 +77,7 @@ end
 end
 
 @testset "Faceted DAS28CRP" begin
+    @test faceted(das28c, facets) isa ModifiedComposite
     @test faceted(das28c, facets) isa Faceted{<:ContinuousComposite}
     @test score(faceted(das28c, facets)) == score(das28c)
     @test sum(decompose(faceted(das28c, facets), digits=5)) ≈ 1.0 atol = 1e-5
