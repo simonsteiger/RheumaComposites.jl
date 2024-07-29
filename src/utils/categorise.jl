@@ -22,6 +22,33 @@ function categorise(::Type{SDAI}, v)
     return out
 end
 
+"""
+    categorise(x::ContinuousComposite)
+
+Convert `x` to a discrete value.
+
+# Examples
+
+```jldoctest
+julia> DAS28ESR(t28=4, s28=5, pga=12u"mm", apr=44u"mm/hr") |> categorise
+"Moderate"
+```
+
+    categorise(::Type{SDAI}, v)
+
+Convert `v` to a discrete value using `SDAI` thresholds.
+
+The same functionality exists for other `ContinuousComposites`.
+
+See also [`DAS28ESR`](@ref), [`DAS28CRP`](@ref).
+
+# Examples
+
+```jldoctest
+julia> categorise(SDAI, 3.6)
+"Low"
+```
+"""
 categorise(x::ContinuousComposite) = categorise(typeof(x), score(x))
 
 categorise(x::Faceted{<:ContinuousComposite}) = categorise(typeof(x.c0), score(x.c0))
