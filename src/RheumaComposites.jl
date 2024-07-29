@@ -21,6 +21,7 @@ export t28, s28, pga, apr, ega, crp
 export weight
 export score
 export isremission
+export decompose
 
 include("utils/units.jl")
 include("utils/valid.jl")
@@ -32,6 +33,7 @@ include("types/boolean.jl")
 include("utils/weight.jl")
 include("utils/score.jl")
 include("utils/remission.jl")
+include("utils/decompose.jl")
 # include("utils/categorise.jl")
 
 end
