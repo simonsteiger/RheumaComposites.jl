@@ -25,7 +25,7 @@ end
     @test i_sdai == 0.0
     @test score(sdai) isa Float64
     @test score(sdai) ≈ i_sdai + sum(weight(sdai)) atol = 1e-3
-    @test score(sdai) ≈ 3.0 atol = 1e-2
+    @test score(sdai) ≈ sdai_ref atol = 1e-2
     @test score(sdai_u1) ≈ score(sdai_u2) atol = 1e-3
 end
 
