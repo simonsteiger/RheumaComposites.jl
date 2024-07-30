@@ -1,3 +1,10 @@
+"""
+    DAS28 <: ContinuousComposite
+
+Abstract supertype of DAS28 types.
+
+See also [`DAS28ESR`](@ref), [`DAS28CRP`](@ref).
+"""
 abstract type DAS28 <: ContinuousComposite end
 
 WeightingScheme(::Type{<:DAS28}) = IsWeighted()

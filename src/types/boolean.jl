@@ -3,7 +3,7 @@
 
 Store the components of the original ACR/EULAR Boolean remission.
 
-See also [`isremission`](@ref), [`revised`](@ref), [`threeitem`](@reg).
+See also [`isremission`](@ref).
 """
 struct BooleanRemission <: BooleanComposite
     t28::Int64

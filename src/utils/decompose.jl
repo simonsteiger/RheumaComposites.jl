@@ -22,7 +22,7 @@ Return the proportion to which each facet contributes to the composite's score.
 
 ```jldoctest
 julia> c0 = DAS28ESR(t28=4, s28=5, pga=14u"mm", apr=12u"mm/hr");
-julia> faceted(c0, (objective=[:s28, :apr], subjective=[:t28, :pga]) |> decompose
+julia> faceted(c0, (objective=[:s28, :apr], subjective=[:t28, :pga])) |> decompose
 (objective = 0.474, subjective = 0.525)
 ```
 """

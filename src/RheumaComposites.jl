@@ -1,5 +1,8 @@
-__precompile__(true)
+"""
+    RheumaComposites
 
+A Julia package for composite scores in Rheumatology.
+"""
 module RheumaComposites
 
 import Term
