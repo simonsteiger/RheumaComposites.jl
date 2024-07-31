@@ -3,19 +3,23 @@
 
 Store component measures of the Simplified Disease Activity Index, or SDAI.
 
-See also [`score`](@ref), [`isremission`](@ref).
+# Components
 
-# Example
+- `t28` 28 tender joint count
+- `s28` 28 swollen joint count
+- `pga` patient's global assessment
+- `ega` evaluator's global assessment
+- `crp` c-reactive protein
 
-```jldoctest
-julia> SDAI(t28=4, s28=5, pga=12u"mm", ega=5u"mm", crp=44u"mg/L")
-SDAI
-[...]
-```
+!!! warning "Units"
+    Currently, `pga` and `ega` must be a length (typically millimeters or centimeters) and `crp` must be a concentration (typically mg/dL or mg/L).
+    See also [`Unitful.@u_str`](@extref).
 
 # External links
 
 * [SDAI calculator](https://www.mdcalc.com/calc/2194/simple-disease-activity-index-sdai-rheumatoid-arthritis)
+
+See also [`score`](@ref), [`isremission`](@ref).
 """
 struct SDAI <: ContinuousComposite
     t28::Int64
@@ -47,5 +51,6 @@ end
 
 WeightingScheme(::Type{<:SDAI}) = IsUnweighted()
 
+"Return the evaluator's global assessment."
 ega(x::SDAI) = x.ega
 crp(x::SDAI) = x.crp

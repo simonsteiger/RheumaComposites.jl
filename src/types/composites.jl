@@ -10,7 +10,7 @@ abstract type AbstractComposite end
 """
     ContinuousComposite <: AbstractComposite
 
-Abstract type that encompasses all composites whose score is a real number.
+Abstract type for composites whose scores are floating point numbers.
 
 See also [`score`](@ref), [`BooleanComposite`](@ref).
 """
@@ -19,9 +19,9 @@ abstract type ContinuousComposite <: AbstractComposite end
 """
     BooleanComposite <: AbstractComposite
 
-Abstract type that encompasses all composites who directly evaluate to a Boolean value.
+Abstract type for composites only implementing a definition of remission.
 
-See also [`score`](@ref), [`isremission`](@ref), [`ContinuousComposite`](@ref), [`ModifiedComposite`](@ref).
+See also [`isremission`](@ref), [`ContinuousComposite`](@ref).
 """
 abstract type BooleanComposite <: AbstractComposite end
 
@@ -44,7 +44,15 @@ struct IsWeighted <: WeightingScheme end
 
 WeightingScheme(::Type) = IsUnweightable()
 
-"Return the intercept of a ContinuousComposite."
+"""
+    intercept(x::ContinuousComposite)
+
+Return the intercept.
+
+This function can be useful if you want to implement custom decomposition or component reweighting.
+
+See also [`score`](@ref), [`decompose`](@ref).
+"""
 intercept(x::ContinuousComposite) = 0.0
 
 Base.show(io::IO, x::AbstractComposite) = print(io, "$(nameof(typeof(x))) composite")

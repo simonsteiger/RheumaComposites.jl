@@ -1,7 +1,7 @@
 """
     DAS28 <: ContinuousComposite
 
-Abstract supertype of DAS28 types.
+Abstract type for DAS28 subtypes.
 
 See also [`DAS28ESR`](@ref), [`DAS28CRP`](@ref).
 """
@@ -15,19 +15,22 @@ WeightingScheme(::Type{<:DAS28}) = IsWeighted()
 
 Store the component measures of the DAS28CRP.
 
-See also [`score`](@ref), [`isremission`](@ref), [`DAS28ESR`](@ref).
+# Components
 
-# Example
+- `t28` 28 tender joint count
+- `s28` 28 swollen joint count
+- `pga` patient's global assessment
+- `apr` active phase reactant, here CRP
 
-```jldoctest
-julia> DAS28CRP(t28=4, s28=5, pga=12u"mm", apr=44u"mg/L")
-DAS28CRP
-[...]
-```
+!!! warning "Units"
+    Currently, `pga` must be a length (typically millimeters or centimeters) and `crp` must be a concentration (typically mg/dL or mg/L).
+    See also [`Unitful.@u_str`](@extref).
 
 # External links
 
 * [The DAS28 calculator](https://www.4s-dawn.com/DAS28/)
+
+See also [`score`](@ref), [`isremission`](@ref), [`DAS28`](@ref).
 """
 struct DAS28CRP <: DAS28
     t28::Int64
@@ -59,19 +62,22 @@ end
 
 Store the component measures of the DAS28ESR.
 
-See also [`score`](@ref), [`isremission`](@ref), [`DAS28ESR`](@ref).
+# Components
 
-# Example
+- `t28` 28 tender joint count
+- `s28` 28 swollen joint count
+- `pga` patient's global assessment
+- `apr` active phase reactant, here ESR
 
-```jldoctest
-julia> DAS28ESR(t28=4, s28=5, pga=12u"mm", apr=44u"mg/L")
-DAS28ESR
-[...]
-```
+!!! warning "Units"
+    Currently, `pga` must be a length (typically millimeters or centimeters) and `apr` must be a rate (typically mm/hr).
+    See also [`Unitful.@u_str`](@extref).
 
 # External links
 
 - DAS28 calculator [https://www.4s-dawn.com/DAS28/](https://www.4s-dawn.com/DAS28/)
+
+See also [`score`](@ref), [`isremission`](@ref), [`DAS28`](@ref).
 """
 struct DAS28ESR <: DAS28
     t28::Int64

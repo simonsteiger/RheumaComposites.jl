@@ -47,25 +47,16 @@ end
 
 Change the calculation of scores or thresholds to use the revised definition of a composite.
 
-# Examples
+Currently, revised versions are implemented only for [`BooleanRemission`](@ref).
 
-```jldoctest
-julia> boolrem = BooleanRemission(t28=1, s28=0, pga=14u"mm", crp=0.4u"mg/dl");
-julia> isremission(bool_rem)
-false
-julia> isremission(revised(boolrem))
-true
-```
-
-See also [`isremission`](@ref), [`BooleanRemission`](@ref).
+See also [`isremission`](@ref).
 """
 revised(c0::AbstractComposite) = Revised(c0)
 
 """
     ThreeItem{T} <: ModifiedComposite
 
-This type indicates that the stored composite no longer considers all of its components.
-Instead, remission is now defined based on a three item subset.
+This type indicates that [`BooleanRemission`](@ref) should ignore `pga` for determining remission.
 """
 struct ThreeItem{T} <: ModifiedComposite
     c0::T
@@ -75,16 +66,6 @@ end
     threeitem(c0::BooleanRemission)
 
 Change the calculation of Boolean remission to exclude patient global assessment.
-
-# Examples
-
-```jldoctest
-julia> boolrem = BooleanRemission(t28=1, s28=0, pga=14u"mm", crp=0.4u"mg/dl");
-julia> isremission(boolrem)
-false
-julia> isremission(threeitem(boolrem))
-true
-```
 
 See also [`isremission`](@ref), [`BooleanRemission`](@ref).
 """
