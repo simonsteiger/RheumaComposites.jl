@@ -1,5 +1,8 @@
-__precompile__(true)
+"""
+    RheumaComposites
 
+A Julia package for composite scores in Rheumatology.
+"""
 module RheumaComposites
 
 import Term
@@ -7,6 +10,7 @@ using Unitful
 
 export AbstractComponent
 export PGA, SJC28
+export value
 export AbstractComposite
 export ContinuousComposite
 export BooleanComposite
@@ -19,6 +23,7 @@ export faceted, Faceted
 export BooleanRemission
 export revised, Revised, threeitem, ThreeItem
 export t28, s28, pga, apr, ega, crp
+export intercept
 export weight
 export score
 export isremission

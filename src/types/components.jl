@@ -37,5 +37,5 @@ struct SJC28 <: AbstractComponent
     end
 end
 
-"Return the value of the component."
+"Return the value stored in `x`."
 value(x::AbstractComponent) = x.value

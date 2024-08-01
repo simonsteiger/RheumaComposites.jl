@@ -6,7 +6,7 @@ Check whether a DAS28ESR fulfils remission criteria (< 2.4).
 # Examples
 
 ```jldoctest
-julia> DAS28ESR(t28=4, s28=5, pga=44u"mm", apr=23u"mg/L") |> isremission
+julia> DAS28ESR(t28=4, s28=5, pga=44u"mm", apr=23u"mm/hr") |> isremission
 false
 ```
 
@@ -28,7 +28,7 @@ Check whether an SDAI fulfils remission criteria (<= 3.3).
 # Examples
 
 ```jldoctest
-julia> SDAI(t28=0, s28=0, pga=12u"mm", ega=8u"mm", apr=4u"mg/L") |> isremission
+julia> SDAI(t28=0, s28=0, pga=12u"mm", ega=8u"mm", crp=4u"mg/L") |> isremission
 true
 ```
 
@@ -41,7 +41,16 @@ See also [`revised`](@ref), [`threeitem`](@ref).
 # Examples
 
 ```jldoctest
-julia> BooleanRemission(t28=1, s28=0, pga=0.8u"cm", crp=0.4u"mg/dL") |> isremission
+julia> BooleanRemission(t28=1, s28=0, pga=14u"mm", crp=0.4u"mg/dl") |>
+       isremission
+false
+julia> BooleanRemission(t28=1, s28=0, pga=14u"mm", crp=0.4u"mg/dl") |>
+       revised |>
+       isremission
+true
+julia> BooleanRemission(t28=1, s28=0, pga=14u"mm", crp=0.4u"mg/dl") |>
+       threeitem |>
+       isremission
 true
 ```
 """

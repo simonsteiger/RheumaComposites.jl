@@ -6,7 +6,7 @@ Score a composite and optionally specify the rounding precision.
 # Examples
 
 ```jldoctest
-julia> DAS28ESR(t28=4, s28=2, pga=64u"mm", apr=44u"mg/L") |> score
+julia> DAS28ESR(t28=4, s28=2, pga=64u"mm", apr=44u"mm/hr") |> score
 5.061
 ```
 """
