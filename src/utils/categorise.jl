@@ -49,6 +49,14 @@ function categorise(::Type{SDAI}, v)
     return out
 end
 
+function categorise(::Type{CDAI}, v)
+    out = v < 2.8 ? "Remission" :
+          v <= 10.0 ? "Low" :
+          v <= 22.0 ? "Moderate" :
+          "High"
+    return out
+end
+
 categorise(x::ContinuousComposite) = categorise(typeof(x), score(x))
 
 categorise(x::Faceted{<:ContinuousComposite}) = categorise(typeof(x.c0), score(x.c0))

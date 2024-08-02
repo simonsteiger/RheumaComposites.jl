@@ -1,7 +1,7 @@
 """
-    SDAI(; t28, s28, pga, ega, crp)
+    CDAI(; t28, s28, pga, ega)
 
-Store component measures of the Simplified Disease Activity Index, or SDAI.
+Store component measures of the Clinical Disease Activity Index, or CDAI.
 
 # Components
 
@@ -9,34 +9,30 @@ Store component measures of the Simplified Disease Activity Index, or SDAI.
 - `s28` 28 swollen joint count
 - `pga` patient's global assessment
 - `ega` evaluator's global assessment
-- `crp` c-reactive protein
 
 !!! warning "Units"
-    Currently, `pga` and `ega` must be a length (typically millimeters or centimeters) and `crp` must be a concentration (typically mg/dL or mg/L).
+    Currently, `pga` and `ega` must be a length (typically millimeters or centimeters).
     See also [`Unitful.@u_str`](@extref).
 
 # External links
 
-* [SDAI calculator](https://www.mdcalc.com/calc/2194/simple-disease-activity-index-sdai-rheumatoid-arthritis)
+* [CDAI calculator](https://www.mdcalc.com/calc/2177/clinical-disease-activity-index-cdai-rheumatoid-arthritis)
 
 See also [`score`](@ref), [`isremission`](@ref).
 """
-struct SDAI <: ContinuousComposite
+struct CDAI <: ContinuousComposite
     t28::Int64
     s28::Int64
     pga::Unitful.AbstractQuantity
     ega::Unitful.AbstractQuantity
-    crp::Unitful.AbstractQuantity
-    function SDAI(;
+    function CDAI(;
         t28,
         s28,
         pga::Unitful.AbstractQuantity,
         ega::Unitful.AbstractQuantity,
-        crp::Unitful.AbstractQuantity,
     )
         valid_joints.([t28, s28])
         valid_vas.([pga, ega])
-        valid_apr(crp)
         
         # Must convert because weights do not adjust to measurement
         return new(
@@ -44,13 +40,11 @@ struct SDAI <: ContinuousComposite
             s28,
             uconvert(units.xdai_vas, pga),
             uconvert(units.xdai_vas, ega),
-            uconvert(units.xdai_crp, crp)
         )
     end
 end
 
-WeightingScheme(::Type{<:SDAI}) = IsUnweighted()
+WeightingScheme(::Type{<:CDAI}) = IsUnweighted()
 
 "Return the evaluator's global assessment."
-ega(x::SDAI) = x.ega
-crp(x::SDAI) = x.crp
+ega(x::CDAI) = x.ega

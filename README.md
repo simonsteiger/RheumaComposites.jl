@@ -7,6 +7,7 @@ This package implements the most common composite scores used for evaluating dis
 - DAS28ESR
 - DAS28CRP
 - SDAI
+- CDAI
 - ACR / EULAR Boolean remission
 - Revised ACR / EULAR Boolean remission
 - Three-item ACR / EULAR Boolean remission
