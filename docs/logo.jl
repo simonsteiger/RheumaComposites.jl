@@ -61,12 +61,14 @@ plt3 = add_pie!(data3, [purple, green, red])
 
 translate_all!(4.3, 3.7, plt1, plt2, plt3)
 
-#hidedecorations!(ax)
-#hidespines!(ax)
+hidedecorations!(ax)
+hidespines!(ax)
 
 colsize!(f.layout, 1, Aspect(1, 1.0))
+
+resize_to_layout!(f)
 
 f
 
 # Assuming that the active project is docs
-# CairoMakie.save(joinpath("src", "assets", "logo.svg"), f)
+CairoMakie.save(joinpath("src", "assets", "logo.svg"), f)

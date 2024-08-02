@@ -14,6 +14,10 @@ end
     include("types/sdai.jl")
 end
 
+@testset "CDAI" begin
+    include("types/cdai.jl")
+end
+
 @testset "Boolean" begin
     include("types/boolean.jl")
 end
