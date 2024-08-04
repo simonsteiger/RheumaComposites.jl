@@ -11,6 +11,20 @@ links = InterLinks(
     "Unitful" => "https://painterqubits.github.io/Unitful.jl/stable/objects.inv",
 )
 
+open(joinpath(joinpath(@__DIR__, "src"), "index.md"), "w") do io
+    println(
+        io,
+        """
+        ```@meta
+        EditURL = "https://github.com/simonsteiger/RheumaComposites.jl/blob/main/README.md"
+        ```
+        """,
+    )
+    for line in eachline(joinpath(dirname(@__DIR__), "README.md"))
+        println(io, line)
+    end
+end
+
 examples_jl_path = joinpath(dirname(@__DIR__), "examples")
 examples_md_path = joinpath(@__DIR__, "src", "examples")
 
@@ -25,10 +39,11 @@ for file in readdir(examples_jl_path)
 end
 
 pages = [
+    "Home" => "index.md",
     "Tutorials" => [
         "Basics" => joinpath("examples", "basics.md")
     ],
-    "API reference" => "api.md"
+    "API reference" => "api.md",
 ]
 
 makedocs(;
