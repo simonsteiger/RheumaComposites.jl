@@ -15,3 +15,5 @@ makedocs(;
     modules=[RheumaComposites],
     plugins=[links],
 )
+
+# deploydocs(; repo="github.com/simonsteiger/RheumaComposites.jl", devbranch="main")
