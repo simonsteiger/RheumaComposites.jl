@@ -16,4 +16,4 @@ makedocs(;
     plugins=[links],
 )
 
-# deploydocs(; repo="github.com/simonsteiger/RheumaComposites.jl", devbranch="main")
+deploydocs(; repo="github.com/simonsteiger/RheumaComposites.jl", devbranch="main")
