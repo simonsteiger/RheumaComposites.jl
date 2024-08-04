@@ -1,7 +1,9 @@
 """
     ModifiedComposite <: AbstractComposite
 
-Abstract type representing alterations to the behaviour of existing composites by, e.g., changing remission thresholds.
+Abstract type representing alterations to existing composites.
+
+See also [`faceted`](@ref), [`revised`](@ref), [`threeitem`](@ref).
 """
 abstract type ModifiedComposite <: AbstractComposite end
 

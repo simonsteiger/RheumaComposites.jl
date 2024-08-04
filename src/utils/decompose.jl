@@ -13,7 +13,14 @@ See also [`score`](@ref).
 julia> SDAI(t28=4, s28=5, pga=16u"mm", ega=12u"mm", crp=3u"mg/L") |> decompose
 (t28 = 0.331, s28 = 0.413, pga = 0.132, ega = 0.099, crp = 0.025)
 ```
+"""
+function decompose(x::ContinuousComposite; digits=3)
+    ratios = round.(weight(x) ./ sum(weight(x)), digits=digits)
+    fields = fieldnames(typeof(x))
+    return NamedTuple{fields}(ratios)
+end
 
+"""
     decompose(x::Faceted{<:ContinuousComposite}; digits=3)
 
 Return the proportion to which each facet contributes to the composite's score.
@@ -27,12 +34,6 @@ julia> faceted(c0, (objective=[:s28, :apr], subjective=[:t28, :pga])) |> decompo
 (objective = 0.474, subjective = 0.525)
 ```
 """
-function decompose(x::ContinuousComposite; digits=3)
-    ratios = round.(weight(x) ./ sum(weight(x)), digits=digits)
-    fields = fieldnames(typeof(x))
-    return NamedTuple{fields}(ratios)
-end
-
 function decompose(x::Faceted{<:ContinuousComposite}; digits=3)
     c0 = x.c0
     facets = propertynames(x.facets)
