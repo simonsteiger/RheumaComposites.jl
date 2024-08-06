@@ -1,0 +1,1 @@
+import{_ as s,c as i,o as e,a7 as a}from"./chunks/framework.BZeboqmr.js";const u=JSON.parse('{"title":"API reference","description":"","frontmatter":{},"headers":[],"relativePath":"api.md","filePath":"api.md","lastUpdated":null}'),t={name:"api.md"},o=a("",72),p=[o];function h(l,r,n,d,c,k){return e(),i("div",null,p)}const g=s(t,[["render",h]]);export{u as __pageData,g as default};
