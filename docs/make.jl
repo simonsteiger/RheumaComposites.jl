@@ -1,6 +1,5 @@
 using Documenter
 using DocumenterInterLinks
-using DocumenterVitepress
 using Literate
 using RheumaComposites
 using Unitful
@@ -51,12 +50,6 @@ Documenter.makedocs(;
     sitename="RheumaComposites.jl",
     authors="Simon Steiger",
     modules=[RheumaComposites],
-    format=DocumenterVitepress.MarkdownVitepress(;
-        repo="https://github.com/simonsteiger/RheumaComposites.jl",
-        deploy_url="https://simonsteiger.github.io/RheumaComposites.jl",
-        devbranch="main",
-        devurl="dev",
-    ),
     pages=pages,
     plugins=[links],
     pagesonly=true,
@@ -64,6 +57,5 @@ Documenter.makedocs(;
 
 deploydocs(;
     repo="github.com/simonsteiger/RheumaComposites.jl",
-    target="build",
     devbranch="main"
 )
