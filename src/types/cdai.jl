@@ -46,5 +46,5 @@ end
 
 WeightingScheme(::Type{<:CDAI}) = IsUnweighted()
 
-"Return the evaluator's global assessment."
+# This function is already documented in SDAI
 ega(x::CDAI) = x.ega

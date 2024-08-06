@@ -1,53 +1,44 @@
 # RheumaComposites.jl
 
 [![Build Status](https://github.com/simonsteiger/RheumaComposites.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/simonsteiger/RheumaComposites.jl/actions/workflows/CI.yml?query=branch%3Amain)
+[![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://simonsteiger.github.io/RheumaComposites.jl/dev/)
 
-This package implements the most common composite scores used for evaluating disease activity across different rheumatic diseases:
-
-- DAS28ESR
-- DAS28CRP
-- SDAI
-- CDAI
-- ACR / EULAR Boolean remission
-- Revised ACR / EULAR Boolean remission
-- Three-item ACR / EULAR Boolean remission
-
-In addition to composite measures, this package allows testing for further remission definitions:
-
-- SJC28 remission
-- PGA remission
+A Julia package for composite scores used in Rheumatology.
 
 ## Getting started
 
-Since this package is not currently registered with the Julia package registry, you have to install it via url:
+This package is not yet registered with the Julia package registry, so you have to install it via url:
 
 ```julia
 import Pkg
 Pkg.add(url="https://github.com/simonsteiger/RheumaComposites.jl")
 ```
 
-## Examples
-
-This package is effectively undocumented right now, so I hope that these basic examples give an idea of its use:
+Now you're ready to start working with composite scores:
 
 ```julia
-using RheumaComposites
-
-das28 = DAS28ESR(t28=4, s28=3, pga=41u"mm", apr=19u"mm/hr");
-
+using RheumaComposites, Unitful
+das28 = DAS28ESR(t28=4, s28=3, pga=41u"mm", apr=19u"mm/hr")
 score(das28)
-# 4.24
-
 isremission(das28)
-# false
+categorise(das28)
 ```
 
-This package uses [Unitful.jl](https://painterqubits.github.io/Unitful.jl/stable/) to ensure correctness between different measurement systems, such as PGA measured in mm or cm or CRP measured in mg/dL or mg/L.
+Have a look at the [documentation](https://simonsteiger.github.io/RheumaComposites.jl/dev/) for more examples!
 
-## Resources
+## Supported composites
 
-Not much here yet!
+This package currently supports the following composites:
 
-The above example generalises to the other constructors, namely `DAS28CRP`, `SDAI`, `BooleanRemission`, and its modifications `revised(x::BooleanRemission)`, `threeitem(x::BooleanRemission)`.
+| Rheumatoid Arthritis | Psoriatric Arthritis | Spondyloarthritis | Lupus | ... |
+|:---------------------|:---------------------|:------------------|:------|:----|
+| DAS28                |                      |                   |       | ... |
+| SDAI                 |                      |                   |       | ... |
+| CDAI                 |                      |                   |       | ... |
+| Boolean remission    |                      |                   |       | ... |
 
-**NOTE**: This project is a very early work in progress and far from complete. For many functions, documentation is still missing.
+Additional subtypes and modifications of these composites are available, e.g., the DAS28CRP or the Revised Boolean Remission.
+
+## Contributing
+
+If you spot a bug or want to ask for a new feature, please [open an issue](https://github.com/simonsteiger/RheumaComposites.jl/issues) on the GitHub repository.
