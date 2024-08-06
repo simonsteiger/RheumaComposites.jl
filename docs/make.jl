@@ -1,8 +1,9 @@
 using Documenter
 using DocumenterInterLinks
+using DocumenterVitepress
+using Literate
 using RheumaComposites
 using Unitful
-using Literate
 
 DocMeta.setdocmeta!(RheumaComposites, :DocTestSetup, :(using RheumaComposites, Unitful); recursive=true)
 
@@ -46,13 +47,23 @@ pages = [
     "API reference" => "api.md",
 ]
 
-makedocs(;
+Documenter.makedocs(;
     sitename="RheumaComposites.jl",
     authors="Simon Steiger",
     modules=[RheumaComposites],
+    format=DocumenterVitepress.MarkdownVitepress(;
+        repo="https://github.com/simonsteiger/RheumaComposites.jl",
+        deploy_url="https://simonsteiger.github.io/RheumaComposites.jl",
+        devbranch="main",
+        devurl="dev",
+    ),
     pages=pages,
     plugins=[links],
     pagesonly=true,
 )
 
-# deploydocs(; repo="github.com/simonsteiger/RheumaComposites.jl", devbranch="main")
+deploydocs(;
+    repo="github.com/simonsteiger/RheumaComposites.jl",
+    target="build",
+    devbranch="main"
+)
