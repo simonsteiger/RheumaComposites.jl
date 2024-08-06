@@ -1,13 +1,13 @@
 weights_das28esr = (
-    t28=t28 -> sqrt(t28) * 0.56,
-    s28=s28 -> sqrt(s28) * 0.28,
+    tjc=tjc -> sqrt(tjc) * 0.56,
+    sjc=sjc -> sqrt(sjc) * 0.28,
     pga=pga -> pga * 0.014,
     apr=apr -> log(apr) * 0.7,
 )
 
 weights_das28crp = (
-    t28=t28 -> sqrt(t28) * 0.56,
-    s28=s28 -> sqrt(s28) * 0.28,
+    tjc=tjc -> sqrt(tjc) * 0.56,
+    sjc=sjc -> sqrt(sjc) * 0.28,
     pga=pga -> pga * 0.014,
     apr=apr -> log1p(apr) * 0.36,
 )
@@ -20,7 +20,7 @@ Weight a composite score's components according to its weighting scheme.
 # Example
 
 ```jldoctest
-julia> DAS28CRP(t28=2, s28=2, pga=54u"mm", apr=19u"mg/L") |> weight
+julia> DAS28CRP(tjc=2, sjc=2, pga=54u"mm", apr=19u"mg/L") |> weight
 (0.7919595949289333, 0.39597979746446665, 0.756, 1.0784636184794367)
 ```
 """

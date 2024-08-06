@@ -26,10 +26,10 @@ See also [`isremission`](@ref), [`ContinuousComposite`](@ref).
 abstract type BooleanComposite <: AbstractComposite end
 
 "Return the 28 tender-joint count."
-t28(x::AbstractComposite) = x.t28
+tjc(x::AbstractComposite) = x.tjc
 
 "Return the 28 swollen-joint count."
-s28(x::AbstractComposite) = x.s28
+sjc(x::AbstractComposite) = x.sjc
 
 "Return the patient global assessment."
 pga(x::AbstractComposite) = x.pga

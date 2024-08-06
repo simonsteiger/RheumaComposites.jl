@@ -11,14 +11,14 @@ WeightingScheme(::Type{<:DAS28}) = IsWeighted()
 
 # TODO add weighting formula to docstring
 """
-    DAS28CRP(; t28, s28, pga, apr)
+    DAS28CRP(; tjc, sjc, pga, apr)
 
 Store the component measures of the DAS28CRP.
 
 # Components
 
-- `t28` 28 tender joint count
-- `s28` 28 swollen joint count
+- `tjc` 28 tender joint count
+- `sjc` 28 swollen joint count
 - `pga` patient's global assessment
 - `apr` active phase reactant, here CRP
 
@@ -33,24 +33,24 @@ Store the component measures of the DAS28CRP.
 See also [`score`](@ref), [`isremission`](@ref), [`DAS28`](@ref).
 """
 struct DAS28CRP <: DAS28
-    t28::Int64
-    s28::Int64
+    tjc::Int64
+    sjc::Int64
     pga::Unitful.AbstractQuantity
     apr::Unitful.AbstractQuantity
     function DAS28CRP(;
-        t28,
-        s28,
+        tjc,
+        sjc,
         pga::Unitful.AbstractQuantity,
         apr::Unitful.AbstractQuantity,
     )
-        valid_joints.([t28, s28])
+        valid_joints.([tjc, sjc])
         valid_vas(pga)
         valid_apr(apr)
         
         # Must convert because weights do not adjust to measurement
         return new(
-            t28,
-            s28,
+            tjc,
+            sjc,
             uconvert(units.das28_vas, pga),
             uconvert(units.das28_crp, apr)
         )
@@ -58,14 +58,14 @@ struct DAS28CRP <: DAS28
 end
 
 """
-    DAS28ESR(; t28, s28, pga, apr)
+    DAS28ESR(; tjc, sjc, pga, apr)
 
 Store the component measures of the DAS28ESR.
 
 # Components
 
-- `t28` 28 tender joint count
-- `s28` 28 swollen joint count
+- `tjc` 28 tender joint count
+- `sjc` 28 swollen joint count
 - `pga` patient's global assessment
 - `apr` active phase reactant, here ESR
 
@@ -80,22 +80,22 @@ Store the component measures of the DAS28ESR.
 See also [`score`](@ref), [`isremission`](@ref), [`DAS28`](@ref).
 """
 struct DAS28ESR <: DAS28
-    t28::Int64
-    s28::Int64
+    tjc::Int64
+    sjc::Int64
     pga::Unitful.AbstractQuantity
     apr::Unitful.AbstractQuantity
     function DAS28ESR(;
-        t28,
-        s28,
+        tjc,
+        sjc,
         pga::Unitful.AbstractQuantity,
         apr::Unitful.AbstractQuantity,
     )
-        valid_joints.([t28, s28])
+        valid_joints.([tjc, sjc])
         valid_vas(pga)
         valid_apr(apr)
         return new(
-            t28,
-            s28,
+            tjc,
+            sjc,
             uconvert(units.das28_vas, pga),
             uconvert(units.das28_esr, apr)
         )

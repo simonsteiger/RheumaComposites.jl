@@ -7,11 +7,11 @@
     @test isremission(PGA(4u"mm"))
 end
 
-@testset "SJC28" begin
-    @test SJC28(4) isa AbstractComponent
-    @test SJC28(4).value isa Int64
-    @test try SJC28(44) catch e; e isa DomainError end
-    @test try SJC28(-2) catch e; e isa DomainError end
-    @test !isremission(SJC28(6))
-    @test isremission(SJC28(0))
+@testset "SJC" begin
+    @test SJC(4) isa AbstractComponent
+    @test SJC(4).value isa Int64
+    @test try SJC(44) catch e; e isa DomainError end
+    @test try SJC(-2) catch e; e isa DomainError end
+    @test !isremission(SJC(6))
+    @test isremission(SJC(0))
 end

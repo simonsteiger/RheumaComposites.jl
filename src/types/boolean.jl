@@ -1,12 +1,12 @@
 """
-    BooleanRemission(; t28, s28, pga, crp)
+    BooleanRemission(; tjc, sjc, pga, crp)
 
 Store the components of the original ACR/EULAR Boolean remission.
 
 # Components
 
-- `t28` 28 tender joint count
-- `s28` 28 swollen joint count
+- `tjc` 28 tender joint count
+- `sjc` 28 swollen joint count
 - `pga` patient's global assessment
 - `crp` C-reactive protein
 
@@ -17,15 +17,15 @@ Store the components of the original ACR/EULAR Boolean remission.
 See also [`isremission`](@ref).
 """
 struct BooleanRemission <: BooleanComposite
-    t28::Int64
-    s28::Int64
+    tjc::Int64
+    sjc::Int64
     pga::Unitful.AbstractQuantity
     crp::Unitful.AbstractQuantity
-    function BooleanRemission(; t28, s28, pga::Unitful.AbstractQuantity, crp::Unitful.AbstractQuantity)
-        valid_joints.([t28, s28])
+    function BooleanRemission(; tjc, sjc, pga::Unitful.AbstractQuantity, crp::Unitful.AbstractQuantity)
+        valid_joints.([tjc, sjc])
         valid_vas(pga)
         valid_apr(crp)
-        return new(t28, s28, pga, uconvert(units.brem_crp, crp))
+        return new(tjc, sjc, pga, uconvert(units.brem_crp, crp))
     end
 end
 

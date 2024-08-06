@@ -9,7 +9,7 @@ import Term
 using Unitful
 
 export AbstractComponent
-export PGA, SJC28
+export PGA, SJC
 export value
 export AbstractComposite
 export ContinuousComposite
@@ -23,7 +23,7 @@ export CDAI
 export faceted, Faceted
 export BooleanRemission
 export revised, Revised, threeitem, ThreeItem
-export t28, s28, pga, apr, ega, crp
+export tjc, sjc, pga, apr, ega, crp
 export intercept
 export weight
 export score

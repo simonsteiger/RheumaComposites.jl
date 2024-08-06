@@ -3,7 +3,7 @@
 
 Abstract type for single-component outcomes.
 
-See also [`isremission`](@ref), [`PGA`](@ref), [`SJC28`](@ref).
+See also [`isremission`](@ref), [`PGA`](@ref), [`SJC`](@ref).
 """
 abstract type AbstractComponent end
 
@@ -12,7 +12,7 @@ abstract type AbstractComponent end
 
 This type represents the patient global assessment measured on the visual analogue scale.
 
-See also [`value`](@ref), [`SJC28`](@ref), [`AbstractComponent`](@ref).
+See also [`value`](@ref), [`SJC`](@ref), [`AbstractComponent`](@ref).
 """
 struct PGA <: AbstractComponent
     value::Unitful.AbstractQuantity
@@ -23,15 +23,15 @@ struct PGA <: AbstractComponent
 end
 
 """
-    SJC28 <: AbstractComponent
+    SJC <: AbstractComponent
 
 This type represents the 28 swollen joints count.
 
 See also [`value`](@ref), [`PGA`](@ref), [`AbstractComponent`](@ref).
 """
-struct SJC28 <: AbstractComponent
+struct SJC <: AbstractComponent
     value::Int64
-    function SJC28(x)
+    function SJC(x)
         valid_joints(x)
         return new(x)
     end

@@ -1,12 +1,12 @@
 """
-    SDAI(; t28, s28, pga, ega, crp)
+    SDAI(; tjc, sjc, pga, ega, crp)
 
 Store component measures of the Simplified Disease Activity Index, or SDAI.
 
 # Components
 
-- `t28` 28 tender joint count
-- `s28` 28 swollen joint count
+- `tjc` 28 tender joint count
+- `sjc` 28 swollen joint count
 - `pga` patient's global assessment
 - `ega` evaluator's global assessment
 - `crp` c-reactive protein
@@ -22,26 +22,26 @@ Store component measures of the Simplified Disease Activity Index, or SDAI.
 See also [`score`](@ref), [`isremission`](@ref).
 """
 struct SDAI <: ContinuousComposite
-    t28::Int64
-    s28::Int64
+    tjc::Int64
+    sjc::Int64
     pga::Unitful.AbstractQuantity
     ega::Unitful.AbstractQuantity
     crp::Unitful.AbstractQuantity
     function SDAI(;
-        t28,
-        s28,
+        tjc,
+        sjc,
         pga::Unitful.AbstractQuantity,
         ega::Unitful.AbstractQuantity,
         crp::Unitful.AbstractQuantity,
     )
-        valid_joints.([t28, s28])
+        valid_joints.([tjc, sjc])
         valid_vas.([pga, ega])
         valid_apr(crp)
         
         # Must convert because weights do not adjust to measurement
         return new(
-            t28,
-            s28,
+            tjc,
+            sjc,
             uconvert(units.xdai_vas, pga),
             uconvert(units.xdai_vas, ega),
             uconvert(units.xdai_crp, crp)

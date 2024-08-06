@@ -1,12 +1,12 @@
 """
-    CDAI(; t28, s28, pga, ega)
+    CDAI(; tjc, sjc, pga, ega)
 
 Store component measures of the Clinical Disease Activity Index, or CDAI.
 
 # Components
 
-- `t28` 28 tender joint count
-- `s28` 28 swollen joint count
+- `tjc` 28 tender joint count
+- `sjc` 28 swollen joint count
 - `pga` patient's global assessment
 - `ega` evaluator's global assessment
 
@@ -21,23 +21,23 @@ Store component measures of the Clinical Disease Activity Index, or CDAI.
 See also [`score`](@ref), [`isremission`](@ref).
 """
 struct CDAI <: ContinuousComposite
-    t28::Int64
-    s28::Int64
+    tjc::Int64
+    sjc::Int64
     pga::Unitful.AbstractQuantity
     ega::Unitful.AbstractQuantity
     function CDAI(;
-        t28,
-        s28,
+        tjc,
+        sjc,
         pga::Unitful.AbstractQuantity,
         ega::Unitful.AbstractQuantity,
     )
-        valid_joints.([t28, s28])
+        valid_joints.([tjc, sjc])
         valid_vas.([pga, ega])
         
         # Must convert because weights do not adjust to measurement
         return new(
-            t28,
-            s28,
+            tjc,
+            sjc,
             uconvert(units.xdai_vas, pga),
             uconvert(units.xdai_vas, ega),
         )

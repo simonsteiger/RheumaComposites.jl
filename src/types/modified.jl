@@ -73,8 +73,8 @@ See also [`isremission`](@ref), [`BooleanRemission`](@ref).
 """
 threeitem(c0::BooleanRemission) = ThreeItem(c0)
 
-t28(x::ModifiedComposite) = t28(x.c0)
-s28(x::ModifiedComposite) = s28(x.c0)
+tjc(x::ModifiedComposite) = tjc(x.c0)
+sjc(x::ModifiedComposite) = sjc(x.c0)
 pga(x::ModifiedComposite) = pga(x.c0)
 ega(x::ModifiedComposite) = ega(x.c0)
 apr(x::ModifiedComposite) = apr(x.c0)
