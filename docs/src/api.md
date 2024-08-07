@@ -22,14 +22,14 @@ Revised
 ThreeItem
 AbstractComponent
 PGA
-SJC28
+SJC
 ```
 
 ## Interface
 
 ```@docs
-t28
-s28
+tjc
+sjc
 pga
 apr
 ega

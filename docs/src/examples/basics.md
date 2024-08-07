@@ -40,14 +40,14 @@ This means that you do not have to remember that SDAI requires a 0-10 cm VAS sca
 Let's try this by creating a DAS28CRP composite with patient's global assessment measured in centimeters:
 
 ````@example basics
-das28_cm = DAS28CRP(t28=1, s28=0, pga=2.2u"cm", apr=4u"mg/L")
+das28_cm = DAS28CRP(tjc=1, sjc=0, pga=2.2u"cm", apr=4u"mg/L")
 ````
 
 As you can see, centimeters were automatically converted to millimeters.
 Providing the same score in millimeters return the same result:
 
 ````@example basics
-das28_mm = DAS28CRP(t28=1, s28=0, pga=22u"mm", apr=4u"mg/L")
+das28_mm = DAS28CRP(tjc=1, sjc=0, pga=22u"mm", apr=4u"mg/L")
 score(das28_cm) == score(das28_mm)
 ````
 
@@ -61,7 +61,7 @@ To see the docstring, first hit `?` in the REPL, then type the name of the compo
 This is all we need to explore the most important aspects of many different composite scores!
 
 ````@example basics
-sdai = SDAI(s28=3, t28=4, pga=34u"mm", ega=28u"mm", crp=21u"mg/L")
+sdai = SDAI(sjc=3, tjc=4, pga=34u"mm", ega=28u"mm", crp=21u"mg/L")
 ````
 
 ````@example basics

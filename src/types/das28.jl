@@ -22,15 +22,22 @@ Store the component measures of the DAS28CRP.
 - `pga` patient's global assessment
 - `apr` active phase reactant, here CRP
 
-!!! warning "Units"
+!!! note "Units"
     Currently, `pga` must be a length (typically millimeters or centimeters) and `crp` must be a concentration (typically mg/dL or mg/L).
     See also [`Unitful.@u_str`](@extref).
 
+# Categories
+
+- ``<`` $(cut.DAS28CRP.low) = Remission
+- ``\\leq`` $(cut.DAS28CRP.low) = Low
+- ``\\leq`` $(cut.DAS28CRP.moderate) = Moderate
+- ``>`` $(cut.DAS28CRP.moderate) = High
+
 # External links
 
-* [The DAS28 calculator](https://www.4s-dawn.com/DAS28/)
+* [DAS28 calculator](https://www.4s-dawn.com/DAS28/)
 
-See also [`score`](@ref), [`isremission`](@ref), [`DAS28`](@ref).
+See also [`score`](@ref), [`categorise`](@ref), [`isremission`](@ref).
 """
 struct DAS28CRP <: DAS28
     tjc::Int64
@@ -69,15 +76,22 @@ Store the component measures of the DAS28ESR.
 - `pga` patient's global assessment
 - `apr` active phase reactant, here ESR
 
-!!! warning "Units"
+!!! note "Units"
     Currently, `pga` must be a length (typically millimeters or centimeters) and `apr` must be a rate (typically mm/hr).
     See also [`Unitful.@u_str`](@extref).
 
+# Categories
+
+- ``<`` $(cut.DAS28ESR.low) = Remission
+- ``\\leq`` $(cut.DAS28ESR.low) = Low
+- ``\\leq`` $(cut.DAS28ESR.moderate) = Moderate
+- ``>`` $(cut.DAS28ESR.moderate) = High
+
 # External links
 
-- DAS28 calculator [https://www.4s-dawn.com/DAS28/](https://www.4s-dawn.com/DAS28/)
+- [DAS28 calculator](https://www.4s-dawn.com/DAS28/)
 
-See also [`score`](@ref), [`isremission`](@ref), [`DAS28`](@ref).
+See also [`score`](@ref), [`categorise`](@ref), [`isremission`](@ref).
 """
 struct DAS28ESR <: DAS28
     tjc::Int64

@@ -10,15 +10,22 @@ Store component measures of the Clinical Disease Activity Index, or CDAI.
 - `pga` patient's global assessment
 - `ega` evaluator's global assessment
 
-!!! warning "Units"
+!!! note "Units"
     Currently, `pga` and `ega` must be a length (typically millimeters or centimeters).
     See also [`Unitful.@u_str`](@extref).
+
+# Categories
+
+- ``<`` $(cut.CDAI.low) = Remission
+- ``\\leq`` $(cut.CDAI.low) = Low
+- ``\\leq`` $(cut.CDAI.moderate) = Moderate
+- ``>`` $(cut.CDAI.moderate) = High
 
 # External links
 
 * [CDAI calculator](https://www.mdcalc.com/calc/2177/clinical-disease-activity-index-cdai-rheumatoid-arthritis)
 
-See also [`score`](@ref), [`isremission`](@ref).
+See also [`score`](@ref), [`categorise`](@ref), [`isremission`](@ref).
 """
 struct CDAI <: ContinuousComposite
     tjc::Int64

@@ -11,15 +11,22 @@ Store component measures of the Simplified Disease Activity Index, or SDAI.
 - `ega` evaluator's global assessment
 - `crp` c-reactive protein
 
-!!! warning "Units"
+!!! note "Units"
     Currently, `pga` and `ega` must be a length (typically millimeters or centimeters) and `crp` must be a concentration (typically mg/dL or mg/L).
     See also [`Unitful.@u_str`](@extref).
+
+# Categories
+
+- ``<`` $(cut.SDAI.low) = Remission
+- ``\\leq`` $(cut.SDAI.low) = Low
+- ``\\leq`` $(cut.SDAI.moderate) = Moderate
+- ``>`` $(cut.SDAI.moderate) = High
 
 # External links
 
 * [SDAI calculator](https://www.mdcalc.com/calc/2194/simple-disease-activity-index-sdai-rheumatoid-arthritis)
 
-See also [`score`](@ref), [`isremission`](@ref).
+See also [`score`](@ref), [`categorise`](@ref), [`isremission`](@ref).
 """
 struct SDAI <: ContinuousComposite
     tjc::Int64

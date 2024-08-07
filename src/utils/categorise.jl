@@ -1,3 +1,26 @@
+cut = (
+    DAS28ESR=(
+        remission=2.6,
+        low=3.2,
+        moderate=5.1,
+    ),
+    DAS28CRP=(
+        remission=2.4,
+        low=2.9,
+        moderate=4.6,
+    ),
+    SDAI=(
+        remission=3.3,
+        low=11.0,
+        moderate=26.0,
+    ),
+    CDAI=(
+        remission=2.8,
+        low=10.0,
+        moderate=22.0,
+    )
+)
+
 """
     categorise(x::ContinuousComposite)
 
@@ -11,33 +34,33 @@ julia> DAS28ESR(tjc=4, sjc=5, pga=12u"mm", apr=44u"mm/hr") |> categorise
 ```
 """
 function categorise(::Type{DAS28ESR}, v)
-    out = v < 2.6 ? "Remission" :
-          v <= 3.2 ? "Low" :
-          v <= 5.1 ? "Moderate" :
+    out = v < cut.DAS28ESR.remission ? "Remission" :
+          v <= cut.DAS28ESR.low ? "Low" :
+          v <= cut.DAS28ESR.moderate ? "Moderate" :
           "High"
     return out
 end
 
 function categorise(::Type{DAS28CRP}, v)
-    out = v < 2.4 ? "Remission" :
-          v <= 2.9 ? "Low" :
-          v <= 4.6 ? "Moderate" :
+    out = v < cut.DAS28CRP.remission ? "Remission" :
+          v <= cut.DAS28CRP.low ? "Low" :
+          v <= cut.DAS28CRP.moderate ? "Moderate" :
           "High"
     return out
 end
 
 function categorise(::Type{SDAI}, v)
-    out = v < 3.3 ? "Remission" :
-          v <= 11.0 ? "Low" :
-          v <= 26.0 ? "Moderate" :
+    out = v < cut.SDAI.remission ? "Remission" :
+          v <= cut.SDAI.low ? "Low" :
+          v <= cut.SDAI.moderate ? "Moderate" :
           "High"
     return out
 end
 
 function categorise(::Type{CDAI}, v)
-    out = v < 2.8 ? "Remission" :
-          v <= 10.0 ? "Low" :
-          v <= 22.0 ? "Moderate" :
+    out = v < cut.CDAI.remission ? "Remission" :
+          v <= cut.CDAI.low ? "Low" :
+          v <= cut.CDAI.moderate ? "Moderate" :
           "High"
     return out
 end
