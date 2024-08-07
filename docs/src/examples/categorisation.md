@@ -45,7 +45,11 @@ import RheumaComposites: cut
 cut.CDAI.moderate
 ````
 
-You can alternatively see the cutoffs by inspecting the respective composite's documentation, i.e., by typing `?CDAI` in the REPL.
+Note that this only returns the upper limit of the respective category, which is included in Low and Moderate but excluded Remission and High.
+It is therefore safest to simply rely on the `categorise` function.
+
+An alternative way to check the cutoffs is the respective composite's documentation.
+You can see this by typing `?CDAI` in the REPL.
 
 ---
 
