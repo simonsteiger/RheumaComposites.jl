@@ -22,7 +22,7 @@ The cutoffs used per composite and category are:
 
 | Disease activity | DAS28ESR | DAS28CRP | SDAI   | CDAI   | 
 |:-----------------|----------|----------|--------|--------| 
-| Remission        | ``<`` 2.6    | ``<`` 2.4    | ``<`` 3.3  | ``<`` 2.8  | 
+| Remission        | ``<`` 2.6    | ``<`` 2.4    | ``\leq`` 3.3  | ``\leq`` 2.8  | 
 | Low              | ``\leq`` 3.2    | ``\leq`` 2.9    | ``\leq`` 11.0 | ``\leq`` 10.0 | 
 | Moderate         | ``\leq`` 5.1    | ``\leq`` 4.6    | ``\leq`` 26.0 | ``\leq`` 22.0 | 
 | High             | ``>`` 5.1    | ``>`` 4.6    | ``>`` 26.0 | ``>`` 22.0 | 
