@@ -16,10 +16,10 @@ Store component measures of the Clinical Disease Activity Index, or CDAI.
 
 # Categories
 
-- ``<`` $(cut.CDAI.low) = Remission
-- ``\\leq`` $(cut.CDAI.low) = Low
-- ``\\leq`` $(cut.CDAI.moderate) = Moderate
-- ``>`` $(cut.CDAI.moderate) = High
+- ``<`` $(cont_cutoff.CDAI.low) = Remission
+- ``\\leq`` $(cont_cutoff.CDAI.low) = Low
+- ``\\leq`` $(cont_cutoff.CDAI.moderate) = Moderate
+- ``>`` $(cont_cutoff.CDAI.moderate) = High
 
 # External links
 

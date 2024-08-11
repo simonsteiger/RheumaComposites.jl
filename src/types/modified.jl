@@ -13,24 +13,24 @@ abstract type ModifiedComposite <: AbstractComposite end
 This type indicates a further grouping of the stored composite's components.
 """
 struct Faceted{T} <: ModifiedComposite
-    c0::T
+    root::T
     facets::NamedTuple
 end
 
 """
-    faceted(c0::ContinuousComposite, facets::NamedTuple)
+    faceted(root::ContinuousComposite, facets::NamedTuple)
 
 Specify a custom grouping along which the composite can be analysed.
 
 See also [`decompose`](@ref).
 """
-function faceted(c0::ContinuousComposite, facets::NamedTuple)
-    faceted_fields = getproperty.(Ref(facets), propertynames(facets)) |>
-                     Iterators.flatten |>
-                     collect
-    all(field -> field in fieldnames(typeof(c0)), faceted_fields) ||
-        throw(ErrorException("all values in `facets` must be fields of `c0`"))
-    return Faceted(c0, facets)
+function faceted(root::ContinuousComposite, facets::NamedTuple)
+    compos = components(root)
+    facet_compos = getproperty.(Ref(facets), propertynames(facets)) |>
+                   Iterators.flatten |>
+                   collect
+    all(f -> f in compos, facet_compos) || throw(error("can only facet `root` components"))
+    return Faceted(root, facets)
 end
 
 """
@@ -41,11 +41,11 @@ This type indicates that the stored composite's threshold for remission has been
 See also [`BooleanRemission`](@ref).
 """
 struct Revised{T} <: ModifiedComposite
-    c0::T
+    root::T
 end
 
 """
-    revised(c0::AbstractComposite)
+    revised(root::AbstractComposite)
 
 Change the calculation of scores or thresholds to use the revised definition of a composite.
 
@@ -53,29 +53,34 @@ Currently, revised versions are implemented only for [`BooleanRemission`](@ref).
 
 See also [`isremission`](@ref).
 """
-revised(c0::AbstractComposite) = Revised(c0)
+revised(root::AbstractComposite) = Revised(root)
 
-"""
-    ThreeItem{T} <: ModifiedComposite
-
-This type indicates that [`BooleanRemission`](@ref) should ignore `pga` for determining remission.
-"""
-struct ThreeItem{T} <: ModifiedComposite
-    c0::T
+struct Subset{T} <: ModifiedComposite
+    root::T
+    components
 end
 
-"""
-    threeitem(c0::BooleanRemission)
+function subset(root::AbstractComposite, keep::Vector{Symbol})
+    compos = components(root)
+    all(d -> d in compos, keep) || throw(error("can only keep `root` components"))
+    kept_compos = filter(x -> x in keep, compos)
+    return Subset(root, kept_compos)
+end
 
-Change the calculation of Boolean remission to exclude patient global assessment.
+components(x::Subset{<:AbstractComposite}) = x.components
 
-See also [`isremission`](@ref), [`BooleanRemission`](@ref).
-"""
-threeitem(c0::BooleanRemission) = ThreeItem(c0)
+root(x::ModifiedComposite) = x.root
 
-tjc(x::ModifiedComposite) = tjc(x.c0)
-sjc(x::ModifiedComposite) = sjc(x.c0)
-pga(x::ModifiedComposite) = pga(x.c0)
-ega(x::ModifiedComposite) = ega(x.c0)
-apr(x::ModifiedComposite) = apr(x.c0)
-crp(x::ModifiedComposite) = crp(x.c0)
+intercept(x::ModifiedComposite) = intercept(x.root)
+
+tjc(x::ModifiedComposite) = tjc(x.root)
+
+sjc(x::ModifiedComposite) = sjc(x.root)
+
+pga(x::ModifiedComposite) = pga(x.root)
+
+ega(x::ModifiedComposite) = ega(x.root)
+
+apr(x::ModifiedComposite) = apr(x.root)
+
+crp(x::ModifiedComposite) = crp(x.root)

@@ -1,26 +1,3 @@
-cut = (
-    DAS28ESR=(
-        remission=2.6,
-        low=3.2,
-        moderate=5.1,
-    ),
-    DAS28CRP=(
-        remission=2.4,
-        low=2.9,
-        moderate=4.6,
-    ),
-    SDAI=(
-        remission=3.3,
-        low=11.0,
-        moderate=26.0,
-    ),
-    CDAI=(
-        remission=2.8,
-        low=10.0,
-        moderate=22.0,
-    )
-)
-
 """
     categorise(x::ContinuousComposite)
 
@@ -34,33 +11,33 @@ julia> DAS28ESR(tjc=4, sjc=5, pga=12u"mm", apr=44u"mm/hr") |> categorise
 ```
 """
 function categorise(::Type{DAS28ESR}, v)
-    out = v < cut.DAS28ESR.remission ? "Remission" :
-          v <= cut.DAS28ESR.low ? "Low" :
-          v <= cut.DAS28ESR.moderate ? "Moderate" :
+    out = v < cont_cutoff.DAS28ESR.remission ? "Remission" :
+          v <= cont_cutoff.DAS28ESR.low ? "Low" :
+          v <= cont_cutoff.DAS28ESR.moderate ? "Moderate" :
           "High"
     return out
 end
 
 function categorise(::Type{DAS28CRP}, v)
-    out = v < cut.DAS28CRP.remission ? "Remission" :
-          v <= cut.DAS28CRP.low ? "Low" :
-          v <= cut.DAS28CRP.moderate ? "Moderate" :
+    out = v < cont_cutoff.DAS28CRP.remission ? "Remission" :
+          v <= cont_cutoff.DAS28CRP.low ? "Low" :
+          v <= cont_cutoff.DAS28CRP.moderate ? "Moderate" :
           "High"
     return out
 end
 
 function categorise(::Type{SDAI}, v)
-    out = v < cut.SDAI.remission ? "Remission" :
-          v <= cut.SDAI.low ? "Low" :
-          v <= cut.SDAI.moderate ? "Moderate" :
+    out = v < cont_cutoff.SDAI.remission ? "Remission" :
+          v <= cont_cutoff.SDAI.low ? "Low" :
+          v <= cont_cutoff.SDAI.moderate ? "Moderate" :
           "High"
     return out
 end
 
 function categorise(::Type{CDAI}, v)
-    out = v < cut.CDAI.remission ? "Remission" :
-          v <= cut.CDAI.low ? "Low" :
-          v <= cut.CDAI.moderate ? "Moderate" :
+    out = v < cont_cutoff.CDAI.remission ? "Remission" :
+          v <= cont_cutoff.CDAI.low ? "Low" :
+          v <= cont_cutoff.CDAI.moderate ? "Moderate" :
           "High"
     return out
 end
@@ -83,4 +60,4 @@ julia> categorise(SDAI, 3.6)
 "Low"
 ```
 """
-categorise(x::Faceted{<:ContinuousComposite}) = categorise(typeof(x.c0), score(x.c0))
+categorise(x::Faceted{<:ContinuousComposite}) = categorise(typeof(x.root), score(x.root))

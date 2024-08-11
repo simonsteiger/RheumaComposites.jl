@@ -8,6 +8,7 @@ See also [`DAS28ESR`](@ref), [`DAS28CRP`](@ref).
 abstract type DAS28 <: ContinuousComposite end
 
 WeightingScheme(::Type{<:DAS28}) = IsWeighted()
+WeightingScheme(::Type{<:Subset{<:DAS28}}) = IsWeighted()
 
 # TODO add weighting formula to docstring
 """
@@ -28,10 +29,10 @@ Store the component measures of the DAS28CRP.
 
 # Categories
 
-- ``<`` $(cut.DAS28CRP.low) = Remission
-- ``\\leq`` $(cut.DAS28CRP.low) = Low
-- ``\\leq`` $(cut.DAS28CRP.moderate) = Moderate
-- ``>`` $(cut.DAS28CRP.moderate) = High
+- ``<`` $(cont_cutoff.DAS28CRP.low) = Remission
+- ``\\leq`` $(cont_cutoff.DAS28CRP.low) = Low
+- ``\\leq`` $(cont_cutoff.DAS28CRP.moderate) = Moderate
+- ``>`` $(cont_cutoff.DAS28CRP.moderate) = High
 
 # External links
 
@@ -82,10 +83,10 @@ Store the component measures of the DAS28ESR.
 
 # Categories
 
-- ``<`` $(cut.DAS28ESR.low) = Remission
-- ``\\leq`` $(cut.DAS28ESR.low) = Low
-- ``\\leq`` $(cut.DAS28ESR.moderate) = Moderate
-- ``>`` $(cut.DAS28ESR.moderate) = High
+- ``<`` $(cont_cutoff.DAS28ESR.low) = Remission
+- ``\\leq`` $(cont_cutoff.DAS28ESR.low) = Low
+- ``\\leq`` $(cont_cutoff.DAS28ESR.moderate) = Moderate
+- ``>`` $(cont_cutoff.DAS28ESR.moderate) = High
 
 # External links
 

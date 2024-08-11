@@ -22,8 +22,11 @@ export SDAI
 export CDAI
 export faceted, Faceted
 export BooleanRemission
-export revised, Revised, threeitem, ThreeItem
+export revised, Revised
+export subset, Subset
+export threeitem
 export tjc, sjc, pga, apr, ega, crp
+export components
 export intercept
 export weight
 export score
@@ -32,14 +35,15 @@ export decompose
 export categorise
 
 include("utils/units.jl")
+include("utils/constants.jl")
 include("utils/valid.jl")
 include("types/components.jl")
 include("types/composites.jl")
+include("types/modified.jl")
 include("types/das28.jl")
 include("types/sdai.jl")
 include("types/cdai.jl")
 include("types/boolean.jl")
-include("types/modified.jl")
 include("utils/weight.jl")
 include("utils/score.jl")
 include("utils/remission.jl")

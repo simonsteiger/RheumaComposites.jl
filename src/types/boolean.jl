@@ -29,5 +29,14 @@ struct BooleanRemission <: BooleanComposite
     end
 end
 
+"""
+    threeitem(root::BooleanRemission)
+
+Change the calculation of Boolean remission to exclude patient global assessment.
+
+See also [`isremission`](@ref), [`BooleanRemission`](@ref).
+"""
+threeitem(root::BooleanRemission) = subset(root, [:sjc, :tjc, :crp])
+
 "Return the CRP value."
 crp(x::BooleanComposite) = x.crp

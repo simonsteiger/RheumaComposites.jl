@@ -28,17 +28,17 @@ Return the proportion to which each facet contributes to the composite's score.
 # Examples
 
 ```jldoctest
-julia> c0 = DAS28ESR(tjc=4, sjc=5, pga=14u"mm", apr=12u"mm/hr");
+julia> root = DAS28ESR(tjc=4, sjc=5, pga=14u"mm", apr=12u"mm/hr");
 
-julia> faceted(c0, (objective=[:sjc, :apr], subjective=[:tjc, :pga])) |> decompose
+julia> faceted(root, (objective=[:sjc, :apr], subjective=[:tjc, :pga])) |> decompose
 (objective = 0.474, subjective = 0.525)
 ```
 """
 function decompose(x::Faceted{<:ContinuousComposite}; digits=3)
-    c0 = x.c0
+    root = x.root
     facets = propertynames(x.facets)
     fields_per_facet = getproperty.(Ref(x.facets), facets)
-    decomp = decompose(c0; digits=digits)
+    decomp = decompose(root; digits=digits)
     sum_per_facet = mapreduce(fields -> getproperty.(Ref(decomp), fields), +, fields_per_facet)
     return NamedTuple{facets}(sum_per_facet)
 end
