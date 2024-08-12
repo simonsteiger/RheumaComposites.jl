@@ -25,16 +25,32 @@ See also [`isremission`](@ref), [`ContinuousComposite`](@ref).
 """
 abstract type BooleanComposite <: AbstractComposite end
 
-"Return the 28 tender-joint count."
-t28(x::AbstractComposite) = x.t28
+"""
+    tjc(x::AbstractComposite)
 
-"Return the 28 swollen-joint count."
-s28(x::AbstractComposite) = x.s28
+Return the 28 tender-joint count.
+"""
+tjc(x::AbstractComposite) = x.tjc
 
-"Return the patient global assessment."
+"""
+    sjc(x::AbstractComposite)
+
+Return the 28 swollen-joint count.
+"""
+sjc(x::AbstractComposite) = x.sjc
+
+"""
+    pga(x::AbstractComposite)
+
+Return the patient global assessment.
+"""
 pga(x::AbstractComposite) = x.pga
 
-"Return the acute phase reactant."
+"""
+    apr(x::AbstractComposite)
+
+Return the acute phase reactant.
+"""
 apr(x::AbstractComposite) = x.apr
 
 abstract type WeightingScheme end
@@ -54,6 +70,18 @@ This function can be useful if you want to implement custom decomposition or com
 See also [`score`](@ref), [`decompose`](@ref).
 """
 intercept(x::ContinuousComposite) = 0.0
+
+"""
+    components(x::AbstractComposite)
+
+Return the fieldnames of the type of `x`.
+
+Alias for `fieldnames(typeof(x))`.
+"""
+components(x::AbstractComposite) = fieldnames(typeof(x))
+
+# Important for ModifiedComposites
+root(x) = x
 
 Base.show(io::IO, x::AbstractComposite) = print(io, "$(nameof(typeof(x))) composite")
 

@@ -1,5 +1,5 @@
 # Dummy SDAIs for testing
-sdai = SDAI(t28=1, s28=0, pga=1u"cm", ega=0u"cm", crp=0.1u"mg/dL")
+sdai = SDAI(tjc=1, sjc=0, pga=1u"cm", ega=0u"cm", crp=0.1u"mg/dL")
 # See https://www.mdcalc.com/calc/2194/simple-disease-activity-index-sdai-rheumatoid-arthritis
 sdai_ref = 2.1 
 
@@ -7,15 +7,15 @@ sdai_ref = 2.1
 i_sdai = RheumaComposites.intercept(sdai)
 
 # Test if different unit scales lead to same results
-sdai_u1 = SDAI(t28=0, s28=1, pga=10u"mm", ega=10u"mm", crp=1u"mg/dL")
-sdai_u2 = SDAI(t28=0, s28=1, pga=1u"cm", ega=1u"cm", crp=10u"mg/L")
+sdai_u1 = SDAI(tjc=0, sjc=1, pga=10u"mm", ega=10u"mm", crp=1u"mg/dL")
+sdai_u2 = SDAI(tjc=0, sjc=1, pga=1u"cm", ega=1u"cm", crp=10u"mg/L")
 
 @testset "Construct SDAI" begin
     @test sdai isa AbstractComposite
     @test sdai isa ContinuousComposite
     @test sdai isa SDAI
-    @test t28(sdai) isa Real
-    @test s28(sdai) isa Real
+    @test tjc(sdai) isa Real
+    @test sjc(sdai) isa Real
     @test pga(sdai) isa Unitful.AbstractQuantity
     @test ega(sdai) isa Unitful.AbstractQuantity
     @test crp(sdai) isa Unitful.AbstractQuantity
@@ -31,7 +31,7 @@ end
 
 @testset "SDAI Remission" begin
     @test isremission(sdai)
-    @test !isremission(SDAI(t28=3, s28=4, pga=4u"cm", ega=4u"cm", crp=5u"mg/dL"))
+    @test !isremission(SDAI(tjc=3, sjc=4, pga=4u"cm", ega=4u"cm", crp=5u"mg/dL"))
 end
 
 @testset "Categorise SDAI" begin

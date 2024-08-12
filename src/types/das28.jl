@@ -8,49 +8,57 @@ See also [`DAS28ESR`](@ref), [`DAS28CRP`](@ref).
 abstract type DAS28 <: ContinuousComposite end
 
 WeightingScheme(::Type{<:DAS28}) = IsWeighted()
+WeightingScheme(::Type{<:Subset{<:DAS28}}) = IsWeighted()
 
 # TODO add weighting formula to docstring
 """
-    DAS28CRP(; t28, s28, pga, apr)
+    DAS28CRP(; tjc, sjc, pga, apr)
 
 Store the component measures of the DAS28CRP.
 
 # Components
 
-- `t28` 28 tender joint count
-- `s28` 28 swollen joint count
+- `tjc` 28 tender joint count
+- `sjc` 28 swollen joint count
 - `pga` patient's global assessment
 - `apr` active phase reactant, here CRP
 
-!!! warning "Units"
+!!! note "Units"
     Currently, `pga` must be a length (typically millimeters or centimeters) and `crp` must be a concentration (typically mg/dL or mg/L).
     See also [`Unitful.@u_str`](@extref).
 
+# Categories
+
+- ``<`` $(cont_cutoff.DAS28CRP.low) = Remission
+- ``\\leq`` $(cont_cutoff.DAS28CRP.low) = Low
+- ``\\leq`` $(cont_cutoff.DAS28CRP.moderate) = Moderate
+- ``>`` $(cont_cutoff.DAS28CRP.moderate) = High
+
 # External links
 
-* [The DAS28 calculator](https://www.4s-dawn.com/DAS28/)
+* [DAS28 calculator](https://www.4s-dawn.com/DAS28/)
 
-See also [`score`](@ref), [`isremission`](@ref), [`DAS28`](@ref).
+See also [`score`](@ref), [`categorise`](@ref), [`isremission`](@ref).
 """
 struct DAS28CRP <: DAS28
-    t28::Int64
-    s28::Int64
+    tjc::Int64
+    sjc::Int64
     pga::Unitful.AbstractQuantity
     apr::Unitful.AbstractQuantity
     function DAS28CRP(;
-        t28,
-        s28,
+        tjc,
+        sjc,
         pga::Unitful.AbstractQuantity,
         apr::Unitful.AbstractQuantity,
     )
-        valid_joints.([t28, s28])
+        valid_joints.([tjc, sjc])
         valid_vas(pga)
         valid_apr(apr)
         
         # Must convert because weights do not adjust to measurement
         return new(
-            t28,
-            s28,
+            tjc,
+            sjc,
             uconvert(units.das28_vas, pga),
             uconvert(units.das28_crp, apr)
         )
@@ -58,44 +66,51 @@ struct DAS28CRP <: DAS28
 end
 
 """
-    DAS28ESR(; t28, s28, pga, apr)
+    DAS28ESR(; tjc, sjc, pga, apr)
 
 Store the component measures of the DAS28ESR.
 
 # Components
 
-- `t28` 28 tender joint count
-- `s28` 28 swollen joint count
+- `tjc` 28 tender joint count
+- `sjc` 28 swollen joint count
 - `pga` patient's global assessment
 - `apr` active phase reactant, here ESR
 
-!!! warning "Units"
+!!! note "Units"
     Currently, `pga` must be a length (typically millimeters or centimeters) and `apr` must be a rate (typically mm/hr).
     See also [`Unitful.@u_str`](@extref).
 
+# Categories
+
+- ``<`` $(cont_cutoff.DAS28ESR.low) = Remission
+- ``\\leq`` $(cont_cutoff.DAS28ESR.low) = Low
+- ``\\leq`` $(cont_cutoff.DAS28ESR.moderate) = Moderate
+- ``>`` $(cont_cutoff.DAS28ESR.moderate) = High
+
 # External links
 
-- DAS28 calculator [https://www.4s-dawn.com/DAS28/](https://www.4s-dawn.com/DAS28/)
+- [DAS28 calculator](https://www.4s-dawn.com/DAS28/)
 
-See also [`score`](@ref), [`isremission`](@ref), [`DAS28`](@ref).
+See also [`score`](@ref), [`categorise`](@ref), [`isremission`](@ref).
 """
 struct DAS28ESR <: DAS28
-    t28::Int64
-    s28::Int64
+    tjc::Int64
+    sjc::Int64
     pga::Unitful.AbstractQuantity
     apr::Unitful.AbstractQuantity
     function DAS28ESR(;
-        t28,
-        s28,
+        tjc,
+        sjc,
         pga::Unitful.AbstractQuantity,
         apr::Unitful.AbstractQuantity,
     )
-        valid_joints.([t28, s28])
+        valid_joints.([tjc, sjc])
         valid_vas(pga)
         valid_apr(apr)
         return new(
-            t28,
-            s28,
+            tjc,
+            sjc,
             uconvert(units.das28_vas, pga),
             uconvert(units.das28_esr, apr)
         )

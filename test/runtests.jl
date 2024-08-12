@@ -2,6 +2,10 @@ using RheumaComposites
 using Test
 using Unitful
 
+@testset "Composites" begin
+    include("types/composites.jl")
+end
+
 @testset "Components" begin
     include("types/components.jl")
 end

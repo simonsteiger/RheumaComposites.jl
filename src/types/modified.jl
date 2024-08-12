@@ -13,24 +13,26 @@ abstract type ModifiedComposite <: AbstractComposite end
 This type indicates a further grouping of the stored composite's components.
 """
 struct Faceted{T} <: ModifiedComposite
-    c0::T
+    root::T
     facets::NamedTuple
 end
 
 """
-    faceted(c0::ContinuousComposite, facets::NamedTuple)
+    faceted(root::ContinuousComposite, facets::NamedTuple)
 
 Specify a custom grouping along which the composite can be analysed.
 
 See also [`decompose`](@ref).
 """
-function faceted(c0::ContinuousComposite, facets::NamedTuple)
-    faceted_fields = getproperty.(Ref(facets), propertynames(facets)) |>
-                     Iterators.flatten |>
-                     collect
-    all(field -> field in fieldnames(typeof(c0)), faceted_fields) ||
-        throw(ErrorException("all values in `facets` must be fields of `c0`"))
-    return Faceted(c0, facets)
+function faceted(root::ContinuousComposite, facets::NamedTuple)
+    faceted_composites = values_flatten(facets)
+    if any(f -> f ∉ components(root), faceted_composites)
+        throw(error("can only facet `root` components"))
+    end
+    if faceted_composites != unique(faceted_composites)
+        throw(error("`facets` must contain unique composites"))
+    end
+    return Faceted(root, facets)
 end
 
 """
@@ -41,41 +43,80 @@ This type indicates that the stored composite's threshold for remission has been
 See also [`BooleanRemission`](@ref).
 """
 struct Revised{T} <: ModifiedComposite
-    c0::T
+    root::T
+    offset::NamedTuple
+end
+
+function revised(root::BooleanComposite, offset::NamedTuple)
+    if any(o -> o ∉ components(root), propertynames(offset))
+        throw(error("can only revise `root` components"))
+    end
+    return Revised(root, offset)
 end
 
 """
-    revised(c0::AbstractComposite)
+    Subset{N,T}
 
-Change the calculation of scores or thresholds to use the revised definition of a composite.
-
-Currently, revised versions are implemented only for [`BooleanRemission`](@ref).
-
-See also [`isremission`](@ref).
+Redefine a composite as a subset of its components.
 """
-revised(c0::AbstractComposite) = Revised(c0)
-
-"""
-    ThreeItem{T} <: ModifiedComposite
-
-This type indicates that [`BooleanRemission`](@ref) should ignore `pga` for determining remission.
-"""
-struct ThreeItem{T} <: ModifiedComposite
-    c0::T
+struct Subset{N,T} <: ModifiedComposite
+    root::T
+    components::NTuple{N,Symbol}
 end
 
 """
-    threeitem(c0::BooleanRemission)
+    subset(root::AbstractComposite, keep::Vector{Symbol})
 
-Change the calculation of Boolean remission to exclude patient global assessment.
+Redefine a composite as a subset of its components.
 
-See also [`isremission`](@ref), [`BooleanRemission`](@ref).
+Functions like [`score`](@ref) or [`isremission`](@ref) act on the subset of components.
 """
-threeitem(c0::BooleanRemission) = ThreeItem(c0)
+function subset(root::AbstractComposite, keep::Vector{Symbol})
+    cns = components(root)
+    unique(keep) == keep || throw(error("`keep` must contain unique values"))
+    all(d -> d in cns, keep) || throw(error("can only keep `root` components"))
+    kept_cns = filter(x -> x in keep, cns)
+    return Subset(root, kept_cns)
+end
 
-t28(x::ModifiedComposite) = t28(x.c0)
-s28(x::ModifiedComposite) = s28(x.c0)
-pga(x::ModifiedComposite) = pga(x.c0)
-ega(x::ModifiedComposite) = ega(x.c0)
-apr(x::ModifiedComposite) = apr(x.c0)
-crp(x::ModifiedComposite) = crp(x.c0)
+"""
+    root(x::ModifiedComposite)
+
+Return the unmodified composite.
+"""
+root(x::ModifiedComposite) = x.root
+
+"""
+    components(x::ModifiedComposite)
+    
+Return the components of the unmodified composite.
+"""
+components(x::ModifiedComposite) = components(x.root)
+
+"""
+    components(x::Subset{N,<:BooleanComposite})
+
+Return the components kept in the `Subset`.
+"""
+components(x::Subset{N,<:BooleanComposite}) where {N} = x.components
+
+"""
+    offset(x::Revised{<:BooleanComposite})
+
+Return the offsets to remission thresholds.
+"""
+offset(x::Revised{<:BooleanComposite}) = x.offset
+
+intercept(x::ModifiedComposite) = intercept(x.root)
+
+tjc(x::ModifiedComposite) = tjc(x.root)
+
+sjc(x::ModifiedComposite) = sjc(x.root)
+
+pga(x::ModifiedComposite) = pga(x.root)
+
+ega(x::ModifiedComposite) = ega(x.root)
+
+apr(x::ModifiedComposite) = apr(x.root)
+
+crp(x::ModifiedComposite) = crp(x.root)

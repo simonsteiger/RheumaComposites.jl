@@ -19,21 +19,24 @@ CDAI
 Faceted
 BooleanRemission
 Revised
-ThreeItem
+Subset
 AbstractComponent
 PGA
-SJC28
+SJC
 ```
 
 ## Interface
 
 ```@docs
-t28
-s28
+tjc
+sjc
 pga
 apr
 ega
 crp
+offset
+components
+root
 ```
 
 ## Functions
@@ -47,6 +50,7 @@ decompose
 categorise
 faceted
 revised
+subset
 threeitem
 value
 ```
