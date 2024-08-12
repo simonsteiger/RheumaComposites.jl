@@ -28,6 +28,7 @@ export threeitem
 export tjc, sjc, pga, apr, ega, crp
 export components
 export offset
+export root
 export intercept
 export weight
 export score
@@ -37,7 +38,9 @@ export categorise
 
 include("utils/units.jl")
 include("utils/constants.jl")
+include("utils/auxfuns.jl")
 include("utils/valid.jl")
+
 include("types/components.jl")
 include("types/composites.jl")
 include("types/modified.jl")
@@ -45,10 +48,11 @@ include("types/das28.jl")
 include("types/sdai.jl")
 include("types/cdai.jl")
 include("types/boolean.jl")
-include("utils/weight.jl")
-include("utils/score.jl")
-include("utils/remission.jl")
-include("utils/decompose.jl")
-include("utils/categorise.jl")
+
+include("functions/weight.jl")
+include("functions/score.jl")
+include("functions/isremission.jl")
+include("functions/decompose.jl")
+include("functions/categorise.jl")
 
 end

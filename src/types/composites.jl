@@ -25,16 +25,32 @@ See also [`isremission`](@ref), [`ContinuousComposite`](@ref).
 """
 abstract type BooleanComposite <: AbstractComposite end
 
-"Return the 28 tender-joint count."
+"""
+    tjc(x::AbstractComposite)
+
+Return the 28 tender-joint count.
+"""
 tjc(x::AbstractComposite) = x.tjc
 
-"Return the 28 swollen-joint count."
+"""
+    sjc(x::AbstractComposite)
+
+Return the 28 swollen-joint count.
+"""
 sjc(x::AbstractComposite) = x.sjc
 
-"Return the patient global assessment."
+"""
+    pga(x::AbstractComposite)
+
+Return the patient global assessment.
+"""
 pga(x::AbstractComposite) = x.pga
 
-"Return the acute phase reactant."
+"""
+    apr(x::AbstractComposite)
+
+Return the acute phase reactant.
+"""
 apr(x::AbstractComposite) = x.apr
 
 abstract type WeightingScheme end

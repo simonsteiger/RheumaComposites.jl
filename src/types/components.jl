@@ -1,3 +1,5 @@
+# TODO make these special cases of Subset, too
+
 """
     AbstractComponent
 

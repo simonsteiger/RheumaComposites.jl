@@ -19,7 +19,7 @@ CDAI
 Faceted
 BooleanRemission
 Revised
-ThreeItem
+Subset
 AbstractComponent
 PGA
 SJC
@@ -34,6 +34,9 @@ pga
 apr
 ega
 crp
+offset
+components
+root
 ```
 
 ## Functions
@@ -47,6 +50,7 @@ decompose
 categorise
 faceted
 revised
+subset
 threeitem
 value
 ```

@@ -88,6 +88,7 @@ end
     @test faceted(das28c, facets) isa Faceted{<:ContinuousComposite}
     @test score(faceted(das28c, facets)) == score(das28c)
     @test sum(decompose(faceted(das28c, facets), digits=5)) ≈ 1.0 atol = 1e-5
+    @test try faceted(das28c, (abc=[:tjc, :pga], cde=[:tjc, :apr])) catch e; e isa ErrorException end
 end
 
 @testset "Categorise DAS28CRP" begin

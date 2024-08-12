@@ -27,15 +27,15 @@ The cutoffs used per composite and category are:
 | Moderate         | ``\leq`` 5.1    | ``\leq`` 4.6    | ``\leq`` 26.0 | ``\leq`` 22.0 | 
 | High             | ``>`` 5.1    | ``>`` 4.6    | ``>`` 26.0 | ``>`` 22.0 | 
 
-Internally, these are saved in a `NamedTuple` which you can import with `import RheumaComposites: cut`.
+Internally, these are saved in a `NamedTuple` which you can import with `import RheumaComposites: cont_cutoff`.
 To retrieve the cutoff for a Moderate CDAI, you would:
 =#
 
-import RheumaComposites: cut
-cut.CDAI.moderate
+import RheumaComposites: cont_cutoff
+cont_cutoff.CDAI.moderate
 
 #=
-Note that this only returns the upper limit of the respective category, which is included in Low and Moderate but excluded Remission and High.
+Note that this only returns the boundary value of the respective category, and that the inclusion of this value varies across **both** composites and categories.
 It is therefore safest to simply rely on the `categorise` function.
 
 An alternative way to check the cutoffs is the respective composite's documentation.

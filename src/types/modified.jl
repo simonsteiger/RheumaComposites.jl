@@ -25,11 +25,13 @@ Specify a custom grouping along which the composite can be analysed.
 See also [`decompose`](@ref).
 """
 function faceted(root::ContinuousComposite, facets::NamedTuple)
-    compos = components(root)
-    facet_compos = getproperty.(Ref(facets), propertynames(facets)) |>
-                   Iterators.flatten |>
-                   collect
-    all(f -> f in compos, facet_compos) || throw(error("can only facet `root` components"))
+    faceted_composites = values_flatten(facets)
+    if any(f -> f ∉ components(root), faceted_composites)
+        throw(error("can only facet `root` components"))
+    end
+    if faceted_composites != unique(faceted_composites)
+        throw(error("`facets` must contain unique composites"))
+    end
     return Faceted(root, facets)
 end
 
@@ -45,34 +47,64 @@ struct Revised{T} <: ModifiedComposite
     offset::NamedTuple
 end
 
+function revised(root::BooleanComposite, offset::NamedTuple)
+    if any(o -> o ∉ components(root), propertynames(offset))
+        throw(error("can only revise `root` components"))
+    end
+    return Revised(root, offset)
+end
+
 """
-    revised(root::AbstractComposite)
+    Subset{N,T}
 
-Change the calculation of scores or thresholds to use the revised definition of a composite.
-
-Currently, revised versions are implemented only for [`BooleanRemission`](@ref).
-
-See also [`isremission`](@ref).
+Redefine a composite as a subset of its components.
 """
-revised(root::BooleanComposite, offset) = Revised(root, offset)
-
 struct Subset{N,T} <: ModifiedComposite
     root::T
     components::NTuple{N,Symbol}
 end
 
+"""
+    subset(root::AbstractComposite, keep::Vector{Symbol})
+
+Redefine a composite as a subset of its components.
+
+Functions like [`score`](@ref) or [`isremission`](@ref) act on the subset of components.
+"""
 function subset(root::AbstractComposite, keep::Vector{Symbol})
-    compos = components(root)
-    all(d -> d in compos, keep) || throw(error("can only keep `root` components"))
-    kept_compos = filter(x -> x in keep, compos)
-    return Subset(root, kept_compos)
+    cns = components(root)
+    unique(keep) == keep || throw(error("`keep` must contain unique values"))
+    all(d -> d in cns, keep) || throw(error("can only keep `root` components"))
+    kept_cns = filter(x -> x in keep, cns)
+    return Subset(root, kept_cns)
 end
 
+"""
+    root(x::ModifiedComposite)
+
+Return the unmodified composite.
+"""
 root(x::ModifiedComposite) = x.root
 
+"""
+    components(x::ModifiedComposite)
+    
+Return the components of the unmodified composite.
+"""
 components(x::ModifiedComposite) = components(x.root)
+
+"""
+    components(x::Subset{N,<:BooleanComposite})
+
+Return the components kept in the `Subset`.
+"""
 components(x::Subset{N,<:BooleanComposite}) where {N} = x.components
 
+"""
+    offset(x::Revised{<:BooleanComposite})
+
+Return the offsets to remission thresholds.
+"""
 offset(x::Revised{<:BooleanComposite}) = x.offset
 
 intercept(x::ModifiedComposite) = intercept(x.root)
