@@ -27,6 +27,7 @@ export subset, Subset
 export threeitem
 export tjc, sjc, pga, apr, ega, crp
 export components
+export offset
 export intercept
 export weight
 export score

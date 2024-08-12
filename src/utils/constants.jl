@@ -21,7 +21,7 @@ cont_cutoff = (
     ),
 )
 
-bool_cutoff = (
+bool_cutoff_funs = (
     tjc=(x; offset = 0) -> tjc(x) <= 1 + offset,
     sjc=(x; offset = 0) -> sjc(x) <= 1 + offset,
     pga=(x; offset = 0u"mm") -> pga(x) <= 10u"mm" + offset,

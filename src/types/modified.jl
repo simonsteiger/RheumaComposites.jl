@@ -42,6 +42,7 @@ See also [`BooleanRemission`](@ref).
 """
 struct Revised{T} <: ModifiedComposite
     root::T
+    offset::NamedTuple
 end
 
 """
@@ -53,11 +54,11 @@ Currently, revised versions are implemented only for [`BooleanRemission`](@ref).
 
 See also [`isremission`](@ref).
 """
-revised(root::AbstractComposite) = Revised(root)
+revised(root::BooleanComposite, offset) = Revised(root, offset)
 
-struct Subset{T} <: ModifiedComposite
+struct Subset{N,T} <: ModifiedComposite
     root::T
-    components
+    components::NTuple{N,Symbol}
 end
 
 function subset(root::AbstractComposite, keep::Vector{Symbol})
@@ -67,9 +68,12 @@ function subset(root::AbstractComposite, keep::Vector{Symbol})
     return Subset(root, kept_compos)
 end
 
-components(x::Subset{<:AbstractComposite}) = x.components
-
 root(x::ModifiedComposite) = x.root
+
+components(x::ModifiedComposite) = components(x.root)
+components(x::Subset{N,<:BooleanComposite}) where {N} = x.components
+
+offset(x::Revised{<:BooleanComposite}) = x.offset
 
 intercept(x::ModifiedComposite) = intercept(x.root)
 

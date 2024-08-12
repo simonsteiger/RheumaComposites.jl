@@ -38,5 +38,7 @@ See also [`isremission`](@ref), [`BooleanRemission`](@ref).
 """
 threeitem(root::BooleanRemission) = subset(root, [:sjc, :tjc, :crp])
 
+revised(root::BooleanRemission; offset=(; pga=10u"mm")) = revised(root, offset)
+
 "Return the CRP value."
 crp(x::BooleanComposite) = x.crp

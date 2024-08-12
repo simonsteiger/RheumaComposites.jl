@@ -23,24 +23,29 @@ isremission(::Type{CDAI}, x) = score(x) <= cont_cutoff.CDAI.remission
 isremission(::Type{PGA}, x) = x.value <= 10.0u"mm"
 isremission(::Type{SJC}, x) = x.value == 0
 
-# TODO rename bool_cutoff into something that reflects that it contains functions
-_check(component, x) = getproperty(bool_cutoff, component)(x)
+_check(component, x) = getproperty(bool_cutoff_funs, component)(x)
 
-# This will be for Revised, mapreduce over two collections then
-# one for compos and one for adjustments to cutoffs
-# the adjustments should be stored in a tuple like that in Subset
-_check(component, x, offset) = getproperty(bool_cutoff, component)(x; offset=offset)
+_check(component, x, offset) = getproperty(bool_cutoff_funs, component)(x; offset=offset)
 
-function isremission(::Type{BooleanRemission}, x)
-    return mapreduce(compo -> _check(compo, x), &, components(x))
+function isremission(::Type{<:BooleanComposite}, x)
+    return mapreduce(component -> _check(component, x), &, components(x))
 end
 
-function isremission(::Type{Subset{BooleanRemission}}, x)
-    return mapreduce(compo -> _check(compo, root(x)), &, components(x))
+function isremission(::Type{<:Subset{N, <:BooleanComposite}}, x) where {N}
+    return mapreduce(component -> _check(component, root(x)), &, components(x))
 end
 
-function isremission(::Type{<:Revised{<:BooleanRemission}}, x)
-    return tjc(x) <= 1 && sjc(x) <= 1 && pga(x) <= 20.0u"mm" && crp(x) <= 1.0u"mg/dL"
+function isremission(::Type{<:Revised{<:BooleanComposite}}, x)
+    offset_components = propertynames(offset(x))
+    out = mapreduce(&, components(x)) do compo
+        if compo in offset_components
+            compo_offset = getproperty(offset(x), compo)
+            _check(compo, root(x), compo_offset)
+        else
+            _check(compo, root(x))
+        end
+    end
+    return out
 end
 
 isremission(x::AbstractComposite) = isremission(typeof(x), x)
