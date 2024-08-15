@@ -6,6 +6,8 @@ function values_flatten(x::NamedTuple)
     return property_vec
 end
 
+_typename(x::DataType) = Symbol(split(string(nameof(x)), ".")[end])
+
 function seq_check(x::Real, conds::NamedTuple)
     funs = values(conds)
     i = 1

@@ -13,7 +13,7 @@ julia> categorise(SDAI, 3.6)
 ```
 """
 function categorise(::Type{T}, s::Real) where {T<:ContinuousComposite}
-    return seq_check(s, getproperty(cont_cutoff_funs, Symbol(T)))
+    return seq_check(s, getproperty(cont_cutoff_funs, _typename(T)))
 end
 # This implementation is roughly half as 2.5 times slower than hard coding
 # cutoffs into each categorise function
