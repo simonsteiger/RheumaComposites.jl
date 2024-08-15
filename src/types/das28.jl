@@ -29,10 +29,10 @@ Store the component measures of the DAS28CRP.
 
 # Categories
 
-- ``<`` $(cont_cutoff.DAS28CRP.low) = Remission
-- ``\\leq`` $(cont_cutoff.DAS28CRP.low) = Low
-- ``\\leq`` $(cont_cutoff.DAS28CRP.moderate) = Moderate
-- ``>`` $(cont_cutoff.DAS28CRP.moderate) = High
+- ``<`` $(cutoff.DAS28CRP.low) = Remission
+- ``\\leq`` $(cutoff.DAS28CRP.low) = Low
+- ``\\leq`` $(cutoff.DAS28CRP.moderate) = Moderate
+- ``>`` $(cutoff.DAS28CRP.moderate) = High
 
 # External links
 
@@ -83,10 +83,10 @@ Store the component measures of the DAS28ESR.
 
 # Categories
 
-- ``<`` $(cont_cutoff.DAS28ESR.low) = Remission
-- ``\\leq`` $(cont_cutoff.DAS28ESR.low) = Low
-- ``\\leq`` $(cont_cutoff.DAS28ESR.moderate) = Moderate
-- ``>`` $(cont_cutoff.DAS28ESR.moderate) = High
+- ``<`` $(cutoff.DAS28ESR.low) = Remission
+- ``\\leq`` $(cutoff.DAS28ESR.low) = Low
+- ``\\leq`` $(cutoff.DAS28ESR.moderate) = Moderate
+- ``>`` $(cutoff.DAS28ESR.moderate) = High
 
 # External links
 

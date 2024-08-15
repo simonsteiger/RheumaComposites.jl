@@ -52,10 +52,10 @@ end
 end
 
 @testset "Categorise DAS28ESR" begin
-    @test categorise(das28e) == "Moderate"
-    @test categorise.(DAS28ESR, [2.59, 2.61]) == ["Remission", "Low"]
-    @test categorise.(DAS28ESR, [3.19, 3.21]) == ["Low", "Moderate"]
-    @test categorise.(DAS28ESR, [5.09, 5.11]) == ["Moderate", "High"]
+    @test categorise(das28e) == "moderate"
+    @test categorise.(DAS28ESR, [2.59, 2.61]) == ["remission", "low"]
+    @test categorise.(DAS28ESR, [3.19, 3.21]) == ["low", "moderate"]
+    @test categorise.(DAS28ESR, [5.09, 5.11]) == ["moderate", "high"]
 end
 
 @testset "Construct DAS28CRP" begin
@@ -88,12 +88,16 @@ end
     @test faceted(das28c, facets) isa Faceted{<:ContinuousComposite}
     @test score(faceted(das28c, facets)) == score(das28c)
     @test sum(decompose(faceted(das28c, facets), digits=5)) ≈ 1.0 atol = 1e-5
-    @test try faceted(das28c, (abc=[:tjc, :pga], cde=[:tjc, :apr])) catch e; e isa ErrorException end
+    @test try
+        faceted(das28c, (abc=[:tjc, :pga], cde=[:tjc, :apr]))
+    catch e
+        e isa ErrorException
+    end
 end
 
 @testset "Categorise DAS28CRP" begin
-    @test categorise(das28c) == "Moderate"
-    @test categorise.(DAS28CRP, [2.39, 2.51]) == ["Remission", "Low"]
-    @test categorise.(DAS28CRP, [2.89, 2.91]) == ["Low", "Moderate"]
-    @test categorise.(DAS28CRP, [4.59, 4.61]) == ["Moderate", "High"]
+    @test categorise(das28c) == "moderate"
+    @test categorise.(DAS28CRP, [2.39, 2.51]) == ["remission", "low"]
+    @test categorise.(DAS28CRP, [2.89, 2.91]) == ["low", "moderate"]
+    @test categorise.(DAS28CRP, [4.59, 4.61]) == ["moderate", "high"]
 end

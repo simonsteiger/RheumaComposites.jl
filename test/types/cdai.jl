@@ -33,8 +33,8 @@ end
 end
 
 @testset "Categorise CDAI" begin
-    @test categorise(cdai) == "Remission"
-    @test categorise.(CDAI, [2.79, 2.81]) == ["Remission", "Low"]
-    @test categorise.(CDAI, [9.99, 10.01]) == ["Low", "Moderate"]
-    @test categorise.(CDAI, [21.99, 22.01]) == ["Moderate", "High"]
+    @test categorise(cdai) == "remission"
+    @test categorise.(CDAI, [2.79, 2.81]) == ["remission", "low"]
+    @test categorise.(CDAI, [9.99, 10.01]) == ["low", "moderate"]
+    @test categorise.(CDAI, [21.99, 22.01]) == ["moderate", "high"]
 end
