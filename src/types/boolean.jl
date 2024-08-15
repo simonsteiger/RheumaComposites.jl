@@ -25,7 +25,7 @@ struct BooleanRemission <: BooleanComposite
         valid_joints.([tjc, sjc])
         valid_vas(pga)
         valid_apr(crp)
-        return new(tjc, sjc, pga, uconvert(units.brem_crp, crp))
+        return new(tjc, sjc, uconvert(units.brem_vas, pga), uconvert(units.brem_crp, crp))
     end
 end
 

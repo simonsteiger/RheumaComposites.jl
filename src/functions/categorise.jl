@@ -1,4 +1,25 @@
 """
+    categorise(::Type{T}, s::Real) where {T<:ContinuousComposite}
+
+Convert score `s` to a discrete value using `SDAI` thresholds.
+
+The same functionality exists for other `ContinuousComposites`.
+
+# Examples
+
+```jldoctest
+julia> categorise(SDAI, 3.6)
+"low"
+```
+"""
+function categorise(::Type{T}, s::Real) where {T<:ContinuousComposite}
+    return seq_check(s, getproperty(cont_cutoff_funs, Symbol(T)))
+end
+# This implementation is roughly half as 2.5 times slower than hard coding
+# cutoffs into each categorise function
+# If performance is ever critical, I should change to the more verbose but faster version
+
+"""
     categorise(x::ContinuousComposite)
 
 Convert `x` to a discrete value.
@@ -7,57 +28,14 @@ Convert `x` to a discrete value.
 
 ```jldoctest
 julia> DAS28ESR(tjc=4, sjc=5, pga=12u"mm", apr=44u"mm/hr") |> categorise
-"Moderate"
+"moderate"
 ```
 """
-function categorise(::Type{DAS28ESR}, v)
-    out = v < cont_cutoff.DAS28ESR.remission ? "Remission" :
-          v <= cont_cutoff.DAS28ESR.low ? "Low" :
-          v <= cont_cutoff.DAS28ESR.moderate ? "Moderate" :
-          "High"
-    return out
-end
-
-function categorise(::Type{DAS28CRP}, v)
-    out = v < cont_cutoff.DAS28CRP.remission ? "Remission" :
-          v <= cont_cutoff.DAS28CRP.low ? "Low" :
-          v <= cont_cutoff.DAS28CRP.moderate ? "Moderate" :
-          "High"
-    return out
-end
-
-function categorise(::Type{SDAI}, v)
-    out = v < cont_cutoff.SDAI.remission ? "Remission" :
-          v <= cont_cutoff.SDAI.low ? "Low" :
-          v <= cont_cutoff.SDAI.moderate ? "Moderate" :
-          "High"
-    return out
-end
-
-function categorise(::Type{CDAI}, v)
-    out = v < cont_cutoff.CDAI.remission ? "Remission" :
-          v <= cont_cutoff.CDAI.low ? "Low" :
-          v <= cont_cutoff.CDAI.moderate ? "Moderate" :
-          "High"
-    return out
-end
-
 categorise(x::ContinuousComposite) = categorise(typeof(x), score(x))
 
 """
-    categorise(::Type{SDAI}, v)
+    categorise(x::Faceted{<:ContinuousComposite})
 
-Convert `v` to a discrete value using `SDAI` thresholds.
-
-The same functionality exists for other `ContinuousComposites`.
-
-See also [`DAS28ESR`](@ref), [`DAS28CRP`](@ref).
-
-# Examples
-
-```jldoctest
-julia> categorise(SDAI, 3.6)
-"Low"
-```
+Convert the `root` composite of `x` to a discrete value.
 """
 categorise(x::Faceted{<:ContinuousComposite}) = categorise(typeof(x.root), score(x.root))

@@ -1,4 +1,4 @@
-boolrem = BooleanRemission(tjc=1, sjc=0, pga=14u"mm", crp=0.4u"mg/dl")
+boolrem = BooleanRemission(tjc=1, sjc=0, pga=14u"mm", crp=0.4u"mg/dL")
 
 @testset "Original BoolRem" begin
     @test boolrem isa AbstractComposite

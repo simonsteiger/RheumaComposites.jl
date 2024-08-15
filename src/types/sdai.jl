@@ -17,10 +17,10 @@ Store component measures of the Simplified Disease Activity Index, or SDAI.
 
 # Categories
 
-- ``\\leq`` $(cont_cutoff.SDAI.low) = Remission
-- ``\\leq`` $(cont_cutoff.SDAI.low) = Low
-- ``\\leq`` $(cont_cutoff.SDAI.moderate) = Moderate
-- ``>`` $(cont_cutoff.SDAI.moderate) = High
+- ``\\leq`` $(cutoff.SDAI.low) = Remission
+- ``\\leq`` $(cutoff.SDAI.low) = Low
+- ``\\leq`` $(cutoff.SDAI.moderate) = Moderate
+- ``>`` $(cutoff.SDAI.moderate) = High
 
 # External links
 

@@ -15,15 +15,12 @@ weight(x::Subset{N,T}) where {N,T} = weight(WeightingScheme(T), x)
 
 weight(::IsUnweightable, x::T) where {T} = throw(ErrorException("$(typeof(x)) type is unweightable."))
 
-weight(::IsUnweighted, x::T) where {T} = ustrip.(getproperty.(Ref(x), fieldnames(T)))
+weight(::IsUnweighted, x::T) where {T} = ustrip.(getproperty.(Ref(x), components(x)))
 
 function map_weights(weights, x)
-    weighted_values = map(components(x)) do component
-        component_value = ustrip(getproperty(root(x), component))
-        component_weight = getproperty(weights, component)
-        component_weight(component_value)
-    end
-    return weighted_values
+    component_values = ustrip.(getproperty.(Ref(x), components(x)))
+    component_weights = getproperty.(Ref(weights), components(x))
+    return map((w, v) -> w(v), component_weights, component_values)
 end
 
 function weight(::IsWeighted, x::DAS28)

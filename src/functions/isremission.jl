@@ -1,24 +1,7 @@
-"""
-    isremission(x::AbstractComposite)
-
-Check whether a composite fulfils remission criteria.
-
-# Examples
-
-```jldoctest
-julia> DAS28ESR(tjc=4, sjc=5, pga=44u"mm", apr=23u"mm/hr") |> isremission
-false
-julia> BooleanRemission(tjc=1, sjc=0, pga=14u"mm", crp=0.4u"mg/dl") |>
-       revised |>
-       isremission
-true
-```
-"""
-isremission(::Type{DAS28ESR}, x) = score(x) < cont_cutoff.DAS28ESR.remission
-isremission(::Type{DAS28CRP}, x) = score(x) < cont_cutoff.DAS28CRP.remission
-
-isremission(::Type{SDAI}, x) = score(x) <= cont_cutoff.SDAI.remission
-isremission(::Type{CDAI}, x) = score(x) <= cont_cutoff.CDAI.remission
+function isremission(::Type{T}, x::AbstractComposite) where {T<:ContinuousComposite}
+    cut = getproperty(cont_cutoff_funs, Symbol(T))
+    return cut.remission(score(x))
+end
 
 isremission(::Type{PGA}, x) = x.value <= 10.0u"mm"
 isremission(::Type{SJC}, x) = x.value == 0
@@ -48,5 +31,39 @@ function isremission(::Type{<:Revised{<:BooleanComposite}}, x)
     return out
 end
 
+"""
+    isremission(x::AbstractComposite)
+
+Check whether a composite fulfils remission criteria.
+
+# Examples
+
+```jldoctest
+julia> DAS28ESR(tjc=4, sjc=5, pga=44u"mm", apr=23u"mm/hr") |> isremission
+false
+julia> BooleanRemission(tjc=1, sjc=0, pga=14u"mm", crp=0.4u"mg/dl") |>
+       revised |>
+       isremission
+true
+```
+"""
 isremission(x::AbstractComposite) = isremission(typeof(x), x)
+
+"""
+    isremission(::Type{T}, s::Real) where {T<:ContinuousComposite}
+
+Check whether a composite fulfils remission criteria.
+
+# Examples
+
+```jldoctest
+julia> isremission(DAS28ESR, 3.9)
+false
+```
+"""
+function isremission(::Type{T}, s::Real) where {T<:ContinuousComposite}
+    cut = getproperty(cont_cutoff_funs, Symbol(T))
+    return cut.remission(s)
+end
+
 isremission(x::AbstractComponent) = isremission(typeof(x), x)
