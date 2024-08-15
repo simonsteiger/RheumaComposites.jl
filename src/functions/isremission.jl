@@ -1,5 +1,7 @@
+_typename(x::DataType) = Symbol(split(string(nameof(x)), ".")[end])
+
 function isremission(::Type{T}, x::AbstractComposite) where {T<:ContinuousComposite}
-    cut = getproperty(cont_cutoff_funs, Symbol(T))
+    cut = getproperty(cont_cutoff_funs, _typename(T))
     return cut.remission(score(x))
 end
 
