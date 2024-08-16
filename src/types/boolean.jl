@@ -11,7 +11,7 @@ Store the components of the original ACR/EULAR Boolean remission.
 - `crp` C-reactive protein
 
 !!! note "Units"
-    Currently, `pga` must be a length (typically millimeters or centimeters) and `crp` must be a concentration (typically mg/dL or mg/L).
+    `pga` must be a length (typically millimeters or centimeters) and `crp` must be a concentration (typically mg/dL or mg/L).
     See also [`Unitful.@u_str`](@extref).
 
 See also [`isremission`](@ref).
@@ -51,6 +51,3 @@ The values passed to `offset` will be added to the default thresholds of `root`.
 See also [`isremission`](@ref).
 """
 revised(root::BooleanRemission; offset::NamedTuple=(; pga=10u"mm")) = revised(root, offset)
-
-"Return the CRP value."
-crp(x::BooleanComposite) = x.crp
