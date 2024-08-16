@@ -50,5 +50,3 @@ struct CDAI <: ContinuousComposite
         )
     end
 end
-
-WeightingScheme(::Type{<:CDAI}) = IsUnweighted()

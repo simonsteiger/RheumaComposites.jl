@@ -14,7 +14,7 @@ end
 
 @testset "Three-item BoolRem" begin
     @test threeitem(boolrem) isa ModifiedComposite
-    @test threeitem(boolrem) isa Subset{3,<:BooleanComposite}
+    @test threeitem(boolrem) isa Partial{3,<:BooleanComposite}
     @test isremission(threeitem(boolrem))
 end
 
@@ -35,7 +35,7 @@ end
         e isa ErrorException
     end
     @test try
-        subset(boolrem, [:tjc, :tjc, :pga])
+        partial(boolrem, [:tjc, :tjc, :pga])
     catch e
         e isa ErrorException
     end

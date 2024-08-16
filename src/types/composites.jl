@@ -31,6 +31,7 @@ struct IsUnweighted <: WeightingScheme end
 struct IsWeighted <: WeightingScheme end
 
 WeightingScheme(::Type) = IsUnweightable()
+WeightingScheme(::Type{<:ContinuousComposite}) = IsUnweighted()
 
 """
     intercept(x::ContinuousComposite)

@@ -17,6 +17,8 @@ struct Faceted{T} <: ModifiedComposite
     facets::NamedTuple
 end
 
+WeightingScheme(::Type{<:Faceted{T}}) where {T} = WeightingScheme(T)
+
 """
     faceted(root::ContinuousComposite, facets::NamedTuple)
 
@@ -47,6 +49,8 @@ struct Revised{T} <: ModifiedComposite
     offset::NamedTuple
 end
 
+WeightingScheme(::Type{<:Revised{T}}) where {T} = WeightingScheme(T)
+
 function revised(root::BooleanComposite, offset::NamedTuple)
     if any(o -> o ∉ components(root), propertynames(offset))
         throw(error("can only revise `root` components"))
@@ -63,6 +67,8 @@ struct Partial{N,T} <: ModifiedComposite
     root::T
     components::NTuple{N,Symbol}
 end
+
+WeightingScheme(::Type{<:Partial{N,T}}) where {N,T} = WeightingScheme(T)
 
 """
     partial(root::AbstractComposite, keep::Vector{Symbol})
