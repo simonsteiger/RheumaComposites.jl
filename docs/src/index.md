@@ -2,7 +2,7 @@
 EditURL = "https://github.com/simonsteiger/RheumaComposites.jl/blob/main/README.md"
 ```
 
-# RheumaComposites.jl <img src='docs/src/assets/logo.svg' align='right' height='135'/>
+# RheumaComposites.jl
 
 [![Build Status](https://github.com/simonsteiger/RheumaComposites.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/simonsteiger/RheumaComposites.jl/actions/workflows/CI.yml?query=branch%3Amain)
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://simonsteiger.github.io/RheumaComposites.jl/dev/)
@@ -36,7 +36,7 @@ This package currently supports the following composites:
 
 | Rheumatoid Arthritis | Psoriatric Arthritis | Spondyloarthritis | Lupus | ... |
 |:---------------------|:---------------------|:------------------|:------|:----|
-| DAS28                |                      |                   |       | ... |
+| DAS28                | DAPSA                | BASDAI            |       | ... |
 | SDAI                 |                      |                   |       | ... |
 | CDAI                 |                      |                   |       | ... |
 | Boolean remission    |                      |                   |       | ... |

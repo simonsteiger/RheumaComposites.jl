@@ -24,7 +24,7 @@ Store the component measures of the DAS28CRP.
 - `apr` active phase reactant, here CRP
 
 !!! note "Units"
-    Currently, `pga` must be a length (typically millimeters or centimeters) and `crp` must be a concentration (typically mg/dL or mg/L).
+    `pga` must be a length (typically millimeters or centimeters) and `crp` must be a concentration (typically mg/dL or mg/L).
     See also [`Unitful.@u_str`](@extref).
 
 # Categories
@@ -78,7 +78,7 @@ Store the component measures of the DAS28ESR.
 - `apr` active phase reactant, here ESR
 
 !!! note "Units"
-    Currently, `pga` must be a length (typically millimeters or centimeters) and `apr` must be a rate (typically mm/hr).
+    `pga` must be a length (typically millimeters or centimeters) and `apr` must be a rate (typically mm/hr).
     See also [`Unitful.@u_str`](@extref).
 
 # Categories

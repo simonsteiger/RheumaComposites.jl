@@ -11,7 +11,7 @@ Store component measures of the Clinical Disease Activity Index, or CDAI.
 - `ega` evaluator's global assessment
 
 !!! note "Units"
-    Currently, `pga` and `ega` must be a length (typically millimeters or centimeters).
+    `pga` and `ega` must be a length (typically millimeters or centimeters).
     See also [`Unitful.@u_str`](@extref).
 
 # Categories
@@ -52,6 +52,3 @@ struct CDAI <: ContinuousComposite
 end
 
 WeightingScheme(::Type{<:CDAI}) = IsUnweighted()
-
-# This function is already documented in SDAI
-ega(x::CDAI) = x.ega

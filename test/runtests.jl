@@ -6,10 +6,6 @@ using Unitful
     include("types/composites.jl")
 end
 
-@testset "Components" begin
-    include("types/components.jl")
-end
-
 @testset "DAS28" begin
     include("types/das28.jl")
 end
@@ -20,6 +16,14 @@ end
 
 @testset "CDAI" begin
     include("types/cdai.jl")
+end
+
+@testset "DAPSA" begin
+    include("types/dapsa.jl")
+end
+
+@testset "BASDAI" begin
+    include("types/basdai.jl")
 end
 
 @testset "Boolean" begin

@@ -3,9 +3,6 @@ function isremission(::Type{T}, x::AbstractComposite) where {T<:ContinuousCompos
     return cut.remission(score(x))
 end
 
-isremission(::Type{PGA}, x) = x.value <= 10.0u"mm"
-isremission(::Type{SJC}, x) = x.value == 0
-
 _check(component, x) = getproperty(bool_cutoff_funs, component)(x)
 
 _check(component, x, offset) = getproperty(bool_cutoff_funs, component)(x; offset=offset)

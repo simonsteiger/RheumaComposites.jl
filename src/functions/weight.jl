@@ -23,14 +23,9 @@ function map_weights(weights, x)
     return map((w, v) -> w(v), component_weights, component_values)
 end
 
-function weight(::IsWeighted, x::DAS28)
-    weights = x isa DAS28ESR ? weights_das28esr : weights_das28crp
-    weighted_values = map_weights(weights, x)
-    return weighted_values
-end
+weight(::IsWeighted, x::DAS28ESR) = map_weights(weights_das28esr, x)
+weight(::IsWeighted, x::DAS28CRP) = map_weights(weights_das28crp, x)
+weight(::IsWeighted, x::Subset{DAS28ESR}) = map_weights(weights_das28esr, x)
+weight(::IsWeighted, x::Subset{DAS28CRP}) = map_weights(weights_das28crp, x)
 
-function weight(::IsWeighted, x::Subset{<:DAS28})
-    weights = root(x) isa DAS28ESR ? weights_das28esr : weights_das28crp
-    weighted_values = map_weights(weights, x)
-    return weighted_values
-end
+weight(::IsWeighted, x::BASDAI) = map_weights(weights_basdai, x)

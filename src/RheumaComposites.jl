@@ -8,9 +8,6 @@ module RheumaComposites
 import Term
 using Unitful
 
-export AbstractComponent
-export PGA, SJC
-export value
 export AbstractComposite
 export ContinuousComposite
 export BooleanComposite
@@ -20,12 +17,13 @@ export DAS28ESR
 export DAS28CRP
 export SDAI
 export CDAI
+export BASDAI
+export DAPSA
 export faceted, Faceted
 export BooleanRemission
 export revised, Revised
 export subset, Subset
 export threeitem
-export tjc, sjc, pga, apr, ega, crp
 export components
 export offset
 export root
@@ -47,6 +45,8 @@ include("types/modified.jl")
 include("types/das28.jl")
 include("types/sdai.jl")
 include("types/cdai.jl")
+include("types/dapsa.jl")
+include("types/basdai.jl")
 include("types/boolean.jl")
 
 include("functions/weight.jl")

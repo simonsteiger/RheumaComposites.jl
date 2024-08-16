@@ -16,7 +16,7 @@ julia> SDAI(tjc=4, sjc=5, pga=16u"mm", ega=12u"mm", crp=3u"mg/L") |> decompose
 """
 function decompose(x::ContinuousComposite; digits=3)
     ratios = round.(weight(x) ./ sum(weight(x)), digits=digits)
-    fields = fieldnames(typeof(x))
+    fields = components(x)
     return NamedTuple{fields}(ratios)
 end
 

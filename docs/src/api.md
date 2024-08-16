@@ -16,27 +16,20 @@ DAS28ESR
 DAS28CRP
 SDAI
 CDAI
+BASDAI
+DAPSA
 Faceted
 BooleanRemission
 Revised
 Subset
-AbstractComponent
-PGA
-SJC
 ```
 
 ## Interface
 
 ```@docs
-tjc
-sjc
-pga
-apr
-ega
-crp
-offset
 components
 root
+offset
 ```
 
 ## Functions
@@ -52,7 +45,6 @@ faceted
 revised
 subset
 threeitem
-value
 ```
 
 ## Index

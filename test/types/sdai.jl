@@ -14,11 +14,6 @@ sdai_u2 = SDAI(tjc=0, sjc=1, pga=1u"cm", ega=1u"cm", crp=10u"mg/L")
     @test sdai isa AbstractComposite
     @test sdai isa ContinuousComposite
     @test sdai isa SDAI
-    @test tjc(sdai) isa Real
-    @test sjc(sdai) isa Real
-    @test pga(sdai) isa Unitful.AbstractQuantity
-    @test ega(sdai) isa Unitful.AbstractQuantity
-    @test crp(sdai) isa Unitful.AbstractQuantity
 end
 
 @testset "Score SDAI" begin

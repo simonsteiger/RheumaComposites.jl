@@ -17,7 +17,16 @@ cutoff = (
     CDAI=(
         remission=2.8,
         low=10.0,
-        moderate=22.0
+        moderate=22.0,
+    ),
+    DAPSA=(
+        remission=4.0,
+        low=14.0,
+        moderate=28.0,
+    ),
+    BASDAI=(
+        # are there cutoffs other than "less than 4"?
+        remission=4,
     ),
     BooleanRemission=(
         tjc=1,
@@ -28,10 +37,10 @@ cutoff = (
 )
 
 bool_cutoff_funs = (
-    tjc=(x; offset = 0) -> tjc(x) <= cutoff.BooleanRemission.tjc + offset,
-    sjc=(x; offset = 0) -> sjc(x) <= cutoff.BooleanRemission.sjc + offset,
-    pga=(x; offset = 0u"mm") -> pga(x) <= cutoff.BooleanRemission.pga + offset,
-    crp=(x; offset = 0u"mg/dL") -> crp(x) <= cutoff.BooleanRemission.crp + offset,
+    tjc=(x; offset = 0) -> x.tjc <= cutoff.BooleanRemission.tjc + offset,
+    sjc=(x; offset = 0) -> x.sjc <= cutoff.BooleanRemission.sjc + offset,
+    pga=(x; offset = 0u"mm") -> x.pga <= cutoff.BooleanRemission.pga + offset,
+    crp=(x; offset = 0u"mg/dL") -> x.crp <= cutoff.BooleanRemission.crp + offset,
 )
 
 # TODO add a check that asserts that all continuous composites have an entry here
@@ -60,6 +69,13 @@ cont_cutoff_funs = (
         moderate=(x) -> x <= cutoff.CDAI.moderate,
         high=(x) -> x > cutoff.CDAI.moderate,
     ),
+    DAPSA=(
+        remission=(x) -> x <= cutoff.DAPSA.remission,
+        low=(x) -> x <= cutoff.DAPSA.low,
+        moderate=(x) -> x <= cutoff.DAPSA.moderate,
+        high=(x) -> x > cutoff.DAPSA.moderate,
+    ),
+    BASDAI=(remission=(x) -> x <= cutoff.BASDAI.remission,),
 )
 
 weights_das28esr = (
@@ -74,4 +90,13 @@ weights_das28crp = (
     sjc=sjc -> sqrt(sjc) * 0.28,
     pga=pga -> pga * 0.014,
     apr=apr -> log1p(apr) * 0.36,
+)
+
+weights_basdai = (
+    q1=q1 -> q1 * 0.2,
+    q2=q2 -> q2 * 0.2,
+    q3=q3 -> q3 * 0.2,
+    q4=q4 -> q4 * 0.2,
+    q5=q5 -> q5 * 0.1,
+    q6=q6 -> q6 * 0.1,
 )

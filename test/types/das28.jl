@@ -24,10 +24,6 @@ ref_value_crp = 4.24
     @test das28e isa ContinuousComposite
     @test das28e isa DAS28
     @test das28e isa DAS28ESR
-    @test tjc(das28e) isa Real
-    @test sjc(das28e) isa Real
-    @test pga(das28e) isa Unitful.AbstractQuantity
-    @test apr(das28e) isa Unitful.AbstractQuantity
 end
 
 @testset "Score DAS28ESR" begin
@@ -63,10 +59,6 @@ end
     @test das28c isa ContinuousComposite
     @test das28c isa DAS28
     @test das28c isa DAS28CRP
-    @test tjc(das28c) isa Real
-    @test sjc(das28c) isa Real
-    @test pga(das28c) isa Unitful.AbstractQuantity
-    @test apr(das28c) isa Unitful.AbstractQuantity
 end
 
 @testset "Score DAS28CRP" begin

@@ -13,10 +13,6 @@ cdai_u2 = CDAI(tjc=0, sjc=1, pga=1u"cm", ega=1u"cm")
     @test cdai isa AbstractComposite
     @test cdai isa ContinuousComposite
     @test cdai isa CDAI
-    @test tjc(cdai) isa Real
-    @test sjc(cdai) isa Real
-    @test pga(cdai) isa Unitful.AbstractQuantity
-    @test ega(cdai) isa Unitful.AbstractQuantity
 end
 
 @testset "Score CDAI" begin

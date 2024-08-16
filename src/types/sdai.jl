@@ -12,7 +12,7 @@ Store component measures of the Simplified Disease Activity Index, or SDAI.
 - `crp` c-reactive protein
 
 !!! note "Units"
-    Currently, `pga` and `ega` must be a length (typically millimeters or centimeters) and `crp` must be a concentration (typically mg/dL or mg/L).
+    `pga` and `ega` must be a length (typically millimeters or centimeters) and `crp` must be a concentration (typically mg/dL or mg/L).
     See also [`Unitful.@u_str`](@extref).
 
 # Categories
@@ -57,7 +57,3 @@ struct SDAI <: ContinuousComposite
 end
 
 WeightingScheme(::Type{<:SDAI}) = IsUnweighted()
-
-"Return the evaluator's global assessment."
-ega(x::SDAI) = x.ega
-crp(x::SDAI) = x.crp

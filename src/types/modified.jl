@@ -108,15 +108,3 @@ Return the offsets to remission thresholds.
 offset(x::Revised{<:BooleanComposite}) = x.offset
 
 intercept(x::ModifiedComposite) = intercept(x.root)
-
-tjc(x::ModifiedComposite) = tjc(x.root)
-
-sjc(x::ModifiedComposite) = sjc(x.root)
-
-pga(x::ModifiedComposite) = pga(x.root)
-
-ega(x::ModifiedComposite) = ega(x.root)
-
-apr(x::ModifiedComposite) = apr(x.root)
-
-crp(x::ModifiedComposite) = crp(x.root)
