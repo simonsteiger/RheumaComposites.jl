@@ -39,7 +39,6 @@ include("utils/constants.jl")
 include("utils/auxfuns.jl")
 include("utils/valid.jl")
 
-include("types/components.jl")
 include("types/composites.jl")
 include("types/modified.jl")
 include("types/das28.jl")

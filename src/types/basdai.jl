@@ -1,3 +1,4 @@
+# TODO add weighting formula to docstring
 """
     BASDAI(; tjc, sjc, pga, jpn)
 
