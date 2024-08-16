@@ -62,5 +62,3 @@ function isremission(::Type{T}, s::Real) where {T<:ContinuousComposite}
     cut = getproperty(cont_cutoff_funs, Symbol(T))
     return cut.remission(s)
 end
-
-isremission(x::AbstractComponent) = isremission(typeof(x), x)
