@@ -8,7 +8,6 @@ See also [`DAS28ESR`](@ref), [`DAS28CRP`](@ref).
 abstract type DAS28 <: ContinuousComposite end
 
 WeightingScheme(::Type{<:DAS28}) = IsWeighted()
-WeightingScheme(::Type{<:Subset{<:DAS28}}) = IsWeighted()
 
 # TODO add weighting formula to docstring
 """

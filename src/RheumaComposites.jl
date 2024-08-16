@@ -22,7 +22,7 @@ export DAPSA
 export faceted, Faceted
 export BooleanRemission
 export revised, Revised
-export subset, Subset
+export partial, Partial
 export threeitem
 export components
 export offset

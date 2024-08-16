@@ -21,7 +21,7 @@ DAPSA
 Faceted
 BooleanRemission
 Revised
-Subset
+Partial
 ```
 
 ## Interface
@@ -43,7 +43,7 @@ decompose
 categorise
 faceted
 revised
-subset
+partial
 threeitem
 ```
 

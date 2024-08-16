@@ -54,5 +54,3 @@ struct DAPSA <: ContinuousComposite
         )
     end
 end
-
-WeightingScheme(::Type{<:DAPSA}) = IsUnweighted()

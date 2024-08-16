@@ -34,11 +34,11 @@ end
 
 Change the calculation of Boolean remission to exclude patient global assessment.
 
-Alias for `subset(root::BooleanRemission, [:sjc, :tjc, :crp])`.
+Alias for `partial(root::BooleanRemission, [:sjc, :tjc, :crp])`.
 
-See also [`subset`](@ref), [`isremission`](@ref), [`BooleanRemission`](@ref).
+See also [`partial`](@ref), [`isremission`](@ref), [`BooleanRemission`](@ref).
 """
-threeitem(root::BooleanRemission) = subset(root, [:sjc, :tjc, :crp])
+threeitem(root::BooleanRemission) = partial(root, [:sjc, :tjc, :crp])
 
 """
     revised(root::BooleanRemission, offset::NamedTuple)

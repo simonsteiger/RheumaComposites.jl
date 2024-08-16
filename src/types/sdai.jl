@@ -55,6 +55,3 @@ struct SDAI <: ContinuousComposite
         )
     end
 end
-
-WeightingScheme(::Type{<:SDAI}) = IsUnweighted()
-WeightingScheme(::Type{<:Subset{<:SDAI}}) = IsUnweighted()

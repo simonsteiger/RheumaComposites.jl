@@ -11,7 +11,7 @@ julia> DAS28CRP(tjc=2, sjc=2, pga=54u"mm", apr=19u"mg/L") |> weight
 ```
 """
 weight(x::T) where {T} = weight(WeightingScheme(T), x)
-weight(x::Subset{N,T}) where {N,T} = weight(WeightingScheme(T), x)
+weight(x::Partial{N,T}) where {N,T} = weight(WeightingScheme(T), x)
 
 weight(::IsUnweightable, x::T) where {T} = throw(ErrorException("$(typeof(x)) type is unweightable."))
 
@@ -25,7 +25,7 @@ end
 
 weight(::IsWeighted, x::DAS28ESR) = map_weights(weights_das28esr, x)
 weight(::IsWeighted, x::DAS28CRP) = map_weights(weights_das28crp, x)
-weight(::IsWeighted, x::Subset{DAS28ESR}) = map_weights(weights_das28esr, x)
-weight(::IsWeighted, x::Subset{DAS28CRP}) = map_weights(weights_das28crp, x)
+weight(::IsWeighted, x::Partial{DAS28ESR}) = map_weights(weights_das28esr, x)
+weight(::IsWeighted, x::Partial{DAS28CRP}) = map_weights(weights_das28crp, x)
 
 weight(::IsWeighted, x::BASDAI) = map_weights(weights_basdai, x)
