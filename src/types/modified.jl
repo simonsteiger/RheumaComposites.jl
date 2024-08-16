@@ -55,28 +55,28 @@ function revised(root::BooleanComposite, offset::NamedTuple)
 end
 
 """
-    Subset{N,T}
+    Partial{N,T}
 
 Redefine a composite as a subset of its components.
 """
-struct Subset{N,T} <: ModifiedComposite
+struct Partial{N,T} <: ModifiedComposite
     root::T
     components::NTuple{N,Symbol}
 end
 
 """
-    subset(root::AbstractComposite, keep::Vector{Symbol})
+    partial(root::AbstractComposite, keep::Vector{Symbol})
 
 Redefine a composite as a subset of its components.
 
 Functions like [`score`](@ref) or [`isremission`](@ref) act on the subset of components.
 """
-function subset(root::AbstractComposite, keep::Vector{Symbol})
+function partial(root::AbstractComposite, keep::Vector{Symbol})
     cns = components(root)
     unique(keep) == keep || throw(error("`keep` must contain unique values"))
     all(d -> d in cns, keep) || throw(error("can only keep `root` components"))
     kept_cns = filter(x -> x in keep, cns)
-    return Subset(root, kept_cns)
+    return Partial(root, kept_cns)
 end
 
 """
@@ -94,11 +94,11 @@ Return the components of the unmodified composite.
 components(x::ModifiedComposite) = components(x.root)
 
 """
-    components(x::Subset{N,<:BooleanComposite})
+    components(x::Partial{N,<:BooleanComposite})
 
-Return the components kept in the `Subset`.
+Return the components kept in the `Partial`.
 """
-components(x::Subset{N,<:BooleanComposite}) where {N} = x.components
+components(x::Partial{N,<:BooleanComposite}) where {N} = x.components
 
 """
     offset(x::Revised{<:BooleanComposite})

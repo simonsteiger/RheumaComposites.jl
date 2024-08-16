@@ -11,7 +11,7 @@ function isremission(::Type{<:BooleanComposite}, x)
     return mapreduce(component -> _check(component, x), &, components(x))
 end
 
-function isremission(::Type{<:Subset{N, <:BooleanComposite}}, x) where {N}
+function isremission(::Type{<:Partial{N, <:BooleanComposite}}, x) where {N}
     return mapreduce(component -> _check(component, root(x)), &, components(x))
 end
 
