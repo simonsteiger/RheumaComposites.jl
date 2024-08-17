@@ -100,3 +100,27 @@ weights_basdai = (
     q5=q5 -> q5 * 0.1,
     q6=q6 -> q6 * 0.1,
 )
+
+# New implementation, the old should stay for the time being
+
+const DAS28ESR_REMISSION = 2.6
+const DAS28ESR_LOW = 3.2
+const DAS28ESR_MODERATE = 5.1
+
+const DAS28CRP_REMISSION = 2.4
+const DAS28CRP_LOW = 2.9
+const DAS28CRP_MODERATE =4.6
+
+const SDAI_REMISSION = 3.3
+const SDAI_LOW = 11.0
+const SDAI_MODERATE = 26.0
+
+const CDAI_REMISSION = 2.8
+const CDAI_LOW = 10.0
+const CDAI_MODERATE = 22.0
+
+const DAPSA_REMISSION = 4.0
+const DAPSA_LOW = 14.0
+const DAPSA_MODERATE = 28.0
+
+const BASDAI_REMISSION = 4.0

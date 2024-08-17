@@ -1,9 +1,7 @@
 """
     categorise(::Type{T}, s::Real) where {T<:ContinuousComposite}
 
-Convert score `s` to a discrete value using `SDAI` thresholds.
-
-The same functionality exists for other `ContinuousComposites`.
+Convert score `s` to a discrete value using `T`'s thresholds.
 
 # Examples
 
@@ -12,12 +10,45 @@ julia> categorise(SDAI, 3.6)
 "low"
 ```
 """
-function categorise(::Type{T}, s::Real) where {T<:ContinuousComposite}
-    return seq_check(s, getproperty(cont_cutoff_funs, _typename(T)))
+function categorise(::Type{DAS28ESR}, s::Real)
+    s < DAS28ESR_REMISSION ? "remission" :
+    s <= DAS28ESR_LOW ? "low" :
+    s <= DAS28ESR_MODERATE ? "moderate" :
+    "high"
 end
-# This implementation is roughly half as 2.5 times slower than hard coding
-# cutoffs into each categorise function
-# If performance is ever critical, I should change to the more verbose but faster version
+
+function categorise(::Type{DAS28CRP}, s::Real)
+    s < DAS28CRP_REMISSION ? "remission" :
+    s <= DAS28CRP_LOW ? "low" :
+    s <= DAS28CRP_MODERATE ? "moderate" :
+    "high"
+end
+
+function categorise(::Type{SDAI}, s::Real)
+    s < SDAI_REMISSION ? "remission" :
+    s <= SDAI_LOW ? "low" :
+    s <= SDAI_MODERATE ? "moderate" :
+    "high"
+end
+
+function categorise(::Type{CDAI}, s::Real)
+    s < CDAI_REMISSION ? "remission" :
+    s <= CDAI_LOW ? "low" :
+    s <= CDAI_MODERATE ? "moderate" :
+    "high"
+end
+
+function categorise(::Type{DAPSA}, s::Real)
+    s < DAPSA_REMISSION ? "remission" :
+    s <= DAPSA_LOW ? "low" :
+    s <= DAPSA_MODERATE ? "moderate" :
+    "high"
+end
+
+function categorise(::Type{BASDAI}, s::Real)
+    s < DAPSA_REMISSION ? "remission" :
+    "non-remission"
+end
 
 """
     categorise(x::ContinuousComposite)
