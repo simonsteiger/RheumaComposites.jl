@@ -23,6 +23,8 @@ function map_weights(weights, x)
     return map((w, v) -> w(v), component_weights, component_values)
 end
 
+map_weights(weights, x::DAS28CRP) = map((w, v) -> w(v), values(weights), x.components)
+
 weight(::IsWeighted, x::DAS28ESR) = map_weights(weights_das28esr, x)
 weight(::IsWeighted, x::DAS28CRP) = map_weights(weights_das28crp, x)
 weight(::IsWeighted, x::Partial{DAS28ESR}) = map_weights(weights_das28esr, x)

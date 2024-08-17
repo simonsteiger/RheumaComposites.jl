@@ -39,28 +39,22 @@ Store the component measures of the DAS28CRP.
 
 See also [`score`](@ref), [`categorise`](@ref), [`isremission`](@ref).
 """
-struct DAS28CRP <: DAS28
-    tjc::Int64
-    sjc::Int64
-    pga::Unitful.AbstractQuantity
-    apr::Unitful.AbstractQuantity
-    function DAS28CRP(;
-        tjc,
-        sjc,
-        pga::Unitful.AbstractQuantity,
-        apr::Unitful.AbstractQuantity,
-    )
+struct DAS28CRP{N} <: DAS28
+    components::NTuple{N, Float64}
+    names::NTuple{N, Symbol}
+    units::NamedTuple
+    function DAS28CRP(; tjc, sjc, pga, apr, units=DAS28CRP_UNITS) # FIXME compiler cannot infer type of `units`
+        components = (; tjc, sjc, pga, apr)
+        ucomponents_vals = unitfy(components, units; conversions=DAS28CRP_UNITS)
+        ucomponents = NamedTuple{keys(components)}(ucomponents_vals)
+
         valid_joints.([tjc, sjc])
-        valid_vas(pga)
-        valid_apr(apr)
-        
-        # Must convert because weights do not adjust to measurement
-        return new(
-            tjc,
-            sjc,
-            uconvert(units.das28_vas, pga),
-            uconvert(units.das28_crp, apr)
-        )
+        valid_vas(ucomponents.pga)
+        valid_apr(ucomponents.apr)
+
+        names = keys(components)
+        vals = ustrip.(values(ucomponents))
+        return new{length(vals)}(vals, names, DAS28CRP_UNITS)
     end
 end
 
