@@ -9,7 +9,7 @@ units = (
     brem_crp=u"mg/dL",
 )
 
-DAS28CRP_UNITS = (
+const DAS28CRP_UNITS = (
     pga = u"mm",
     apr = u"mg/L",
 )

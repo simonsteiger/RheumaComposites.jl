@@ -43,7 +43,6 @@ bool_cutoff_funs = (
     crp=(x; offset = 0u"mg/dL") -> x.crp <= cutoff.BooleanRemission.crp + offset,
 )
 
-# TODO add a check that asserts that all continuous composites have an entry here
 cont_cutoff_funs = (
     DAS28ESR=(
         remission=(x) -> x < cutoff.DAS28ESR.remission,

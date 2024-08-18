@@ -43,7 +43,7 @@ struct DAS28CRP{N} <: DAS28
     components::NTuple{N, Float64}
     names::NTuple{N, Symbol}
     units::NamedTuple
-    function DAS28CRP(; tjc, sjc, pga, apr, units=DAS28CRP_UNITS) # FIXME compiler cannot infer type of `units`
+    function DAS28CRP(; tjc, sjc, pga, apr, units=DAS28CRP_UNITS)
         components = (; tjc, sjc, pga, apr)
         ucomponents_vals = unitfy(components, units; conversions=DAS28CRP_UNITS)
         ucomponents = NamedTuple{keys(components)}(ucomponents_vals)
