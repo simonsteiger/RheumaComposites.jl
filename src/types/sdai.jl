@@ -29,29 +29,20 @@ Store component measures of the Simplified Disease Activity Index, or SDAI.
 See also [`score`](@ref), [`categorise`](@ref), [`isremission`](@ref).
 """
 struct SDAI <: ContinuousComposite
-    tjc::Int64
-    sjc::Int64
-    pga::Unitful.AbstractQuantity
-    ega::Unitful.AbstractQuantity
-    crp::Unitful.AbstractQuantity
-    function SDAI(;
-        tjc,
-        sjc,
-        pga::Unitful.AbstractQuantity,
-        ega::Unitful.AbstractQuantity,
-        crp::Unitful.AbstractQuantity,
-    )
+    components::NTuple{5, Float64}
+    names::NTuple{5, Symbol}
+    units::NamedTuple
+    function SDAI(; tjc, sjc, pga, ega, crp, units=XDAI_UNITS)
+        components = (; tjc, sjc, pga, ega, crp)
+        ucomponents_vals = unitfy(components, units; conversions=XDAI_UNITS)
+        ucomponents = NamedTuple{keys(components)}(ucomponents_vals)
+
         valid_joints.([tjc, sjc])
-        valid_vas.([pga, ega])
-        valid_apr(crp)
-        
-        # Must convert because weights do not adjust to measurement
-        return new(
-            tjc,
-            sjc,
-            uconvert(units.xdai_vas, pga),
-            uconvert(units.xdai_vas, ega),
-            uconvert(units.xdai_crp, crp)
-        )
+        valid_vas.([ucomponents.pga, ucomponents.ega])
+        valid_apr(ucomponents.crp)
+
+        names = keys(components)
+        vals = ustrip.(values(ucomponents))
+        return new(vals, names, XDAI_UNITS)
     end
 end

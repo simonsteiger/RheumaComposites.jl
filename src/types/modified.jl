@@ -28,7 +28,7 @@ See also [`decompose`](@ref).
 """
 function faceted(root::ContinuousComposite, facets::NamedTuple)
     faceted_composites = values_flatten(facets)
-    if any(f -> f ∉ components(root), faceted_composites)
+    if any(f -> f ∉ root.names, faceted_composites)
         throw(error("can only facet `root` components"))
     end
     if faceted_composites != unique(faceted_composites)

@@ -28,25 +28,19 @@ Store component measures of the Clinical Disease Activity Index, or CDAI.
 See also [`score`](@ref), [`categorise`](@ref), [`isremission`](@ref).
 """
 struct CDAI <: ContinuousComposite
-    tjc::Int64
-    sjc::Int64
-    pga::Unitful.AbstractQuantity
-    ega::Unitful.AbstractQuantity
-    function CDAI(;
-        tjc,
-        sjc,
-        pga::Unitful.AbstractQuantity,
-        ega::Unitful.AbstractQuantity,
-    )
+    components::NTuple{4, Float64}
+    names::NTuple{4, Symbol}
+    units::NamedTuple
+    function CDAI(; tjc, sjc, pga, ega, units=XDAI_UNITS)
+        components = (; tjc, sjc, pga, ega)
+        ucomponents_vals = unitfy(components, units; conversions=XDAI_UNITS)
+        ucomponents = NamedTuple{keys(components)}(ucomponents_vals)
+
         valid_joints.([tjc, sjc])
-        valid_vas.([pga, ega])
-        
-        # Must convert because weights do not adjust to measurement
-        return new(
-            tjc,
-            sjc,
-            uconvert(units.xdai_vas, pga),
-            uconvert(units.xdai_vas, ega),
-        )
+        valid_vas.([ucomponents.pga, ucomponents.ega])
+
+        names = keys(components)
+        vals = ustrip.(values(ucomponents))
+        return new(vals, names, XDAI_UNITS)
     end
 end

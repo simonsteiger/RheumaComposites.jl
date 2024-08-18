@@ -14,12 +14,29 @@ const DAS28CRP_UNITS = (
     apr = u"mg/L",
 )
 
-const DAS28_VAS_UNIT = u"mm"
-const DAS28_CRP_UNIT = u"mg/L"
-const DAS28_ESR_UNIT = u"mm/hr"
+const DAS28ESR_UNITS = (
+    pga = u"mm",
+    apr = u"mm/hr",
+)
 
-const XDAI_VAS_UNIT = u"cm"
-const XDAI_CRP_UNIT = u"mg/dL"
+const XDAI_UNITS = (
+    pga = u"cm",
+    ega = u"cm",
+    crp = u"mg/dL",
+)
 
-const BREM_VAS_UNIT = u"mm"
-const BREM_CRP_UNIT = u"mg/dL"
+const DAPSA_UNITS = (
+    crp = u"mg/dL",
+    pga = u"cm",
+    jpn = u"cm",
+)
+
+const BASDAI_UNITS = (
+    q1 = u"cm",
+    q2 = u"cm",
+    q3 = u"cm",
+    q4 = u"cm",
+    q5 = u"cm",
+    q6 = u"cm",
+)
+

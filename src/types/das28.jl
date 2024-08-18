@@ -39,9 +39,9 @@ Store the component measures of the DAS28CRP.
 
 See also [`score`](@ref), [`categorise`](@ref), [`isremission`](@ref).
 """
-struct DAS28CRP{N} <: DAS28
-    components::NTuple{N, Float64}
-    names::NTuple{N, Symbol}
+struct DAS28CRP <: DAS28
+    components::NTuple{4, Float64}
+    names::NTuple{4, Symbol}
     units::NamedTuple
     function DAS28CRP(; tjc, sjc, pga, apr, units=DAS28CRP_UNITS)
         components = (; tjc, sjc, pga, apr)
@@ -54,7 +54,7 @@ struct DAS28CRP{N} <: DAS28
 
         names = keys(components)
         vals = ustrip.(values(ucomponents))
-        return new{length(vals)}(vals, names, DAS28CRP_UNITS)
+        return new(vals, names, DAS28CRP_UNITS)
     end
 end
 
@@ -88,25 +88,21 @@ Store the component measures of the DAS28ESR.
 See also [`score`](@ref), [`categorise`](@ref), [`isremission`](@ref).
 """
 struct DAS28ESR <: DAS28
-    tjc::Int64
-    sjc::Int64
-    pga::Unitful.AbstractQuantity
-    apr::Unitful.AbstractQuantity
-    function DAS28ESR(;
-        tjc,
-        sjc,
-        pga::Unitful.AbstractQuantity,
-        apr::Unitful.AbstractQuantity,
-    )
+    components::NTuple{4, Float64}
+    names::NTuple{4, Symbol}
+    units::NamedTuple
+    function DAS28ESR(; tjc, sjc, pga, apr, units=DAS28ESR_UNITS)
+        components = (; tjc, sjc, pga, apr)
+        ucomponents_vals = unitfy(components, units; conversions=DAS28ESR_UNITS)
+        ucomponents = NamedTuple{keys(components)}(ucomponents_vals)
+
         valid_joints.([tjc, sjc])
-        valid_vas(pga)
-        valid_apr(apr)
-        return new(
-            tjc,
-            sjc,
-            uconvert(units.das28_vas, pga),
-            uconvert(units.das28_esr, apr)
-        )
+        valid_vas(ucomponents.pga)
+        valid_apr(ucomponents.apr)
+
+        names = keys(components)
+        vals = ustrip.(values(ucomponents))
+        return new(vals, names, DAS28ESR_UNITS)
     end
 end
 

@@ -1,11 +1,14 @@
 # Dummy CDAIs for testing
-dapsa = DAPSA(tjc=1, sjc=1, crp=3u"mg/dL", pga=10u"mm", jpn=10u"mm")
+dapsa = DAPSA(tjc=1, sjc=1, crp=3, pga=1, jpn=1)
 
 # Intercept
 i_dapsa = RheumaComposites.intercept(dapsa)
 
 # Test if different unit scales lead to same results
-dapsa_u1 = DAPSA(tjc=1, sjc=1, crp=30u"mg/L", pga=1u"cm", jpn=1u"cm")
+dapsa_ualt = DAPSA(
+    tjc=1, sjc=1, crp=30, pga=10, jpn=10,
+    units=(crp=u"mg/L", pga=u"mm", jpn=u"mm")
+)
 
 dapsa_ref = 7.0
 
@@ -20,7 +23,7 @@ end
     @test score(dapsa) isa Float64
     @test score(dapsa) ≈ i_dapsa + sum(weight(dapsa)) atol = 1e-3
     @test score(dapsa) ≈ dapsa_ref atol = 1e-2
-    @test score(dapsa) ≈ score(dapsa_u1) atol = 1e-3
+    @test score(dapsa) ≈ score(dapsa_ualt) atol = 1e-3
 end
 
 @testset "DAPSA Remission" begin

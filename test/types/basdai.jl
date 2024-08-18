@@ -1,11 +1,14 @@
 # Dummy CDAIs for testing
-basdai = BASDAI(q1=1u"cm", q2=2u"cm", q3=2u"cm", q4=2u"cm", q5=1u"cm", q6=3u"cm")
+basdai = BASDAI(q1=1, q2=2, q3=2, q4=2, q5=1, q6=3)
 
 # Intercept
 i_basdai = RheumaComposites.intercept(cdai)
 
 # Test if different unit scales lead to same results
-basdai_u1 = BASDAI(q1=10u"mm", q2=20u"mm", q3=20u"mm", q4=20u"mm", q5=10u"mm", q6=30u"mm")
+basdai_u1 = BASDAI(
+    q1=10, q2=20, q3=20, q4=20, q5=10, q6=30,
+    units=(q1=u"mm", q2=u"mm", q3=u"mm", q4=u"mm", q5=u"mm", q6=u"mm")
+)
 
 basdai_ref = 1.8
 
@@ -26,12 +29,3 @@ end
 @testset "BASDAI Remission" begin
     @test isremission(basdai)
 end
-
-#=
-@testset "Categorise BASDAI" begin
-    @test categorise(basdai) == "remission"
-    @test categorise.(CDAI, [2.79, 2.81]) == ["remission", "low"]
-    @test categorise.(CDAI, [9.99, 10.01]) == ["low", "moderate"]
-    @test categorise.(CDAI, [21.99, 22.01]) == ["moderate", "high"]
-end
-=#

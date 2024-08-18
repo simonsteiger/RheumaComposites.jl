@@ -16,8 +16,7 @@ julia> SDAI(tjc=4, sjc=5, pga=16u"mm", ega=12u"mm", crp=3u"mg/L") |> decompose
 """
 function decompose(x::ContinuousComposite; digits=3)
     ratios = round.(weight(x) ./ sum(weight(x)), digits=digits)
-    fields = components(x)
-    return NamedTuple{fields}(ratios)
+    return NamedTuple{x.names}(ratios)
 end
 
 """
@@ -36,7 +35,7 @@ julia> faceted(root, (objective=[:sjc, :apr], subjective=[:tjc, :pga])) |> decom
 """
 function decompose(x::Faceted{<:ContinuousComposite}; digits=3)
     root = x.root
-    facets = propertynames(x.facets)
+    facets = keys(x.facets)
     fields_per_facet = getproperty.(Ref(x.facets), facets)
     decomp = decompose(root; digits=digits)
     sum_per_facet = mapreduce(fields -> getproperty.(Ref(decomp), fields), +, fields_per_facet)

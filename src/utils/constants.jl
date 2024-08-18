@@ -77,21 +77,21 @@ cont_cutoff_funs = (
     BASDAI=(remission=(x) -> x <= cutoff.BASDAI.remission,),
 )
 
-weights_das28esr = (
+const weights_das28esr = (
     tjc=tjc -> sqrt(tjc) * 0.56,
     sjc=sjc -> sqrt(sjc) * 0.28,
     pga=pga -> pga * 0.014,
     apr=apr -> log(apr) * 0.7,
 )
 
-weights_das28crp = (
+const weights_das28crp = (
     tjc=tjc -> sqrt(tjc) * 0.56,
     sjc=sjc -> sqrt(sjc) * 0.28,
     pga=pga -> pga * 0.014,
     apr=apr -> log1p(apr) * 0.36,
 )
 
-weights_basdai = (
+const weights_basdai = (
     q1=q1 -> q1 * 0.2,
     q2=q2 -> q2 * 0.2,
     q3=q3 -> q3 * 0.2,

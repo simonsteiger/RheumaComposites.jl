@@ -29,24 +29,19 @@ Feel free to open an issue on the GitHub page of this package if you know about 
 See also [`score`](@ref).
 """
 struct BASDAI <: ContinuousComposite
-    q1::Unitful.AbstractQuantity
-    q2::Unitful.AbstractQuantity
-    q3::Unitful.AbstractQuantity
-    q4::Unitful.AbstractQuantity
-    q5::Unitful.AbstractQuantity
-    q6::Unitful.AbstractQuantity
-    function BASDAI(;
-        q1::Unitful.AbstractQuantity,
-        q2::Unitful.AbstractQuantity,
-        q3::Unitful.AbstractQuantity,
-        q4::Unitful.AbstractQuantity,
-        q5::Unitful.AbstractQuantity,
-        q6::Unitful.AbstractQuantity,
-    )
-        valid_vas.([q1, q2, q3, q4, q5, q6])
+    components::NTuple{6, Float64}
+    names::NTuple{6, Symbol}
+    units::NamedTuple
+    function BASDAI(; q1, q2, q3, q4, q5, q6, units=BASDAI_UNITS)
+        components = (; q1, q2, q3, q4, q5, q6)
+        ucomponents_vals = unitfy(components, units; conversions=BASDAI_UNITS)
+        ucomponents = NamedTuple{keys(components)}(ucomponents_vals)
 
-        # Must convert because weights do not adjust to measurement
-        return new(uconvert.(Ref(units.xdai_vas), [q1, q2, q3, q4, q5, q6])...)
+        valid_vas.(values(ucomponents))
+
+        names = keys(components)
+        vals = ustrip.(values(ucomponents))
+        return new(vals, names, BASDAI_UNITS)
     end
 end
 

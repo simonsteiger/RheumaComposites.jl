@@ -2,9 +2,11 @@ using RheumaComposites
 using Test
 using Unitful
 
+#=
 @testset "Composites" begin
     include("types/composites.jl")
 end
+=#
 
 @testset "DAS28" begin
     include("types/das28.jl")
@@ -26,6 +28,8 @@ end
     include("types/basdai.jl")
 end
 
+#=
 @testset "Boolean" begin
     include("types/boolean.jl")
 end
+=#

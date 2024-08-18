@@ -51,7 +51,7 @@ Return the fieldnames of the type of `x`.
 
 Alias for `fieldnames(typeof(x))`.
 """
-components(x::AbstractComposite) = fieldnames(typeof(x))
+components(x::AbstractComposite) = x.components
 
 # Important for ModifiedComposites
 root(x) = x
