@@ -44,18 +44,26 @@ This type indicates that the stored composite's threshold for remission has been
 
 See also [`BooleanRemission`](@ref).
 """
-struct Revised{T} <: ModifiedComposite
+struct Revised{N,T} <: ModifiedComposite
     root::T
-    offset::NamedTuple
+    offsets::NTuple{N,Float64}
 end
 
 WeightingScheme(::Type{<:Revised{T}}) where {T} = WeightingScheme(T)
 
-function revised(root::BooleanComposite, offset::NamedTuple)
-    if any(o -> o ∉ components(root), propertynames(offset))
-        throw(error("can only revise `root` components"))
+function revised(root::BooleanComposite, offsets::NamedTuple; units=BREM_UNITS)
+    unknown_offset = findfirst(∉(root.names), keys(offsets))
+    if !(unknown_offset isa Nothing)
+        throw(error("$(keys(offsets)[unknown_offset]) is not a component of `root`."))
     end
-    return Revised(root, offset)
+
+    uoffsets = unitfy(offsets, units; conversions=BREM_UNITS)
+    vals = ustrip.(values(uoffsets))
+    indexes = [findfirst(==(x), root.names) for x in keys(offsets)]
+    offsets_w_zeros = zeros(length(root.components))
+    offsets_w_zeros[indexes] .= vals
+    
+    return Revised(root, Tuple(offsets_w_zeros))
 end
 
 """
@@ -63,12 +71,12 @@ end
 
 Redefine a composite as a subset of its components.
 """
-struct Partial{N,T} <: ModifiedComposite
+struct Partial{T} <: ModifiedComposite
     root::T
-    components::NTuple{N,Symbol}
+    indices::Vector{Int64}
 end
 
-WeightingScheme(::Type{<:Partial{N,T}}) where {N,T} = WeightingScheme(T)
+WeightingScheme(::Type{<:Partial{T}}) where {T} = WeightingScheme(T)
 
 """
     partial(root::AbstractComposite, keep::Vector{Symbol})
@@ -78,11 +86,10 @@ Redefine a composite as a subset of its components.
 Functions like [`score`](@ref) or [`isremission`](@ref) act on the subset of components.
 """
 function partial(root::AbstractComposite, keep::Vector{Symbol})
-    cns = components(root)
     unique(keep) == keep || throw(error("`keep` must contain unique values"))
-    all(d -> d in cns, keep) || throw(error("can only keep `root` components"))
-    kept_cns = filter(x -> x in keep, cns)
-    return Partial(root, kept_cns)
+    all(d -> d in root.names, keep) || throw(error("can only keep `root` components"))
+    kept_idx = [findfirst(==(x), root.names) for x in keep]
+    return Partial(root, kept_idx)
 end
 
 """
@@ -97,20 +104,22 @@ root(x::ModifiedComposite) = x.root
     
 Return the components of the unmodified composite.
 """
-components(x::ModifiedComposite) = components(x.root)
+components(x::ModifiedComposite) = x.root.components
 
+#=
 """
     components(x::Partial{N,<:BooleanComposite})
 
 Return the components kept in the `Partial`.
 """
-components(x::Partial{N,<:BooleanComposite}) where {N} = x.components
+indices(x::Partial{<:BooleanComposite}) = x.indices
+=#
 
 """
-    offset(x::Revised{<:BooleanComposite})
+    offsets(x::Revised{<:BooleanComposite})
 
 Return the offsets to remission thresholds.
 """
-offset(x::Revised{<:BooleanComposite}) = x.offset
+offsets(x::Revised{<:BooleanComposite}) = x.offsets
 
 intercept(x::ModifiedComposite) = intercept(x.root)

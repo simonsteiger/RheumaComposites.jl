@@ -28,8 +28,6 @@ end
     include("types/basdai.jl")
 end
 
-#=
 @testset "Boolean" begin
     include("types/boolean.jl")
 end
-=#

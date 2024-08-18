@@ -2,27 +2,17 @@ _check(component, x) = getproperty(bool_cutoff_funs, component)(x)
 
 _check(component, x, offset) = getproperty(bool_cutoff_funs, component)(x; offset=offset)
 
-function isremission(::Type{<:BooleanComposite}, x)
-    return mapreduce(component -> _check(component, x), &, x.names)
+isremission(::Type{BooleanRemission}, x) = all(<=(1), x.components)
+
+# Both functions below are easy to generalise to other BooleanComposites
+# by mapping cutoffs, too (for BooleanRemission, e.g., [1, 1, 1, 1])
+function isremission(::Type{<:Partial{BooleanRemission}}, x)
+    included_components = getindex(components(x), x.indices)
+    return mapreduce(c -> c <= 1, &, included_components)
 end
 
-# We might be able to use a similar strategy as in `weight`
-# So it might not be necessary to drop the cutoff_funs tuple and mapreduce
-function isremission(::Type{<:Partial{N, <:BooleanComposite}}, x) where {N}
-    return mapreduce(component -> _check(component, root(x)), &, x.names)
-end
-
-function isremission(::Type{<:Revised{<:BooleanComposite}}, x)
-    offset_components = propertynames(offset(x))
-    out = mapreduce(&, x.names) do compo
-        if compo in offset_components
-            compo_offset = getproperty(offset(x), compo)
-            _check(compo, root(x), compo_offset)
-        else
-            _check(compo, root(x))
-        end
-    end
-    return out
+function isremission(::Type{<:Revised{N,BooleanRemission}}, x) where {N}
+    return mapreduce((o, c) -> c <= 1 + o, &, x.offsets, components(x))
 end
 
 """

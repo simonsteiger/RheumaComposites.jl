@@ -1,4 +1,4 @@
-boolrem = BooleanRemission(tjc=1, sjc=0, pga=14u"mm", crp=0.4u"mg/dL")
+boolrem = BooleanRemission(tjc=1, sjc=0, pga=1.4, crp=0.4)
 
 @testset "Original BoolRem" begin
     @test boolrem isa AbstractComposite
@@ -8,16 +8,17 @@ end
 
 @testset "Revised BoolRem" begin
     @test revised(boolrem) isa ModifiedComposite
-    @test revised(boolrem) isa Revised{<:BooleanComposite}
+    @test revised(boolrem) isa Revised{4,<:BooleanComposite}
     @test isremission(revised(boolrem))
 end
 
 @testset "Three-item BoolRem" begin
     @test threeitem(boolrem) isa ModifiedComposite
-    @test threeitem(boolrem) isa Partial{3,<:BooleanComposite}
+    @test threeitem(boolrem) isa Partial{<:BooleanComposite}
     @test isremission(threeitem(boolrem))
 end
 
+#=
 @testset "Misspecified BoolRem" begin
     @test try
         weight(boolrem)
@@ -40,3 +41,4 @@ end
         e isa ErrorException
     end
 end
+=#

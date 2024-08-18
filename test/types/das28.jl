@@ -43,20 +43,22 @@ end
     @test isremission(das28e_u1) == isremission(das28e_u2)
 end
 
-#=
 @testset "Faceted DAS28ESR" begin
     @test faceted(das28e, facets) isa ModifiedComposite
     @test faceted(das28e, facets) isa Faceted{<:ContinuousComposite}
     @test score(faceted(das28e, facets)) == score(das28e)
-    @test sum(decompose(faceted(das28e, facets), digits=5)) ≈ 1.0 atol = 1e-5
+    @test sum(values(decompose(faceted(das28e, facets), digits=5))) ≈ 1.0 atol = 1e-5
 end
-=#
 
 @testset "Categorise DAS28ESR" begin
     @test categorise(das28e) == "moderate"
     @test categorise.(DAS28ESR, [2.59, 2.61]) == ["remission", "low"]
     @test categorise.(DAS28ESR, [3.19, 3.21]) == ["low", "moderate"]
     @test categorise.(DAS28ESR, [5.09, 5.11]) == ["moderate", "high"]
+end
+
+@testset "Decompose DAS28ESR" begin
+    @test sum(values(decompose(das28e, digits=5))) ≈ 1.0 atol = 1e-5
 end
 
 @testset "Construct DAS28CRP" begin
@@ -80,19 +82,21 @@ end
     @test isremission(das28c_u1) == isremission(das28c_u2)
 end
 
-#=
+@testset "Decompose DAS28CRP" begin
+    @test sum(values(decompose(das28c, digits=5))) ≈ 1.0 atol = 1e-5
+end
+
 @testset "Faceted DAS28CRP" begin
     @test faceted(das28c, facets) isa ModifiedComposite
     @test faceted(das28c, facets) isa Faceted{<:ContinuousComposite}
     @test score(faceted(das28c, facets)) == score(das28c)
-    @test sum(decompose(faceted(das28c, facets), digits=5)) ≈ 1.0 atol = 1e-5
+    @test sum(values(decompose(faceted(das28c, facets), digits=5))) ≈ 1.0 atol = 1e-5
     @test try
         faceted(das28c, (abc=[:tjc, :pga], cde=[:tjc, :apr]))
     catch e
         e isa ErrorException
     end
 end
-=#
 
 @testset "Categorise DAS28CRP" begin
     @test categorise(das28c) == "moderate"

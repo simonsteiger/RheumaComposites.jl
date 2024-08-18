@@ -16,7 +16,7 @@ julia> SDAI(tjc=4, sjc=5, pga=16u"mm", ega=12u"mm", crp=3u"mg/L") |> decompose
 """
 function decompose(x::ContinuousComposite; digits=3)
     ratios = round.(weight(x) ./ sum(weight(x)), digits=digits)
-    return NamedTuple{x.names}(ratios)
+    return Dict{Symbol, Float64}(Pair.(x.names, ratios))
 end
 
 """
@@ -36,8 +36,9 @@ julia> faceted(root, (objective=[:sjc, :apr], subjective=[:tjc, :pga])) |> decom
 function decompose(x::Faceted{<:ContinuousComposite}; digits=3)
     root = x.root
     facets = keys(x.facets)
-    fields_per_facet = getproperty.(Ref(x.facets), facets)
+    fields_per_facet = values(x.facets)
     decomp = decompose(root; digits=digits)
-    sum_per_facet = mapreduce(fields -> getproperty.(Ref(decomp), fields), +, fields_per_facet)
-    return NamedTuple{facets}(sum_per_facet)
+    # FIXME Speed: looped `getindex` slows this down a lot, how to do better?
+    sum_per_facet = mapreduce(fields -> getindex.(Ref(decomp), fields), +, fields_per_facet)
+    return Dict{Symbol, Float64}(Pair.(facets, sum_per_facet))
 end

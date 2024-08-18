@@ -12,7 +12,7 @@ julia> DAS28CRP(tjc=2, sjc=2, pga=54u"mm", apr=19u"mg/L") |> weight
 """
 weight(x::T) where {T} = weight(WeightingScheme(T), x)
 
-weight(x::Partial{N,T}) where {N,T} = weight(WeightingScheme(T), x)
+weight(x::Partial{T}) where {T} = weight(WeightingScheme(T), x)
 
 weight(::IsUnweightable, x::T) where {T} = throw(ErrorException("$T is unweightable."))
 

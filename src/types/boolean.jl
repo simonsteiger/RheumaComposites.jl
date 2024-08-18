@@ -17,15 +17,21 @@ Store the components of the original ACR/EULAR Boolean remission.
 See also [`isremission`](@ref).
 """
 struct BooleanRemission <: BooleanComposite
-    tjc::Int64
-    sjc::Int64
-    pga::Unitful.AbstractQuantity
-    crp::Unitful.AbstractQuantity
-    function BooleanRemission(; tjc, sjc, pga::Unitful.AbstractQuantity, crp::Unitful.AbstractQuantity)
+    components::NTuple{4, Float64}
+    names::NTuple{4, Symbol}
+    units::NamedTuple
+    function BooleanRemission(; tjc, sjc, pga, crp, units=BREM_UNITS)
+        components = (; tjc, sjc, pga, crp)
+        ucomponents_vals = unitfy(components, units; conversions=BREM_UNITS)
+        ucomponents = NamedTuple{keys(components)}(ucomponents_vals)
+
         valid_joints.([tjc, sjc])
-        valid_vas(pga)
-        valid_apr(crp)
-        return new(tjc, sjc, uconvert(units.brem_vas, pga), uconvert(units.brem_crp, crp))
+        valid_vas(ucomponents.pga)
+        valid_apr(ucomponents.crp)
+
+        names = keys(components)
+        vals = ustrip.(values(ucomponents))
+        return new(vals, names, BREM_UNITS)
     end
 end
 
@@ -50,4 +56,4 @@ The values passed to `offset` will be added to the default thresholds of `root`.
 
 See also [`isremission`](@ref).
 """
-revised(root::BooleanRemission; offset::NamedTuple=(; pga=10u"mm")) = revised(root, offset)
+revised(root::BooleanRemission; offset=(; pga=1)) = revised(root, offset)
