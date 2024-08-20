@@ -1,17 +1,13 @@
-_check(component, x) = getproperty(bool_cutoff_funs, component)(x)
-
-_check(component, x, offset) = getproperty(bool_cutoff_funs, component)(x; offset=offset)
-
-isremission(::Type{BooleanRemission}, x) = all(<=(1), x.components)
+isremission(::Type{BooleanRemission}, x) = all(<=(1), x.values)
 
 # Both functions below are easy to generalise to other BooleanComposites
 # by mapping cutoffs, too (for BooleanRemission, e.g., [1, 1, 1, 1])
 function isremission(::Type{<:Partial{N,BooleanRemission}}, x) where {N}
-    return mapreduce(c -> c <= 1, &, x.kept)
+    return mapreduce(c -> c <= 1, &, x.values)
 end
 
 function isremission(::Type{<:Revised{BooleanRemission}}, x)
-    return mapreduce((o, c) -> c <= 1 + o, &, x.offsets, components(x))
+    return mapreduce((o, c) -> c <= 1 + o, &, x.offsets, (values ∘ root)(x))
 end
 
 """
@@ -26,32 +22,34 @@ julia> isremission(DAS28ESR, 3.9)
 false
 ```
 """
-isremission(::Type{DAS28ESR}, x) = score(x) < DAS28ESR_REMISSION
+isremission(::Type{DAS28ESR}, x) = x < DAS28ESR_REMISSION
 
-isremission(::Type{DAS28CRP}, x) = score(x) < DAS28CRP_REMISSION
+isremission(::Type{DAS28CRP}, x) = x < DAS28CRP_REMISSION
 
-isremission(::Type{SDAI}, x) = score(x) <= SDAI_REMISSION
+isremission(::Type{SDAI}, x) = x <= SDAI_REMISSION
 
-isremission(::Type{CDAI}, x) = score(x) <= CDAI_REMISSION
+isremission(::Type{CDAI}, x) = x <= CDAI_REMISSION
 
-isremission(::Type{DAPSA}, x) = score(x) <= DAPSA_REMISSION
+isremission(::Type{DAPSA}, x) = x <= DAPSA_REMISSION
 
-isremission(::Type{BASDAI}, x) = score(x) < BASDAI_REMISSION
+isremission(::Type{BASDAI}, x) = x < BASDAI_REMISSION
 
 """
-    isremission(x::T) where {T<:AbstractComposite}
+    isremission(x::AbstractComposite)
 
 Check whether a composite fulfils remission criteria.
 
 # Examples
 
 ```jldoctest
-julia> DAS28ESR(tjc=4, sjc=5, pga=44u"mm", apr=23u"mm/hr") |> isremission
+julia> DAS28ESR(tjc=4, sjc=5, pga=44, apr=23) |> isremission
 false
-julia> BooleanRemission(tjc=1, sjc=0, pga=14u"mm", crp=0.4u"mg/dl") |>
+julia> BooleanRemission(tjc=1, sjc=0, pga=1.4, crp=0.4) |>
        revised |>
        isremission
 true
 ```
 """
-isremission(x::T) where {T<:AbstractComposite} = isremission(T, x)
+isremission(x::AbstractComposite) = isremission(typeof(x), x)
+
+isremission(x::ContinuousComposite) = isremission(typeof(x), score(x))

@@ -7,7 +7,7 @@ A Julia package for composite scores used in Rheumatology.
 
 ## Getting started
 
-This package is not yet registered with the Julia package registry, so you have to install it via url:
+This package is not currently registered with the Julia package registry, so you have to install it via url:
 
 ```julia
 import Pkg
@@ -18,7 +18,7 @@ Now you're ready to start working with composite scores:
 
 ```julia
 using RheumaComposites, Unitful
-das28 = DAS28ESR(t28=4, s28=3, pga=41u"mm", apr=19u"mm/hr")
+das28 = DAS28ESR(tjc=4, sjc=3, pga=4.1, apr=19; units=(pga=u"cm", apr=u"mm/hr"))
 score(das28)
 isremission(das28)
 categorise(das28)

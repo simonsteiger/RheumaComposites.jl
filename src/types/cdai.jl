@@ -1,18 +1,16 @@
 """
-    CDAI(; tjc, sjc, pga, ega)
+    CDAI(; tjc, sjc, pga, ega[; units])
 
 Store component measures of the Clinical Disease Activity Index, or CDAI.
+
+Optionally specify the units for each component using [`Unitful.@u_str`](@extref).
 
 # Components
 
 - `tjc` 28 tender joint count
 - `sjc` 28 swollen joint count
-- `pga` patient's global assessment
-- `ega` evaluator's global assessment
-
-!!! note "Units"
-    `pga` and `ega` must be a length (typically millimeters or centimeters).
-    See also [`Unitful.@u_str`](@extref).
+- `pga` (cm) patient's global assessment
+- `ega` (cm) evaluator's global assessment
 
 # Categories
 
@@ -28,18 +26,18 @@ Store component measures of the Clinical Disease Activity Index, or CDAI.
 See also [`score`](@ref), [`categorise`](@ref), [`isremission`](@ref).
 """
 struct CDAI <: ContinuousComposite
-    components::NTuple{4, Float64}
+    values::NTuple{4, Float64}
     names::NTuple{4, Symbol}
     units::NamedTuple
     function CDAI(; tjc, sjc, pga, ega, units=XDAI_UNITS)
-        components = (; tjc, sjc, pga, ega)
-        ucomponents_vals = unitfy(components, units; conversions=XDAI_UNITS)
-        ucomponents = NamedTuple{keys(components)}(ucomponents_vals)
+        ntvals = (; tjc, sjc, pga, ega)
+        uvals = unitfy(ntvals, units; conversions=XDAI_UNITS)
+        ucomponents = NamedTuple{keys(ntvals)}(uvals)
 
         valid_joints.([tjc, sjc])
         valid_vas.([ucomponents.pga, ucomponents.ega])
 
-        names = keys(components)
+        names = keys(ntvals)
         vals = ustrip.(values(ucomponents))
         return new(vals, names, XDAI_UNITS)
     end

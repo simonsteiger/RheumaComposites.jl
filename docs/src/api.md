@@ -27,9 +27,9 @@ Partial
 ## Interface
 
 ```@docs
-components
+values
 root
-offset
+offsets
 ```
 
 ## Functions

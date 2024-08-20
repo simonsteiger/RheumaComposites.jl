@@ -58,7 +58,8 @@ Redefine a composite as a subset of its components.
 """
 struct Partial{N,T} <: ModifiedComposite
     root::T
-    kept::NTuple{N,Float64}
+    names::NTuple{N,Symbol}
+    values::NTuple{N,Float64}
 end
 
 WeightingScheme(::Type{<:Partial{T}}) where {T} = WeightingScheme(T)
@@ -74,7 +75,8 @@ function partial(root::AbstractComposite, keep::Vector{Symbol})
     unique(keep) == keep || throw(error("`keep` must contain unique values"))
     all(d -> d in root.names, keep) || throw(error("can only keep `root` components"))
     idx = [findfirst(==(x), root.names) for x in keep]
-    return Partial(root, getindex(components(root), idx))
+    kept_values = getindex(values(root), idx)
+    return Partial(root, Tuple(keep), kept_values)
 end
 
 """
@@ -85,20 +87,18 @@ Return the unmodified composite.
 root(x::ModifiedComposite) = x.root
 
 """
-    components(x::ModifiedComposite)
+    values(x::ModifiedComposite)
     
-Return the components of the unmodified composite.
+Return the values of the unmodified composite, i.e., `x.root.values`.
 """
-components(x::ModifiedComposite) = x.root.components
+values(x::ModifiedComposite) = x.root.values
 
-#=
 """
-    components(x::Partial{N,<:BooleanComposite})
+    values(x::Partial{N,<:BooleanComposite})
 
-Return the components kept in the `Partial`.
+Return the values kept by `x`.
 """
-indices(x::Partial{<:BooleanComposite}) = x.indices
-=#
+values(x::Partial{N,<:BooleanComposite}) where {N} = x.values
 
 """
     offsets(x::Revised{<:BooleanComposite})

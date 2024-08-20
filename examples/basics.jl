@@ -7,6 +7,9 @@ This tutorial shows you how to set up different composite scores.
 using RheumaComposites
 
 #=
+!!!warning "Outdated"
+    This part of the documentation is outdated. Specification of units as per `Unitful.jl` is no longer required.
+
 Creating composites requires specifying the units of some components.
 
 This protects us from accidentally specifying a DAS28 score on a 0-10 cm visual analogue scale (VAS), or vice versa, an SDAI on a 0-100 mm (VAS).
@@ -33,12 +36,12 @@ This means that you do not have to remember that SDAI requires a 0-10 cm VAS sca
 Let's try this by creating a DAS28CRP composite with patient's global assessment measured in centimeters:
 =#
 
-das28_cm = DAS28CRP(tjc=1, sjc=0, pga=2.2u"cm", apr=4u"mg/L")
+das28_cm = DAS28CRP(tjc=1, sjc=0, pga=2.2, apr=4)
 
 # As you can see, centimeters were automatically converted to millimeters.
 # Providing the same score in millimeters return the same result:
 
-das28_mm = DAS28CRP(tjc=1, sjc=0, pga=22u"mm", apr=4u"mg/L")
+das28_mm = DAS28CRP(tjc=1, sjc=0, pga=22, apr=4)
 score(das28_cm) == score(das28_mm)
 
 #=
@@ -52,6 +55,6 @@ To see the docstring, first hit `?` in the REPL, then type the name of the compo
 This is all we need to explore the most important aspects of many different composite scores!
 =#
 
-sdai = SDAI(sjc=3, tjc=4, pga=34u"mm", ega=28u"mm", crp=21u"mg/L")
+sdai = SDAI(sjc=3, tjc=4, pga=3.4, ega=2.8, crp=21)
 #-
 score(sdai), isremission(sdai), categorise(sdai)

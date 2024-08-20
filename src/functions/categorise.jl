@@ -58,7 +58,7 @@ Convert `x` to a discrete value.
 # Examples
 
 ```jldoctest
-julia> DAS28ESR(tjc=4, sjc=5, pga=12u"mm", apr=44u"mm/hr") |> categorise
+julia> DAS28ESR(tjc=4, sjc=5, pga=12, apr=44) |> categorise
 "moderate"
 ```
 """

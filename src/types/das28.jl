@@ -11,20 +11,18 @@ WeightingScheme(::Type{<:DAS28}) = IsWeighted()
 
 # TODO add weighting formula to docstring
 """
-    DAS28CRP(; tjc, sjc, pga, apr)
+    DAS28CRP(; tjc, sjc, pga, apr[; units])
 
 Store the component measures of the DAS28CRP.
+
+Optionally specify the units for each component using [`Unitful.@u_str`](@extref).
 
 # Components
 
 - `tjc` 28 tender joint count
 - `sjc` 28 swollen joint count
-- `pga` patient's global assessment
-- `apr` active phase reactant, here CRP
-
-!!! note "Units"
-    `pga` must be a length (typically millimeters or centimeters) and `crp` must be a concentration (typically mg/dL or mg/L).
-    See also [`Unitful.@u_str`](@extref).
+- `pga` (cm) patient's global assessment
+- `apr` (mg/L) active phase reactant, here CRP
 
 # Categories
 
@@ -40,39 +38,37 @@ Store the component measures of the DAS28CRP.
 See also [`score`](@ref), [`categorise`](@ref), [`isremission`](@ref).
 """
 struct DAS28CRP <: DAS28
-    components::NTuple{4, Float64}
+    values::NTuple{4, Float64}
     names::NTuple{4, Symbol}
     units::NamedTuple
     function DAS28CRP(; tjc, sjc, pga, apr, units=DAS28CRP_UNITS)
-        components = (; tjc, sjc, pga, apr)
-        ucomponents_vals = unitfy(components, units; conversions=DAS28CRP_UNITS)
-        ucomponents = NamedTuple{keys(components)}(ucomponents_vals)
+        ntvals = (; tjc, sjc, pga, apr)
+        uvals = unitfy(ntvals, units; conversions=DAS28CRP_UNITS)
+        ucomponents = NamedTuple{keys(ntvals)}(uvals)
 
         valid_joints.([tjc, sjc])
         valid_vas(ucomponents.pga)
         valid_apr(ucomponents.apr)
 
-        names = keys(components)
+        names = keys(ntvals)
         vals = ustrip.(values(ucomponents))
         return new(vals, names, DAS28CRP_UNITS)
     end
 end
 
 """
-    DAS28ESR(; tjc, sjc, pga, apr)
+    DAS28ESR(; tjc, sjc, pga, apr[; units])
 
 Store the component measures of the DAS28ESR.
+
+Optionally specify the units for each component using [`Unitful.@u_str`](@extref).
 
 # Components
 
 - `tjc` 28 tender joint count
 - `sjc` 28 swollen joint count
-- `pga` patient's global assessment
-- `apr` active phase reactant, here ESR
-
-!!! note "Units"
-    `pga` must be a length (typically millimeters or centimeters) and `apr` must be a rate (typically mm/hr).
-    See also [`Unitful.@u_str`](@extref).
+- `pga` (cm) patient's global assessment
+- `apr` (mm/hr) active phase reactant, here ESR
 
 # Categories
 
@@ -88,19 +84,19 @@ Store the component measures of the DAS28ESR.
 See also [`score`](@ref), [`categorise`](@ref), [`isremission`](@ref).
 """
 struct DAS28ESR <: DAS28
-    components::NTuple{4, Float64}
+    values::NTuple{4, Float64}
     names::NTuple{4, Symbol}
     units::NamedTuple
     function DAS28ESR(; tjc, sjc, pga, apr, units=DAS28ESR_UNITS)
-        components = (; tjc, sjc, pga, apr)
-        ucomponents_vals = unitfy(components, units; conversions=DAS28ESR_UNITS)
-        ucomponents = NamedTuple{keys(components)}(ucomponents_vals)
+        ntvals = (; tjc, sjc, pga, apr)
+        uvals = unitfy(ntvals, units; conversions=DAS28ESR_UNITS)
+        ucomponents = NamedTuple{keys(ntvals)}(uvals)
 
         valid_joints.([tjc, sjc])
         valid_vas(ucomponents.pga)
         valid_apr(ucomponents.apr)
 
-        names = keys(components)
+        names = keys(ntvals)
         vals = ustrip.(values(ucomponents))
         return new(vals, names, DAS28ESR_UNITS)
     end
