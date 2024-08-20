@@ -1,14 +1,3 @@
-units = (
-    das28_vas=u"mm",
-    das28_crp=u"mg/L",
-    das28_esr=u"mm/hr",
-    # xdai is for both c- and sdai
-    xdai_vas=u"cm",
-    xdai_crp=u"mg/dL",
-    brem_vas=u"mm",
-    brem_crp=u"mg/dL",
-)
-
 const DAS28CRP_UNITS = (
     pga=u"mm",
     apr=u"mg/L",
@@ -40,7 +29,7 @@ const BASDAI_UNITS = (
     q6=u"cm",
 )
 
-const BREM_UNITS = (
+const BOOL_UNITS = (
     pga=u"cm",
     crp=u"mg/dL",
 )

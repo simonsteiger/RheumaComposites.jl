@@ -6,12 +6,11 @@ isremission(::Type{BooleanRemission}, x) = all(<=(1), x.components)
 
 # Both functions below are easy to generalise to other BooleanComposites
 # by mapping cutoffs, too (for BooleanRemission, e.g., [1, 1, 1, 1])
-function isremission(::Type{<:Partial{BooleanRemission}}, x)
-    included_components = getindex(components(x), x.indices)
-    return mapreduce(c -> c <= 1, &, included_components)
+function isremission(::Type{<:Partial{N,BooleanRemission}}, x) where {N}
+    return mapreduce(c -> c <= 1, &, x.kept)
 end
 
-function isremission(::Type{<:Revised{N,BooleanRemission}}, x) where {N}
+function isremission(::Type{<:Revised{BooleanRemission}}, x)
     return mapreduce((o, c) -> c <= 1 + o, &, x.offsets, components(x))
 end
 

@@ -44,36 +44,21 @@ This type indicates that the stored composite's threshold for remission has been
 
 See also [`BooleanRemission`](@ref).
 """
-struct Revised{N,T} <: ModifiedComposite
+struct Revised{T} <: ModifiedComposite
     root::T
-    offsets::NTuple{N,Float64}
+    offsets::Vector{Float64}
 end
 
 WeightingScheme(::Type{<:Revised{T}}) where {T} = WeightingScheme(T)
 
-function revised(root::BooleanComposite, offsets::NamedTuple; units=BREM_UNITS)
-    unknown_offset = findfirst(∉(root.names), keys(offsets))
-    if !(unknown_offset isa Nothing)
-        throw(error("$(keys(offsets)[unknown_offset]) is not a component of `root`."))
-    end
-
-    uoffsets = unitfy(offsets, units; conversions=BREM_UNITS)
-    vals = ustrip.(values(uoffsets))
-    indexes = [findfirst(==(x), root.names) for x in keys(offsets)]
-    offsets_w_zeros = zeros(length(root.components))
-    offsets_w_zeros[indexes] .= vals
-    
-    return Revised(root, Tuple(offsets_w_zeros))
-end
-
 """
-    Partial{N,T}
+    Partial{T}
 
 Redefine a composite as a subset of its components.
 """
-struct Partial{T} <: ModifiedComposite
+struct Partial{N,T} <: ModifiedComposite
     root::T
-    indices::Vector{Int64}
+    kept::NTuple{N,Float64}
 end
 
 WeightingScheme(::Type{<:Partial{T}}) where {T} = WeightingScheme(T)
@@ -88,8 +73,8 @@ Functions like [`score`](@ref) or [`isremission`](@ref) act on the subset of com
 function partial(root::AbstractComposite, keep::Vector{Symbol})
     unique(keep) == keep || throw(error("`keep` must contain unique values"))
     all(d -> d in root.names, keep) || throw(error("can only keep `root` components"))
-    kept_idx = [findfirst(==(x), root.names) for x in keep]
-    return Partial(root, kept_idx)
+    idx = [findfirst(==(x), root.names) for x in keep]
+    return Partial(root, getindex(components(root), idx))
 end
 
 """

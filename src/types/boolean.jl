@@ -20,9 +20,9 @@ struct BooleanRemission <: BooleanComposite
     components::NTuple{4, Float64}
     names::NTuple{4, Symbol}
     units::NamedTuple
-    function BooleanRemission(; tjc, sjc, pga, crp, units=BREM_UNITS)
+    function BooleanRemission(; tjc, sjc, pga, crp, units=BOOL_UNITS)
         components = (; tjc, sjc, pga, crp)
-        ucomponents_vals = unitfy(components, units; conversions=BREM_UNITS)
+        ucomponents_vals = unitfy(components, units; conversions=BOOL_UNITS)
         ucomponents = NamedTuple{keys(components)}(ucomponents_vals)
 
         valid_joints.([tjc, sjc])
@@ -31,8 +31,23 @@ struct BooleanRemission <: BooleanComposite
 
         names = keys(components)
         vals = ustrip.(values(ucomponents))
-        return new(vals, names, BREM_UNITS)
+        return new(vals, names, BOOL_UNITS)
     end
+end
+
+function revised(root::BooleanRemission, offsets::NamedTuple; units=BOOL_UNITS)
+    unknown_offset = findfirst(∉(root.names), keys(offsets))
+    if !(unknown_offset isa Nothing)
+        throw(error("$(keys(offsets)[unknown_offset]) is not a component of `root`."))
+    end
+
+    uoffsets = unitfy(offsets, units; conversions=BOOL_UNITS)
+    vals = ustrip.(values(uoffsets))
+    indexes = [findfirst(==(x), root.names) for x in keys(offsets)]
+    offsets_w_zeros = zeros(length(root.names))
+    offsets_w_zeros[indexes] .= vals
+    
+    return Revised(root, offsets_w_zeros)
 end
 
 """

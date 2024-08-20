@@ -8,17 +8,16 @@ end
 
 @testset "Revised BoolRem" begin
     @test revised(boolrem) isa ModifiedComposite
-    @test revised(boolrem) isa Revised{4,<:BooleanComposite}
+    @test revised(boolrem) isa Revised{<:BooleanComposite}
     @test isremission(revised(boolrem))
 end
 
 @testset "Three-item BoolRem" begin
     @test threeitem(boolrem) isa ModifiedComposite
-    @test threeitem(boolrem) isa Partial{<:BooleanComposite}
+    @test threeitem(boolrem) isa Partial{3,<:BooleanComposite}
     @test isremission(threeitem(boolrem))
 end
 
-#=
 @testset "Misspecified BoolRem" begin
     @test try
         weight(boolrem)
@@ -41,4 +40,3 @@ end
         e isa ErrorException
     end
 end
-=#
