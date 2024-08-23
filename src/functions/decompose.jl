@@ -36,8 +36,8 @@ julia> root = DAS28ESR(tjc=4, sjc=5, pga=14, apr=12);
 
 julia> faceted(root, (objective=[:sjc, :apr], subjective=[:tjc, :pga])) |> decompose
 Dict{Symbol, Float64} with 2 entries:
-  :subjective => 0.525
-  :objective  => 0.474
+  :subjective => 0.357
+  :objective  => 0.642
 ```
 """
 function decompose(x::Faceted{<:ContinuousComposite}; digits=3)
@@ -46,6 +46,6 @@ function decompose(x::Faceted{<:ContinuousComposite}; digits=3)
     fields_per_facet = values(x.facets)
     decomp = decompose(root; digits=digits)
     # FIXME Speed: looped `getindex` slows this down a lot, how to do better?
-    sum_per_facet = mapreduce(fields -> getindex.(Ref(decomp), fields), +, fields_per_facet)
+    sum_per_facet = map(fields -> sum(getindex.(Ref(decomp), fields)), fields_per_facet)
     return Dict{Symbol, Float64}(Pair.(facets, sum_per_facet))
 end

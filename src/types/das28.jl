@@ -94,7 +94,7 @@ struct DAS28ESR <: DAS28
 
         valid_joints.([tjc, sjc])
         valid_vas(ucomponents.pga)
-        valid_apr(ucomponents.apr)
+        valid_apr(ucomponents.apr, 1)
 
         names = keys(ntvals)
         vals = ustrip.(values(ucomponents))

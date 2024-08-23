@@ -48,6 +48,8 @@ end
     @test faceted(das28e, facets) isa Faceted{<:ContinuousComposite}
     @test score(faceted(das28e, facets)) == score(das28e)
     @test sum(values(decompose(faceted(das28e, facets), digits=5))) ≈ 1.0 atol = 1e-5
+    @test decompose(faceted(DAS28ESR(tjc=1, sjc=0, pga=0, apr=1), facets))[:subjective] == 1
+    @test decompose(faceted(DAS28ESR(tjc=0, sjc=1, pga=0, apr=1), facets))[:objective] == 1
 end
 
 @testset "Categorise DAS28ESR" begin
@@ -104,3 +106,12 @@ end
     @test categorise.(DAS28CRP, [2.89, 2.91]) == ["low", "moderate"]
     @test categorise.(DAS28CRP, [4.59, 4.61]) == ["moderate", "high"]
 end
+
+xx = DAS28ESR(tjc=1, sjc=0, pga=0, apr=1)
+
+decompose(faceted(xx, facets))
+
+# FIXME This should not return 0.56 for TJC weight
+weight(xx)
+
+decompose(xx)
