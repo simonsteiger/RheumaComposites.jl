@@ -41,9 +41,9 @@ struct DAS28CRP <: DAS28
     values::NTuple{4, Float64}
     names::NTuple{4, Symbol}
     units::NamedTuple
-    function DAS28CRP(; tjc, sjc, pga, apr, units=DAS28CRP_UNITS)
+    function DAS28CRP(; tjc, sjc, pga, apr)
         ntvals = (; tjc, sjc, pga, apr)
-        uvals = unitfy(ntvals, units; conversions=DAS28CRP_UNITS)
+        uvals = unitfy(ntvals, DAS28CRP_UNITS)
         ucomponents = NamedTuple{keys(ntvals)}(uvals)
 
         valid_joints.([tjc, sjc])
@@ -87,9 +87,9 @@ struct DAS28ESR <: DAS28
     values::NTuple{4, Float64}
     names::NTuple{4, Symbol}
     units::NamedTuple
-    function DAS28ESR(; tjc, sjc, pga, apr, units=DAS28ESR_UNITS)
+    function DAS28ESR(; tjc, sjc, pga, apr)
         ntvals = (; tjc, sjc, pga, apr)
-        uvals = unitfy(ntvals, units; conversions=DAS28ESR_UNITS)
+        uvals = unitfy(ntvals, DAS28ESR_UNITS)
         ucomponents = NamedTuple{keys(ntvals)}(uvals)
 
         valid_joints.([tjc, sjc])

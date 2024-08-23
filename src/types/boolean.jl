@@ -18,9 +18,9 @@ struct BooleanRemission <: BooleanComposite
     values::NTuple{4, Float64}
     names::NTuple{4, Symbol}
     units::NamedTuple
-    function BooleanRemission(; tjc, sjc, pga, crp, units=BOOL_UNITS)
+    function BooleanRemission(; tjc, sjc, pga, crp)
         ntvals = (; tjc, sjc, pga, crp)
-        uvals = unitfy(ntvals, units; conversions=BOOL_UNITS)
+        uvals = unitfy(ntvals, BOOL_UNITS)
         ucomponents = NamedTuple{keys(ntvals)}(uvals)
 
         valid_joints.([tjc, sjc])
@@ -33,13 +33,13 @@ struct BooleanRemission <: BooleanComposite
     end
 end
 
-function revised(root::BooleanRemission, offsets::NamedTuple; units=BOOL_UNITS)
+function revised(root::BooleanRemission, offsets::NamedTuple)
     unknown_offset = findfirst(∉(root.names), keys(offsets))
     if !(unknown_offset isa Nothing)
         throw(error("$(keys(offsets)[unknown_offset]) is not a component of `root`."))
     end
 
-    uoffsets = unitfy(offsets, units; conversions=BOOL_UNITS)
+    uoffsets = unitfy(offsets, BOOL_UNITS)
     vals = ustrip.(values(uoffsets))
     indexes = [findfirst(==(x), root.names) for x in keys(offsets)]
     offsets_w_zeros = zeros(length(root.names))
@@ -69,4 +69,4 @@ The values passed to `offset` will be added to the default thresholds of `root`.
 
 See also [`isremission`](@ref).
 """
-revised(root::BooleanRemission; offset=(; pga=1)) = revised(root, offset)
+revised(root::BooleanRemission; offset=(; pga=1u"cm")) = revised(root, offset)

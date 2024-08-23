@@ -30,9 +30,9 @@ struct SDAI <: ContinuousComposite
     values::NTuple{5, Float64}
     names::NTuple{5, Symbol}
     units::NamedTuple
-    function SDAI(; tjc, sjc, pga, ega, crp, units=XDAI_UNITS)
+    function SDAI(; tjc, sjc, pga, ega, crp)
         ntvals = (; tjc, sjc, pga, ega, crp)
-        uvals = unitfy(ntvals, units; conversions=XDAI_UNITS)
+        uvals = unitfy(ntvals, XDAI_UNITS)
         ucomponents = NamedTuple{keys(ntvals)}(uvals)
 
         valid_joints.([tjc, sjc])

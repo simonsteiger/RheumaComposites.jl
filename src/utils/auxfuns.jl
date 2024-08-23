@@ -18,18 +18,11 @@ function seq_check(x::Real, conds::NamedTuple)
     return string(keys(conds)[i])
 end
 
-function unitfy(vals, units; conversions)
+function unitfy(vals, conversions) # TODO add validation here?
     out = map(keys(vals), values(vals)) do k, v
-        if v isa Unitful.AbstractQuantity
-            conversion = getproperty(conversions, k)
-            return uconvert(conversion, v)
-        elseif haskey(units, k)
-            unit = getproperty(units, k)
-            conversion = getproperty(conversions, k)
-            return uconvert(conversion, v * unit)
-        else
-            return v
-        end
+        v isa Real && return v
+        conversion = getproperty(conversions, k)
+        return uconvert(conversion, v)
     end
     return out
 end

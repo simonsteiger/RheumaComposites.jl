@@ -6,7 +6,7 @@ Weight a composite score's components according to its weighting scheme.
 # Example
 
 ```jldoctest
-julia> DAS28CRP(tjc=2, sjc=2, pga=54, apr=19) |> weight
+julia> DAS28CRP(tjc=2, sjc=2, pga=54u"mm", apr=19u"mg/dL") |> weight
 (0.7919595949289333, 0.39597979746446665, 0.756, 1.0784636184794367)
 ```
 """
