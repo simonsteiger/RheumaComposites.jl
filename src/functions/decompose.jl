@@ -36,8 +36,8 @@ julia> root = DAS28ESR(tjc=4, sjc=5, pga=14, apr=12);
 
 julia> faceted(root, (objective=[:sjc, :apr], subjective=[:tjc, :pga])) |> decompose
 Dict{Symbol, Float64} with 2 entries:
-  :subjective => 0.525
-  :objective  => 0.474
+  :subjective => 0.357
+  :objective  => 0.642
 ```
 """
 function decompose(x::Faceted{<:ContinuousComposite}; digits=3)
