@@ -46,6 +46,6 @@ function decompose(x::Faceted{<:ContinuousComposite}; digits=3)
     fields_per_facet = values(x.facets)
     decomp = decompose(root; digits=digits)
     # FIXME Speed: looped `getindex` slows this down a lot, how to do better?
-    sum_per_facet = mapreduce(fields -> getindex.(Ref(decomp), fields), +, fields_per_facet)
+    sum_per_facet = map(fields -> sum(getindex.(Ref(decomp), fields)), fields_per_facet)
     return Dict{Symbol, Float64}(Pair.(facets, sum_per_facet))
 end
