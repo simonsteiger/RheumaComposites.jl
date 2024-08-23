@@ -19,12 +19,17 @@ function seq_check(x::Real, conds::NamedTuple)
 end
 
 function unitfy(vals, units; conversions)
-    out = map(keys(vals)) do val_key
-        val = getproperty(vals, val_key)
-        haskey(units, val_key) || return val
-        unit = getproperty(units, val_key)
-        conversion = getproperty(conversions, val_key)
-        return uconvert(conversion, val * unit)
+    out = map(keys(vals), values(vals)) do k, v
+        if v isa Unitful.AbstractQuantity
+            conversion = getproperty(conversions, k)
+            return uconvert(conversion, v)
+        elseif haskey(units, k)
+            unit = getproperty(units, k)
+            conversion = getproperty(conversions, k)
+            return uconvert(conversion, v * unit)
+        else
+            return v
+        end
     end
     return out
 end
