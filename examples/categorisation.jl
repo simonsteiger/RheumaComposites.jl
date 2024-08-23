@@ -7,7 +7,7 @@ using Unitful
 
 # As long as the composite you are defining is a continuous composite, all you need to do is to call [`categorise`](@ref).
 
-sdai = SDAI(tjc=2, sjc=1, pga=6, ega=5.5, crp=15)
+sdai = SDAI(tjc=2, sjc=1, pga=6u"cm", ega=5.5u"cm", crp=15)
 sdai isa ContinuousComposite
 
 # Well, that was expected!

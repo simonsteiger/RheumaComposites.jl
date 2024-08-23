@@ -18,7 +18,7 @@ Now you're ready to start working with composite scores:
 
 ```julia
 using RheumaComposites, Unitful
-das28 = DAS28ESR(tjc=4, sjc=3, pga=4.1, apr=19; units=(pga=u"cm", apr=u"mm/hr"))
+das28 = DAS28ESR(tjc=4, sjc=3, pga=4.1u"cm", apr=19u"mm/hr")
 score(das28)
 isremission(das28)
 categorise(das28)

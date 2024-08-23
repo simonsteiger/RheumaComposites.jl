@@ -44,7 +44,7 @@ Check whether a composite fulfils remission criteria.
 ```jldoctest
 julia> DAS28ESR(tjc=4, sjc=5, pga=44u"mm", apr=23u"mm/hr") |> isremission
 false
-julia> BooleanRemission(tjc=1, sjc=0, pga=1.4, crp=0.4) |>
+julia> BooleanRemission(tjc=1, sjc=0, pga=1.4u"cm", crp=0.4u"mg/dL") |>
        revised |>
        isremission
 true
