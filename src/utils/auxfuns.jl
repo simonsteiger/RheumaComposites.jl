@@ -18,13 +18,11 @@ function seq_check(x::Real, conds::NamedTuple)
     return string(keys(conds)[i])
 end
 
-function unitfy(vals, units; conversions)
-    out = map(keys(vals)) do val_key
-        val = getproperty(vals, val_key)
-        haskey(units, val_key) || return val
-        unit = getproperty(units, val_key)
-        conversion = getproperty(conversions, val_key)
-        return uconvert(conversion, val * unit)
+function unitfy(vals, conversions) # TODO add validation here?
+    out = map(keys(vals), values(vals)) do k, v
+        v isa Real && return v
+        conversion = getproperty(conversions, k)
+        return uconvert(conversion, v)
     end
     return out
 end

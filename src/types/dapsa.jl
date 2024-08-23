@@ -29,9 +29,9 @@ struct DAPSA <: ContinuousComposite
     values::NTuple{5, Float64}
     names::NTuple{5, Symbol}
     units::NamedTuple
-    function DAPSA(; tjc, sjc, crp, pga, jpn, units=DAPSA_UNITS)
+    function DAPSA(; tjc, sjc, crp, pga, jpn)
         ntvals = (; tjc, sjc, crp, pga, jpn)
-        uvals = unitfy(ntvals, units; conversions=DAPSA_UNITS)
+        uvals = unitfy(ntvals, DAPSA_UNITS)
         ucomponents = NamedTuple{keys(ntvals)}(uvals)
 
         mapreduce((jc, max) -> valid_joints(jc; max=max), &, [tjc, sjc], [66, 68])

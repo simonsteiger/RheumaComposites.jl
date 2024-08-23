@@ -1,13 +1,13 @@
 # Dummy CDAIs for testing
-cdai = CDAI(tjc=1, sjc=0, pga=1, ega=0)
+cdai = CDAI(tjc=1, sjc=0, pga=1u"cm", ega=0u"cm")
 cdai_ref = 2.0
 
 # Intercept
 i_cdai = RheumaComposites.intercept(cdai)
 
 # Test if different unit scales lead to same results
-cdai_u1 = CDAI(tjc=0, sjc=1, pga=10, ega=10, units=(pga=u"mm", ega=u"mm"))
-cdai_u2 = CDAI(tjc=0, sjc=1, pga=1, ega=1)
+cdai_u1 = CDAI(tjc=0, sjc=1, pga=10u"mm", ega=10u"mm")
+cdai_u2 = CDAI(tjc=0, sjc=1, pga=1u"cm", ega=1u"cm")
 
 @testset "Construct CDAI" begin
     @test cdai isa AbstractComposite
@@ -25,7 +25,7 @@ end
 
 @testset "CDAI Remission" begin
     @test isremission(cdai)
-    @test !isremission(CDAI(tjc=3, sjc=4, pga=4, ega=4))
+    @test !isremission(CDAI(tjc=3, sjc=4, pga=4u"cm", ega=4u"cm"))
 end
 
 @testset "Categorise CDAI" begin

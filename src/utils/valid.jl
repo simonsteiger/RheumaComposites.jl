@@ -11,5 +11,5 @@ function valid_vas(x)
 end
 
 # Check if APR value is valid
-valid_apr(x) = 0 <= ustrip(x) || throw(error("Invalid APR"))
-valid_apr(x, min) = min <= ustrip(x) || throw(error("Invalid APR"))
+valid_apr(x) = ustrip(x) >= 0 || throw(error("Invalid APR"))
+valid_apr(x, min) = ustrip(x) >= min || throw(error("Invalid APR"))

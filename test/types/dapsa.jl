@@ -1,14 +1,11 @@
 # Dummy CDAIs for testing
-dapsa = DAPSA(tjc=1, sjc=1, crp=3, pga=1, jpn=1)
+dapsa = DAPSA(tjc=1, sjc=1, crp=3u"mg/dL", pga=1u"cm", jpn=1u"cm")
 
 # Intercept
 i_dapsa = RheumaComposites.intercept(dapsa)
 
 # Test if different unit scales lead to same results
-dapsa_ualt = DAPSA(
-    tjc=1, sjc=1, crp=30, pga=10, jpn=10,
-    units=(crp=u"mg/L", pga=u"mm", jpn=u"mm")
-)
+dapsa_ualt = DAPSA(tjc=1, sjc=1, crp=30u"mg/L", pga=10u"mm", jpn=10u"mm")
 
 dapsa_ref = 7.0
 

@@ -29,9 +29,9 @@ struct CDAI <: ContinuousComposite
     values::NTuple{4, Float64}
     names::NTuple{4, Symbol}
     units::NamedTuple
-    function CDAI(; tjc, sjc, pga, ega, units=XDAI_UNITS)
+    function CDAI(; tjc, sjc, pga, ega)
         ntvals = (; tjc, sjc, pga, ega)
-        uvals = unitfy(ntvals, units; conversions=XDAI_UNITS)
+        uvals = unitfy(ntvals, XDAI_UNITS)
         ucomponents = NamedTuple{keys(ntvals)}(uvals)
 
         valid_joints.([tjc, sjc])

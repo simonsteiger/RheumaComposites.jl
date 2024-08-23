@@ -30,9 +30,9 @@ struct BASDAI <: ContinuousComposite
     values::NTuple{6, Float64}
     names::NTuple{6, Symbol}
     units::NamedTuple
-    function BASDAI(; q1, q2, q3, q4, q5, q6, units=BASDAI_UNITS)
+    function BASDAI(; q1, q2, q3, q4, q5, q6)
         ntvals = (; q1, q2, q3, q4, q5, q6)
-        uvals = unitfy(ntvals, units; conversions=BASDAI_UNITS)
+        uvals = unitfy(ntvals, BASDAI_UNITS)
         ucomponents = NamedTuple{keys(ntvals)}(uvals)
 
         valid_vas.(values(ucomponents))
