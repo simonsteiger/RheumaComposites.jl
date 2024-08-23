@@ -6,6 +6,7 @@ A Julia package for composite scores in Rheumatology.
 module RheumaComposites
 
 import Term
+import Base: values
 using Unitful
 
 export AbstractComposite
@@ -25,7 +26,7 @@ export revised, Revised
 export partial, Partial
 export threeitem
 export components
-export offset
+export offsets
 export root
 export intercept
 export weight

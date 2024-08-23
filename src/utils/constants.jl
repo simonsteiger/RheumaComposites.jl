@@ -43,7 +43,6 @@ bool_cutoff_funs = (
     crp=(x; offset = 0u"mg/dL") -> x.crp <= cutoff.BooleanRemission.crp + offset,
 )
 
-# TODO add a check that asserts that all continuous composites have an entry here
 cont_cutoff_funs = (
     DAS28ESR=(
         remission=(x) -> x < cutoff.DAS28ESR.remission,
@@ -78,21 +77,21 @@ cont_cutoff_funs = (
     BASDAI=(remission=(x) -> x <= cutoff.BASDAI.remission,),
 )
 
-weights_das28esr = (
+const weights_das28esr = (
     tjc=tjc -> sqrt(tjc) * 0.56,
     sjc=sjc -> sqrt(sjc) * 0.28,
     pga=pga -> pga * 0.014,
     apr=apr -> log(apr) * 0.7,
 )
 
-weights_das28crp = (
+const weights_das28crp = (
     tjc=tjc -> sqrt(tjc) * 0.56,
     sjc=sjc -> sqrt(sjc) * 0.28,
     pga=pga -> pga * 0.014,
     apr=apr -> log1p(apr) * 0.36,
 )
 
-weights_basdai = (
+const weights_basdai = (
     q1=q1 -> q1 * 0.2,
     q2=q2 -> q2 * 0.2,
     q3=q3 -> q3 * 0.2,
@@ -100,3 +99,27 @@ weights_basdai = (
     q5=q5 -> q5 * 0.1,
     q6=q6 -> q6 * 0.1,
 )
+
+# New implementation, the old should stay for the time being
+
+const DAS28ESR_REMISSION = 2.6
+const DAS28ESR_LOW = 3.2
+const DAS28ESR_MODERATE = 5.1
+
+const DAS28CRP_REMISSION = 2.4
+const DAS28CRP_LOW = 2.9
+const DAS28CRP_MODERATE =4.6
+
+const SDAI_REMISSION = 3.3
+const SDAI_LOW = 11.0
+const SDAI_MODERATE = 26.0
+
+const CDAI_REMISSION = 2.8
+const CDAI_LOW = 10.0
+const CDAI_MODERATE = 22.0
+
+const DAPSA_REMISSION = 4.0
+const DAPSA_LOW = 14.0
+const DAPSA_MODERATE = 28.0
+
+const BASDAI_REMISSION = 4.0

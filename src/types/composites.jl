@@ -45,13 +45,11 @@ See also [`score`](@ref), [`decompose`](@ref).
 intercept(x::ContinuousComposite) = 0.0
 
 """
-    components(x::AbstractComposite)
+    values(x::AbstractComposite)
 
-Return the fieldnames of the type of `x`.
-
-Alias for `fieldnames(typeof(x))`.
+Return the values stored in `x`.
 """
-components(x::AbstractComposite) = fieldnames(typeof(x))
+values(x::AbstractComposite) = x.values
 
 # Important for ModifiedComposites
 root(x) = x

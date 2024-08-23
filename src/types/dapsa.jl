@@ -1,18 +1,16 @@
 """
-    DAPSA(; tjc, sjc, pga, jpn)
+    DAPSA(; tjc, sjc, pga, jpn[; units])
 
 Store component measures of the index for Disease Activity in Psoriatic Arthritis, or DAPSA.
+
+Optionally specify the units for each component using [`Unitful.@u_str`](@extref).
 
 # Components
 
 - `tjc` 66 tender joint count
 - `sjc` 68 swollen joint count
-- `pga` patient's global assessment
-- `jpn` joint pain
-
-!!! note "Units"
-    `pga` and `jpn` must be a length (typically millimeters or centimeters) and `crp` must be a concentration (typically mg/dL or mg/L).
-    See also [`Unitful.@u_str`](@extref).
+- `pga` (cm) patient's global assessment
+- `jpn` (cm) joint pain
 
 # Categories
 
@@ -28,29 +26,20 @@ Store component measures of the index for Disease Activity in Psoriatic Arthriti
 See also [`score`](@ref), [`categorise`](@ref), [`isremission`](@ref).
 """
 struct DAPSA <: ContinuousComposite
-    tjc::Int64
-    sjc::Int64
-    crp::Unitful.AbstractQuantity
-    pga::Unitful.AbstractQuantity
-    jpn::Unitful.AbstractQuantity
-    function DAPSA(;
-        tjc,
-        sjc,
-        crp::Unitful.AbstractQuantity,
-        pga::Unitful.AbstractQuantity,
-        jpn::Unitful.AbstractQuantity,
-    )
+    values::NTuple{5, Float64}
+    names::NTuple{5, Symbol}
+    units::NamedTuple
+    function DAPSA(; tjc, sjc, crp, pga, jpn, units=DAPSA_UNITS)
+        ntvals = (; tjc, sjc, crp, pga, jpn)
+        uvals = unitfy(ntvals, units; conversions=DAPSA_UNITS)
+        ucomponents = NamedTuple{keys(ntvals)}(uvals)
+
         mapreduce((jc, max) -> valid_joints(jc; max=max), &, [tjc, sjc], [66, 68])
-        valid_vas.([pga, jpn])
+        valid_vas.([ucomponents.pga, ucomponents.jpn])
         valid_apr(crp)
-        
-        # Must convert because weights do not adjust to measurement
-        return new(
-            tjc,
-            sjc,
-            uconvert(units.xdai_crp, crp),
-            uconvert(units.xdai_vas, pga),
-            uconvert(units.xdai_vas, jpn),
-        )
+
+        names = keys(ntvals)
+        vals = ustrip.(values(ucomponents))
+        return new(vals, names, DAPSA_UNITS)
     end
 end

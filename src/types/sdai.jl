@@ -1,19 +1,17 @@
 """
-    SDAI(; tjc, sjc, pga, ega, crp)
+    SDAI(; tjc, sjc, pga, ega, crp[; units])
 
 Store component measures of the Simplified Disease Activity Index, or SDAI.
+
+Optionally specify the units for each component using [`Unitful.@u_str`](@extref).
 
 # Components
 
 - `tjc` 28 tender joint count
 - `sjc` 28 swollen joint count
-- `pga` patient's global assessment
-- `ega` evaluator's global assessment
-- `crp` c-reactive protein
-
-!!! note "Units"
-    `pga` and `ega` must be a length (typically millimeters or centimeters) and `crp` must be a concentration (typically mg/dL or mg/L).
-    See also [`Unitful.@u_str`](@extref).
+- `pga` (cm) patient's global assessment
+- `ega` (cm) evaluator's global assessment
+- `crp` (mg/dL) c-reactive protein
 
 # Categories
 
@@ -29,29 +27,20 @@ Store component measures of the Simplified Disease Activity Index, or SDAI.
 See also [`score`](@ref), [`categorise`](@ref), [`isremission`](@ref).
 """
 struct SDAI <: ContinuousComposite
-    tjc::Int64
-    sjc::Int64
-    pga::Unitful.AbstractQuantity
-    ega::Unitful.AbstractQuantity
-    crp::Unitful.AbstractQuantity
-    function SDAI(;
-        tjc,
-        sjc,
-        pga::Unitful.AbstractQuantity,
-        ega::Unitful.AbstractQuantity,
-        crp::Unitful.AbstractQuantity,
-    )
+    values::NTuple{5, Float64}
+    names::NTuple{5, Symbol}
+    units::NamedTuple
+    function SDAI(; tjc, sjc, pga, ega, crp, units=XDAI_UNITS)
+        ntvals = (; tjc, sjc, pga, ega, crp)
+        uvals = unitfy(ntvals, units; conversions=XDAI_UNITS)
+        ucomponents = NamedTuple{keys(ntvals)}(uvals)
+
         valid_joints.([tjc, sjc])
-        valid_vas.([pga, ega])
-        valid_apr(crp)
-        
-        # Must convert because weights do not adjust to measurement
-        return new(
-            tjc,
-            sjc,
-            uconvert(units.xdai_vas, pga),
-            uconvert(units.xdai_vas, ega),
-            uconvert(units.xdai_crp, crp)
-        )
+        valid_vas.([ucomponents.pga, ucomponents.ega])
+        valid_apr(ucomponents.crp)
+
+        names = keys(ntvals)
+        vals = ustrip.(values(ucomponents))
+        return new(vals, names, XDAI_UNITS)
     end
 end

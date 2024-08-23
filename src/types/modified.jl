@@ -28,7 +28,7 @@ See also [`decompose`](@ref).
 """
 function faceted(root::ContinuousComposite, facets::NamedTuple)
     faceted_composites = values_flatten(facets)
-    if any(f -> f ∉ components(root), faceted_composites)
+    if any(f -> f ∉ root.names, faceted_composites)
         throw(error("can only facet `root` components"))
     end
     if faceted_composites != unique(faceted_composites)
@@ -46,29 +46,23 @@ See also [`BooleanRemission`](@ref).
 """
 struct Revised{T} <: ModifiedComposite
     root::T
-    offset::NamedTuple
+    offsets::Vector{Float64}
 end
 
 WeightingScheme(::Type{<:Revised{T}}) where {T} = WeightingScheme(T)
 
-function revised(root::BooleanComposite, offset::NamedTuple)
-    if any(o -> o ∉ components(root), propertynames(offset))
-        throw(error("can only revise `root` components"))
-    end
-    return Revised(root, offset)
-end
-
 """
-    Partial{N,T}
+    Partial{T}
 
 Redefine a composite as a subset of its components.
 """
 struct Partial{N,T} <: ModifiedComposite
     root::T
-    components::NTuple{N,Symbol}
+    names::NTuple{N,Symbol}
+    values::NTuple{N,Float64}
 end
 
-WeightingScheme(::Type{<:Partial{N,T}}) where {N,T} = WeightingScheme(T)
+WeightingScheme(::Type{<:Partial{T}}) where {T} = WeightingScheme(T)
 
 """
     partial(root::AbstractComposite, keep::Vector{Symbol})
@@ -78,11 +72,11 @@ Redefine a composite as a subset of its components.
 Functions like [`score`](@ref) or [`isremission`](@ref) act on the subset of components.
 """
 function partial(root::AbstractComposite, keep::Vector{Symbol})
-    cns = components(root)
     unique(keep) == keep || throw(error("`keep` must contain unique values"))
-    all(d -> d in cns, keep) || throw(error("can only keep `root` components"))
-    kept_cns = filter(x -> x in keep, cns)
-    return Partial(root, kept_cns)
+    all(d -> d in root.names, keep) || throw(error("can only keep `root` components"))
+    idx = [findfirst(==(x), root.names) for x in keep]
+    kept_values = getindex(values(root), idx)
+    return Partial(root, Tuple(keep), kept_values)
 end
 
 """
@@ -93,24 +87,24 @@ Return the unmodified composite.
 root(x::ModifiedComposite) = x.root
 
 """
-    components(x::ModifiedComposite)
+    values(x::ModifiedComposite)
     
-Return the components of the unmodified composite.
+Return the values of the unmodified composite, i.e., `x.root.values`.
 """
-components(x::ModifiedComposite) = components(x.root)
+values(x::ModifiedComposite) = x.root.values
 
 """
-    components(x::Partial{N,<:BooleanComposite})
+    values(x::Partial{N,<:BooleanComposite})
 
-Return the components kept in the `Partial`.
+Return the values kept by `x`.
 """
-components(x::Partial{N,<:BooleanComposite}) where {N} = x.components
+values(x::Partial{N,<:BooleanComposite}) where {N} = x.values
 
 """
-    offset(x::Revised{<:BooleanComposite})
+    offsets(x::Revised{<:BooleanComposite})
 
 Return the offsets to remission thresholds.
 """
-offset(x::Revised{<:BooleanComposite}) = x.offset
+offsets(x::Revised{<:BooleanComposite}) = x.offsets
 
 intercept(x::ModifiedComposite) = intercept(x.root)

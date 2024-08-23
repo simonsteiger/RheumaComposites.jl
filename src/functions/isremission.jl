@@ -1,50 +1,14 @@
-function isremission(::Type{T}, x::AbstractComposite) where {T<:ContinuousComposite}
-    cut = getproperty(cont_cutoff_funs, _typename(T))
-    return cut.remission(score(x))
+isremission(::Type{BooleanRemission}, x) = all(<=(1), x.values)
+
+# Both functions below are easy to generalise to other BooleanComposites
+# by mapping cutoffs, too (for BooleanRemission, e.g., [1, 1, 1, 1])
+function isremission(::Type{<:Partial{N,BooleanRemission}}, x) where {N}
+    return mapreduce(c -> c <= 1, &, x.values)
 end
 
-_check(component, x) = getproperty(bool_cutoff_funs, component)(x)
-
-_check(component, x, offset) = getproperty(bool_cutoff_funs, component)(x; offset=offset)
-
-function isremission(::Type{<:BooleanComposite}, x)
-    return mapreduce(component -> _check(component, x), &, components(x))
+function isremission(::Type{<:Revised{BooleanRemission}}, x)
+    return mapreduce((o, c) -> c <= 1 + o, &, x.offsets, (values ∘ root)(x))
 end
-
-function isremission(::Type{<:Partial{N, <:BooleanComposite}}, x) where {N}
-    return mapreduce(component -> _check(component, root(x)), &, components(x))
-end
-
-function isremission(::Type{<:Revised{<:BooleanComposite}}, x)
-    offset_components = propertynames(offset(x))
-    out = mapreduce(&, components(x)) do compo
-        if compo in offset_components
-            compo_offset = getproperty(offset(x), compo)
-            _check(compo, root(x), compo_offset)
-        else
-            _check(compo, root(x))
-        end
-    end
-    return out
-end
-
-"""
-    isremission(x::AbstractComposite)
-
-Check whether a composite fulfils remission criteria.
-
-# Examples
-
-```jldoctest
-julia> DAS28ESR(tjc=4, sjc=5, pga=44u"mm", apr=23u"mm/hr") |> isremission
-false
-julia> BooleanRemission(tjc=1, sjc=0, pga=14u"mm", crp=0.4u"mg/dl") |>
-       revised |>
-       isremission
-true
-```
-"""
-isremission(x::AbstractComposite) = isremission(typeof(x), x)
 
 """
     isremission(::Type{T}, s::Real) where {T<:ContinuousComposite}
@@ -58,7 +22,34 @@ julia> isremission(DAS28ESR, 3.9)
 false
 ```
 """
-function isremission(::Type{T}, s::Real) where {T<:ContinuousComposite}
-    cut = getproperty(cont_cutoff_funs, Symbol(T))
-    return cut.remission(s)
-end
+isremission(::Type{DAS28ESR}, x) = x < DAS28ESR_REMISSION
+
+isremission(::Type{DAS28CRP}, x) = x < DAS28CRP_REMISSION
+
+isremission(::Type{SDAI}, x) = x <= SDAI_REMISSION
+
+isremission(::Type{CDAI}, x) = x <= CDAI_REMISSION
+
+isremission(::Type{DAPSA}, x) = x <= DAPSA_REMISSION
+
+isremission(::Type{BASDAI}, x) = x < BASDAI_REMISSION
+
+"""
+    isremission(x::AbstractComposite)
+
+Check whether a composite fulfils remission criteria.
+
+# Examples
+
+```jldoctest
+julia> DAS28ESR(tjc=4, sjc=5, pga=44, apr=23) |> isremission
+false
+julia> BooleanRemission(tjc=1, sjc=0, pga=1.4, crp=0.4) |>
+       revised |>
+       isremission
+true
+```
+"""
+isremission(x::AbstractComposite) = isremission(typeof(x), x)
+
+isremission(x::ContinuousComposite) = isremission(typeof(x), score(x))

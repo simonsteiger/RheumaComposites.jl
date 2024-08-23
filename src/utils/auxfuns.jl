@@ -18,6 +18,17 @@ function seq_check(x::Real, conds::NamedTuple)
     return string(keys(conds)[i])
 end
 
+function unitfy(vals, units; conversions)
+    out = map(keys(vals)) do val_key
+        val = getproperty(vals, val_key)
+        haskey(units, val_key) || return val
+        unit = getproperty(units, val_key)
+        conversion = getproperty(conversions, val_key)
+        return uconvert(conversion, val * unit)
+    end
+    return out
+end
+
 #=
 function seq_check(x::BooleanComposite, conds::NamedTuple)
     funs = values(conds)
