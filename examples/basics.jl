@@ -7,9 +7,6 @@ This tutorial shows you how to set up different composite scores.
 using RheumaComposites
 
 #=
-!!!warning "Outdated"
-    This part of the documentation is outdated. Specification of units as per `Unitful.jl` is no longer required.
-
 Creating composites requires specifying the units of some components.
 
 This protects us from accidentally specifying a DAS28 score on a 0-10 cm visual analogue scale (VAS), or vice versa, an SDAI on a 0-100 mm (VAS).
