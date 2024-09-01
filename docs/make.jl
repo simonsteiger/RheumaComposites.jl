@@ -43,6 +43,7 @@ pages = [
     "Tutorials" => [
         "Basics" => joinpath("examples", "basics.md"),
         "Categorisation" => joinpath("examples", "categorisation.md"),
+        "Decomposition" => joinpath("examples", "decomposition.md"),
     ],
     "API reference" => "api.md",
 ]
