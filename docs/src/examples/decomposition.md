@@ -21,6 +21,7 @@ decompose(sdai)
 ````
 
 By default, `decompose()` splits the score into the contributions of each component.
+The values represent ratios of the total score and always sum to one.
 
 It is also possible to define a custom decomposition by first grouping components in a `Faceted` composite.
 
