@@ -51,6 +51,38 @@ Return the values stored in `x`.
 """
 values(x::AbstractComposite) = x.values
 
+"""
+    uvalues(x::AbstractComposite)
+
+Return the values stored in `x` in their units.
+"""
+function uvalues(x::AbstractComposite)
+    out = [hasproperty(units(x), n) ? v * getproperty(units(x), n) : v
+           for (n, v) in zip(names(x), values(x))]
+    return out
+end
+
+"""
+    names(x::AbstractComposite)
+
+Return the names of `x`'s values.
+"""
+names(x::AbstractComposite) = x.names
+
+"""
+    units(x::AbstractComposite)
+
+Return the units of `x`'s values.
+"""
+units(x::AbstractComposite) = x.units
+
+"""
+    named_vals(x::AbstractComposite)
+
+Return the values of `x` and their names in a NamedTuple.
+"""
+named_vals(x::AbstractComposite) = NamedTuple{names(x)}(values(x))
+
 # Important for ModifiedComposites
 root(x) = x
 

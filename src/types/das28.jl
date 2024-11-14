@@ -50,9 +50,9 @@ struct DAS28CRP <: DAS28
         valid_vas(ucomponents.pga)
         valid_apr(ucomponents.apr)
 
-        names = keys(ntvals)
+        ntnames = keys(ntvals)
         vals = ustrip.(values(ucomponents))
-        return new(vals, names, DAS28CRP_UNITS)
+        return new(vals, ntnames, DAS28CRP_UNITS)
     end
 end
 
@@ -96,9 +96,9 @@ struct DAS28ESR <: DAS28
         valid_vas(ucomponents.pga)
         valid_apr(ucomponents.apr, 1)
 
-        names = keys(ntvals)
+        ntnames = keys(ntvals)
         vals = ustrip.(values(ucomponents))
-        return new(vals, names, DAS28ESR_UNITS)
+        return new(vals, ntnames, DAS28ESR_UNITS)
     end
 end
 

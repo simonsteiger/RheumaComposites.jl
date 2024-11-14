@@ -37,10 +37,17 @@ struct BASDAI <: ContinuousComposite
 
         valid_vas.(values(ucomponents))
 
-        names = keys(ntvals)
+        ntnames = keys(ntvals)
         vals = ustrip.(values(ucomponents))
-        return new(vals, names, BASDAI_UNITS)
+        return new(vals, ntnames, BASDAI_UNITS)
     end
 end
 
 WeightingScheme(::Type{<:BASDAI}) = IsWeighted()
+
+q1(c::BASDAI) = c.values[1]
+q2(c::BASDAI) = c.values[2]
+q3(c::BASDAI) = c.values[3]
+q4(c::BASDAI) = c.values[4]
+q5(c::BASDAI) = c.values[5]
+q6(c::BASDAI) = c.values[6]

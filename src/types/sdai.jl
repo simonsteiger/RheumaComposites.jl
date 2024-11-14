@@ -39,8 +39,8 @@ struct SDAI <: ContinuousComposite
         valid_vas.([ucomponents.pga, ucomponents.ega])
         valid_apr(ucomponents.crp)
 
-        names = keys(ntvals)
+        ntnames = keys(ntvals)
         vals = ustrip.(values(ucomponents))
-        return new(vals, names, XDAI_UNITS)
+        return new(vals, ntnames, XDAI_UNITS)
     end
 end
