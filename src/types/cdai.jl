@@ -37,8 +37,8 @@ struct CDAI <: ContinuousComposite
         valid_joints.([tjc, sjc])
         valid_vas.([ucomponents.pga, ucomponents.ega])
 
-        names = keys(ntvals)
+        ntnames = keys(ntvals)
         vals = ustrip.(values(ucomponents))
-        return new(vals, names, XDAI_UNITS)
+        return new(vals, ntnames, XDAI_UNITS)
     end
 end

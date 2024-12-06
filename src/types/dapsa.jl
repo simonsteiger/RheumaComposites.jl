@@ -38,8 +38,8 @@ struct DAPSA <: ContinuousComposite
         valid_vas.([ucomponents.pga, ucomponents.jpn])
         valid_apr(crp)
 
-        names = keys(ntvals)
+        ntnames = keys(ntvals)
         vals = ustrip.(values(ucomponents))
-        return new(vals, names, DAPSA_UNITS)
+        return new(vals, ntnames, DAPSA_UNITS)
     end
 end

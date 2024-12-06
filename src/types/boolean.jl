@@ -27,9 +27,9 @@ struct BooleanRemission <: BooleanComposite
         valid_vas(ucomponents.pga)
         valid_apr(ucomponents.crp)
 
-        names = keys(ntvals)
+        ntnames = keys(ntvals)
         vals = ustrip.(values(ucomponents))
-        return new(vals, names, BOOL_UNITS)
+        return new(vals, ntnames, BOOL_UNITS)
     end
 end
 

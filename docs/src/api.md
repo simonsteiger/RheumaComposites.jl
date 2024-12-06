@@ -28,6 +28,10 @@ Partial
 
 ```@docs
 values
+uvalues
+names
+named_vals
+units
 root
 offsets
 ```
