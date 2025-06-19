@@ -14,7 +14,7 @@ Optionally specify the units for each component using [`Unitful.@u_str`](@extref
 
 # Categories
 
-- ``\\leq`` $(cutoff.DAPSA.low) = Remission
+- ``\\leq`` $(cutoff.DAPSA.remission) = Remission
 - ``\\leq`` $(cutoff.DAPSA.low) = Low
 - ``\\leq`` $(cutoff.DAPSA.moderate) = Moderate
 - ``>`` $(cutoff.DAPSA.moderate) = High
