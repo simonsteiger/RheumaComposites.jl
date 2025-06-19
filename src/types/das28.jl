@@ -26,7 +26,7 @@ Optionally specify the units for each component using [`Unitful.@u_str`](@extref
 
 # Categories
 
-- ``<`` $(cutoff.DAS28CRP.low) = Remission
+- ``<`` $(cutoff.DAS28CRP.remission) = Remission
 - ``\\leq`` $(cutoff.DAS28CRP.low) = Low
 - ``\\leq`` $(cutoff.DAS28CRP.moderate) = Moderate
 - ``>`` $(cutoff.DAS28CRP.moderate) = High
@@ -72,7 +72,7 @@ Optionally specify the units for each component using [`Unitful.@u_str`](@extref
 
 # Categories
 
-- ``<`` $(cutoff.DAS28ESR.low) = Remission
+- ``<`` $(cutoff.DAS28ESR.remission) = Remission
 - ``\\leq`` $(cutoff.DAS28ESR.low) = Low
 - ``\\leq`` $(cutoff.DAS28ESR.moderate) = Moderate
 - ``>`` $(cutoff.DAS28ESR.moderate) = High

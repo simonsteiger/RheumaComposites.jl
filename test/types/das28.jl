@@ -103,12 +103,3 @@ end
     @test categorise.(DAS28CRP, [2.89, 2.91]) == ["low", "moderate"]
     @test categorise.(DAS28CRP, [4.59, 4.61]) == ["moderate", "high"]
 end
-
-xx = DAS28ESR(tjc=1, sjc=0, pga=0u"mm", apr=1u"mm/hr")
-
-decompose(faceted(xx, facets))
-
-# FIXME This should not return 0.56 for TJC weight
-weight(xx)
-
-decompose(xx)

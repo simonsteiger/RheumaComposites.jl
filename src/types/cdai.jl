@@ -14,7 +14,7 @@ Optionally specify the units for each component using [`Unitful.@u_str`](@extref
 
 # Categories
 
-- ``<`` $(cutoff.CDAI.low) = Remission
+- ``<`` $(cutoff.CDAI.remission) = Remission
 - ``\\leq`` $(cutoff.CDAI.low) = Low
 - ``\\leq`` $(cutoff.CDAI.moderate) = Moderate
 - ``>`` $(cutoff.CDAI.moderate) = High
