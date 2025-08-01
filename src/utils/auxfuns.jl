@@ -1,4 +1,4 @@
-# Destructure the properties of a NamedTuple into a Vector
+# Destructure properties of a NamedTuple into a Vector
 function values_flatten(x::NamedTuple)
     property_vec = getproperty.(Ref(x), propertynames(x)) |>
                    Iterators.flatten |>
