@@ -13,7 +13,7 @@ hero:
   actions:
     - theme: brand
       text: Get started
-      link: /basics
+      link: /examples/basics
     - theme: alt
       text: View on Github
       link: https://github.com/simonsteiger/RheumaComposites.jl

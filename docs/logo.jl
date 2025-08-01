@@ -7,10 +7,10 @@ using Colors
 
 # Defaults
 strokewidth = 6
-strokecolor = :white
-data1 = [3, 4, 5]
-data2 = [4, 2, 5]
-data3 = [4, 2, 3]
+strokecolor = :transparent
+data1 = [3, 0.3, 4, 0.3, 5, 0.3]
+data2 = [4.5, 0.3, 2.5, 0.3, 5, 0.3]
+data3 = [5, 0.3, 3, 0.3, 4, 0.3]
 green = parse(Colorant, "#389826")
 purple = parse(Colorant, "#9658B2")
 red = parse(Colorant, "#CA3C33")
@@ -55,9 +55,9 @@ end
 f = Figure(backgroundcolor=:transparent)
 ax = Axis(f[1, 1], backgroundcolor=:transparent, autolimitaspect=1)
 
-plt1 = add_pie!(data1, [green, purple, red], offset=-0.5)
-plt2 = add_pie!(data2, [green, purple, red], offset=4)
-plt3 = add_pie!(data3, [purple, green, red])
+plt1 = add_pie!(data1, [green, :transparent, purple, :transparent, red, :transparent], offset=-0.5)
+plt2 = add_pie!(data2, [green, :transparent, purple, :transparent, red, :transparent], offset=4)
+plt3 = add_pie!(data3, [purple, :transparent, green, :transparent, red, :transparent])
 
 translate_all!(4.3, 3.7, plt1, plt2, plt3)
 
@@ -71,4 +71,4 @@ resize_to_layout!(f)
 f
 
 # Assuming that the active project is docs
-CairoMakie.save(joinpath("src", "assets", "logo.svg"), f)
+CairoMakie.save(joinpath(@__DIR__, "src", "assets", "logo.svg"), f)
