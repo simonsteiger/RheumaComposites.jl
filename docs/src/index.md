@@ -6,7 +6,7 @@ layout: home
 hero:
   name: RheumaComposites.jl
   text: 
-  tagline: MCMC Chains plots for Makie.jl
+  tagline: Rheumatology composite scores in Julia
   image:
     src: /logo.svg
     alt: RheumaComposites
@@ -21,7 +21,6 @@ hero:
       text: API Reference
       link: /api
 ---
-
 
 <p style="margin-bottom:2cm"></p>
 
@@ -69,3 +68,7 @@ Additional subtypes and modifications of these composites are available, e.g., t
 ## Contributing
 
 If you spot a bug or want to ask for a new feature, please [open an issue](https://github.com/simonsteiger/RheumaComposites.jl/issues) on the GitHub repository.
+
+````@raw html
+</div>
+````
