@@ -8,6 +8,7 @@ const DAS28ESR_UNITS = (
     apr=u"mm/hr",
 )
 
+# Units for SDAI and CDAI
 const XDAI_UNITS = (
     pga=u"cm",
     ega=u"cm",

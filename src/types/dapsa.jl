@@ -34,7 +34,7 @@ struct DAPSA <: ContinuousComposite
         uvals = unitfy(ntvals, DAPSA_UNITS)
         ucomponents = NamedTuple{keys(ntvals)}(uvals)
 
-        mapreduce((jc, max) -> valid_joints(jc; max=max), &, [tjc, sjc], [66, 68])
+        mapreduce((jc, max) -> valid_joints(jc; max), &, [tjc, sjc], [66, 68])
         valid_vas.([ucomponents.pga, ucomponents.jpn])
         valid_apr(crp)
 

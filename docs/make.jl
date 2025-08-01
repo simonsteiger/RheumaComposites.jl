@@ -1,5 +1,6 @@
 using Documenter
 using DocumenterInterLinks
+using DocumenterVitepress
 using Literate
 using RheumaComposites
 using Unitful
@@ -8,7 +9,7 @@ DocMeta.setdocmeta!(RheumaComposites, :DocTestSetup, :(using RheumaComposites, U
 
 links = InterLinks(
     "Documenter" => "https://documenter.juliadocs.org/stable/objects.inv",
-    "Unitful" => "https://painterqubits.github.io/Unitful.jl/stable/objects.inv",
+    "Unitful" => "https://juliaphysics.github.io/Unitful.jl/stable/objects.inv",
 )
 
 open(joinpath(joinpath(@__DIR__, "src"), "index.md"), "w") do io
@@ -47,16 +48,22 @@ pages = [
     "API reference" => "api.md",
 ]
 
-Documenter.makedocs(;
-    sitename="RheumaComposites.jl",
-    authors="Simon Steiger",
+makedocs(;
     modules=[RheumaComposites],
+    sitename="RheumaComposites.jl",
+    authors="Simon Steiger and contributors",
+    format=DocumenterVitepress.MarkdownVitepress(;
+        repo="https://github.com/simonsteiger/RheumaComposites.jl",
+        devurl="dev",
+        devbranch="main",
+    ),
     pages=pages,
     plugins=[links],
     pagesonly=true,
 )
 
-deploydocs(;
+DocumenterVitepress.deploydocs(;
     repo="github.com/simonsteiger/RheumaComposites.jl",
-    devbranch="main"
+    devbranch="main",
+    push_preview=true,
 )
