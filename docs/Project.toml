@@ -6,5 +6,8 @@ Literate = "98b081ad-f1c9-55d3-8b20-4c87d4299306"
 RheumaComposites = "579811c7-86f9-4c5f-9fea-fbfdecde0101"
 Unitful = "1986cc42-f94f-5a68-af5c-568840ba703d"
 
+[sources]
+RheumaComposites = {path = ".."}
+
 [compat]
-Documenter = "1.5"
+DocumenterVitepress = "0.2"
