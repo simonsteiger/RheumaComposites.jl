@@ -9,7 +9,7 @@ DocMeta.setdocmeta!(RheumaComposites, :DocTestSetup, :(using RheumaComposites, U
 
 links = InterLinks(
     "Documenter" => "https://documenter.juliadocs.org/stable/objects.inv",
-    "Unitful" => "https://painterqubits.github.io/Unitful.jl/stable/objects.inv",
+    "Unitful" => "https://juliaphysics.github.io/Unitful.jl/stable/objects.inv",
 )
 
 open(joinpath(joinpath(@__DIR__, "src"), "index.md"), "w") do io
