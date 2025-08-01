@@ -1,15 +1,37 @@
-```@meta
-EditURL = "https://github.com/simonsteiger/RheumaComposites.jl/blob/main/README.md"
-```
+````@raw html
+---
+# https://vitepress.dev/reference/default-theme-home-page
+layout: home
 
-# RheumaComposites.jl
+hero:
+  name: RheumaComposites.jl
+  text: 
+  tagline: Rheumatology composite scores in Julia
+  image:
+    src: /logo.svg
+    alt: RheumaComposites
+  actions:
+    - theme: brand
+      text: Get started
+      link: /basics
+    - theme: alt
+      text: View on Github
+      link: https://github.com/simonsteiger/RheumaComposites.jl
+    - theme: alt
+      text: API Reference
+      link: /api
+---
 
-[![Build Status](https://github.com/simonsteiger/RheumaComposites.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/simonsteiger/RheumaComposites.jl/actions/workflows/CI.yml?query=branch%3Amain)
-[![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://simonsteiger.github.io/RheumaComposites.jl/dev/)
+<p style="margin-bottom:2cm"></p>
 
-A Julia package for composite scores used in Rheumatology.
+<div class="vp-doc" style="width:80%; margin:auto">
+````
 
-## Getting started
+# What is RheumaComposites.jl?
+
+RheumaComposites.jl leverages Julia's type system and multiple dispatch to allow you to construct and work with common composite scores in Rheumatology.
+
+## Installation
 
 This package is not currently registered with the Julia package registry, so you have to install it via url:
 
@@ -17,6 +39,8 @@ This package is not currently registered with the Julia package registry, so you
 import Pkg
 Pkg.add(url="https://github.com/simonsteiger/RheumaComposites.jl")
 ```
+
+## Getting started
 
 Now you're ready to start working with composite scores:
 
@@ -27,8 +51,6 @@ score(das28)
 isremission(das28)
 categorise(das28)
 ```
-
-Have a look at the [documentation](https://simonsteiger.github.io/RheumaComposites.jl/dev/) for more examples!
 
 ## Supported composites
 
@@ -46,3 +68,7 @@ Additional subtypes and modifications of these composites are available, e.g., t
 ## Contributing
 
 If you spot a bug or want to ask for a new feature, please [open an issue](https://github.com/simonsteiger/RheumaComposites.jl/issues) on the GitHub repository.
+
+````@raw html
+</div>
+````
