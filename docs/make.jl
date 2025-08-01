@@ -47,16 +47,22 @@ pages = [
     "API reference" => "api.md",
 ]
 
-Documenter.makedocs(;
+makedocs(;
+modules=[RheumaComposites],
     sitename="RheumaComposites.jl",
-    authors="Simon Steiger",
-    modules=[RheumaComposites],
+    authors="Simon Steiger and contributors",
+    format=DocumenterVitepress.MarkdownVitepress(;
+        repo="https://github.com/simonsteiger/RheumaComposites.jl",
+        devurl="dev",
+        devbranch="main",
+    ),
     pages=pages,
     plugins=[links],
     pagesonly=true,
 )
 
-deploydocs(;
-    repo="github.com/simonsteiger/RheumaComposites.jl",
-    devbranch="main"
+DocumenterVitepress.deploydocs(;
+    repo = "github.com/simonsteiger/RheumaComposites.jl",
+    devbranch = "main",
+    push_preview = true,
 )
