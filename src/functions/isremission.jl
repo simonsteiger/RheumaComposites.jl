@@ -10,6 +10,10 @@ function isremission(::Type{<:Revised{BooleanRemission}}, x)
     return mapreduce((o, c) -> c <= 1 + o, &, x.offsets, (values ∘ root)(x))
 end
 
+function isremission(::Type{<:Partial{N,<:Revised{BooleanRemission}}}, x) where {N}
+    return mapreduce((o, c) -> c <= 1 + o, &, root(x).offsets, values(x))
+end
+
 """
     isremission(::Type{T}, s::Real) where {T<:ContinuousComposite}
 

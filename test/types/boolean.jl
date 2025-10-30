@@ -18,6 +18,12 @@ end
     @test isremission(threeitem(boolrem))
 end
 
+@testset "Partial revised BoolRem" begin
+    boolrem_o_rem = BooleanRemission(tjc=2, sjc=0, pga=1.4u"cm", crp=0.4u"mg/dL")
+    @test !isremission(partial(revised(boolrem_o_rem), [:tjc, :pga]))
+    @test isremission(partial(revised(boolrem_o_rem), [:sjc, :crp]))
+end
+
 @testset "Misspecified BoolRem" begin
     @test try
         weight(boolrem)

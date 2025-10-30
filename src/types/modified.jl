@@ -71,12 +71,16 @@ Redefine a composite as a subset of its components.
 
 Functions like [`score`](@ref) or [`isremission`](@ref) act on the subset of components.
 """
-function partial(root::AbstractComposite, keep::Vector{Symbol})
-    unique(keep) == keep || throw(error("`keep` must contain unique values"))
-    all(d -> d in root.names, keep) || throw(error("can only keep `root` components"))
-    idx = [findfirst(==(x), root.names) for x in keep]
-    kept_values = getindex(values(root), idx)
-    return Partial(root, Tuple(keep), kept_values)
+function partial(x::AbstractComposite, keep::Vector{Symbol})
+    unique(keep) == keep || throw(error("values in `keep` must be unique"))
+    
+    foreach(keep) do k
+        k in root(x).names || throw(error("can't keep unknown component $k"))
+    end
+    
+    idx = [findfirst(==(k), root(x).names) for k in keep]
+    kept_values = getindex(values(root(x)), idx)
+    return Partial(x, Tuple(keep), kept_values)
 end
 
 """
@@ -85,6 +89,7 @@ end
 Return the unmodified composite.
 """
 root(x::ModifiedComposite) = x.root
+root(x::AbstractComposite) = x
 
 """
     values(x::ModifiedComposite)
@@ -92,6 +97,8 @@ root(x::ModifiedComposite) = x.root
 Return the values of the unmodified composite, i.e., `x.root.values`.
 """
 values(x::ModifiedComposite) = x.root.values
+values(x::Partial{N,<:Revised{T}}) where {N,T} = x.values
+values(x::AbstractComposite) = x.values
 
 """
     values(x::Partial{N,<:BooleanComposite})
