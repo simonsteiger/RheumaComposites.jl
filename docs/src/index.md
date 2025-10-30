@@ -6,7 +6,7 @@ layout: home
 hero:
   name: RheumaComposites.jl
   text: 
-  tagline: Rheumatology composite scores in Julia
+  tagline: Composite scores for Rheumatology in Julia
   image:
     src: /logo.svg
     alt: RheumaComposites
