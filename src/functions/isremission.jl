@@ -11,7 +11,11 @@ function isremission(::Type{<:Revised{BooleanRemission}}, x)
 end
 
 function isremission(::Type{<:Partial{N,<:Revised{BooleanRemission}}}, x) where {N}
-    return mapreduce((o, c) -> c <= 1 + o, &, root(x).offsets, values(x))
+    active_components = x.names
+    root_components = root(root(x)).names
+    active_idx = [component in active_components for component in root_components]
+    active_offsets = root(x).offsets[active_idx]
+    return mapreduce((o, c) -> c <= 1 + o, &, active_offsets, values(x))
 end
 
 """
