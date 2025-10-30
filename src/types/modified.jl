@@ -97,8 +97,13 @@ root(x::AbstractComposite) = x
 Return the values of the unmodified composite, i.e., `x.root.values`.
 """
 values(x::ModifiedComposite) = x.root.values
+
+"""
+    values(x::Partial{N,<:Revised{T}})
+
+Return the values kept by the partial `x`.
+"""
 values(x::Partial{N,<:Revised{T}}) where {N,T} = x.values
-values(x::AbstractComposite) = x.values
 
 """
     values(x::Partial{N,<:BooleanComposite})
