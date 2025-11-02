@@ -97,7 +97,7 @@ function Base.show(io::IO, ::MIME"text/plain", x::AbstractComposite)
 end
 
 basdai_qs = [Symbol("q$x") => ContinuousComposite for x in 1:6]
-continuous_components = (;
+accessor_dict = Dict(
     :tjc => AbstractComposite,
     :sjc => AbstractComposite,
     :pga => AbstractComposite,
@@ -108,10 +108,16 @@ continuous_components = (;
     basdai_qs...
 )
 
-for (func_name, T) in zip(keys(continuous_components), values(continuous_components))
-    @eval function $(func_name)(x::$(QuoteNode(T)))
-        $(QuoteNode(func_name)) ∉ names(x) && return error("`$($(QuoteNode(func_name)))` is not a component of $(typeof(x))")
-        idx = [$(QuoteNode(func_name)) == nm for nm in names(x)]
-        return only(uvalues(x)[idx])
+for (f, T) in accessor_dict
+    docstring = """
+        $f(x::$T)
+    
+    Return the component `$f` stored in `x`, if it exists.
+    """
+    @eval @doc $docstring function $(f)(x::$(QuoteNode(T)))
+        var = $(QuoteNode(f))
+        var ∉ names(x) && return error("`$var` is not a component of $(typeof(x))")
+        i = findfirst(==(var), names(x))
+        return only(getindex(uvalues(x), i))
     end
 end
