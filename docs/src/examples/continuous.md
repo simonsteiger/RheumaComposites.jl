@@ -58,12 +58,12 @@ The values are fractions and will therefore add to 1.
 
 ````@example continuous
 decompose(sdai)
+````
 
-#=
 Furthermore, it is possible to group component variables into different groups, resulting in what I named [`faceted`](@ref) composites.
 This grouping will then be reflected by the fractions calculated by [`decompose`](@ref).
-=#
 
+````@example continuous
 facets = (subjective = [:tjc, :sjc, :pga], objective = [:ega, :crp])
 faceted_sdai = faceted(sdai, facets)
 ````

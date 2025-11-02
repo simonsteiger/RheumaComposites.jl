@@ -54,7 +54,7 @@ The values are fractions and will therefore add to 1.
 
 decompose(sdai)
 
-#= 
+#=
 Furthermore, it is possible to group component variables into different groups, resulting in what I named [`faceted`](@ref) composites.
 This grouping will then be reflected by the fractions calculated by [`decompose`](@ref).
 =#
