@@ -28,9 +28,10 @@ end
 pages = [
     "Home" => "index.md",
     "Tutorials" => [
-        "Basics" => joinpath("examples", "gettingstarted.md"),
-        "Categorisation" => joinpath("examples", "continuous.md"),
-        "Modification" => joinpath("examples", "boolean.md"),
+        "Getting started" => joinpath("examples", "gettingstarted.md"),
+        "Continuous composites" => joinpath("examples", "continuous.md"),
+        "Boolean composites" => joinpath("examples", "boolean.md"),
+        "Visualization" => joinpath("examples", "visualization.md"),
     ],
     "API reference" => "api.md",
 ]
