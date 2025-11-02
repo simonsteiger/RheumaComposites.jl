@@ -40,7 +40,7 @@ isremission(threeitem_boolrem)
 #=
 As expected, this patient would meet these modified remission criteria.
 
-It is also possible to manually specify which scores should be ignored when testing whether a patient is in remission with the `partial()` function.
+It is also possible to manually specify which scores should be ignored when testing whether a patient is in remission with [`partial`](@ref).
 =#
 
 joints_boolrem = partial(boolrem, [:tjc, :sjc])
@@ -53,14 +53,14 @@ In this modified version, we are only considering whether this patient meets rem
 
 Another solution that was proposed to change the role of patient-reported global health in defining remission was to increase the cutoff from 10 mm to 20 mm.
 
-This is how we can change to the "revised" definition of Boolean remission:
+This is how we can change to the [`revised`](@ref) definition of Boolean remission:
 =#
 
 revised_boolrem = revised(boolrem)
 isremission(revised_boolrem)
 
 #=
-When calling `revised` on a `BooleanRemission` score, it applies this popular revision by default.
+When calling [`revised`](@ref) on a [`BooleanRemission`](@ref) score, it applies this popular revision by default.
 However, we can also manually change other cutoffs.
 If we wanted to work with a definition where a patient must have exactly 0 swollen joints to qualify as in remission, we could do the following:
 =#

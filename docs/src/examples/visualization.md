@@ -15,32 +15,37 @@ using CairoMakie
 
 function components_pie(x::ContinuousComposite)
     fig = Figure()
-    ax = Axis(fig[1, 1], title=string(typeof(x)), aspect=1, titlesize=36, titlefont=:bold)
+    ax = Axis(
+        fig[1, 1], title=string(typeof(x)),
+        aspect=1, titlesize=36, titlefont=:bold
+    )
 
     ratios = RheumaComposites.decompose(x)
-    colors = first(Makie.wong_colors(), length(ratios))
-    labels = [uppercase("$var=$val") for (var, val) in zip(names(x), values(x))]
+    cols = first(Makie.wong_colors(), length(ratios))
+    labs = [uppercase("$var=$val") for (var, val) in zip(names(x), values(x))]
     ncats = length(ratios)
     nδ = 1 / ncats
 
     pie!(
-        ax,
-        collect(values(ratios));
-        color=colors,
-        radius=4,
-        inner_radius=2,
-        strokecolor=:white,
-        strokewidth=5,
+        ax, collect(values(ratios));
+        color=cols, radius=4, inner_radius=2,
+        strokecolor=:white, strokewidth=5,
     )
 
     hidedecorations!(ax)
     hidespines!(ax)
 
-    colormap = cgrad(colors, categorical=true)
-    cbar = Colorbar(fig[2, 1]; colormap, flipaxis=false, vertical=false, spinewidth=0.0, ticksvisible=false)
-    cbar.ticks = (range(0 + nδ / 2, 1 - nδ / 2, ncats), labels)
+    colormap = cgrad(cols, categorical=true)
+    cbar = Colorbar(
+        fig[2, 1]; colormap, flipaxis=false,
+        vertical=false, spinewidth=0.0, ticksvisible=false
+    )
+    cbar.ticks = (range(0 + nδ / 2, 1 - nδ / 2, ncats), labs)
 
-    text!(ax, string(round(score(x), digits=1)), align=(:center, :center), font=:bold, fontsize=42)
+    text!(
+        ax, string(round(score(x), digits=1)),
+        align=(:center, :center), font=:bold, fontsize=42
+    )
 
     return fig
 end
