@@ -6,6 +6,13 @@ boolrem = BooleanRemission(tjc=1, sjc=0, pga=1.4u"cm", crp=0.4u"mg/dL")
     @test !isremission(boolrem)
 end
 
+@testset "Accessing BoolRem components" begin
+    @test tjc(boolrem) == 1
+    @test sjc(boolrem) == 0
+    @test pga(boolrem) == 1.4u"cm"
+    @test crp(boolrem) == 0.4u"mg/dL"
+end
+
 @testset "Revised BoolRem" begin
     @test revised(boolrem) isa ModifiedComposite
     @test revised(boolrem) isa Revised{<:BooleanComposite}

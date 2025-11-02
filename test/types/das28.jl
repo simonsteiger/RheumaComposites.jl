@@ -26,6 +26,13 @@ ref_value_crp = 4.24
     @test das28e isa DAS28ESR
 end
 
+@testset "Accessing DAS28ESR components" begin
+    @test tjc(das28e) == 4
+    @test sjc(das28e) == 5
+    @test pga(das28e) == 12u"mm"
+    @test apr(das28e) == 44u"mm/hr"
+end
+
 @testset "Score DAS28ESR" begin
     @test i_das28e == 0.0
     @test score(das28e) isa Float64
@@ -67,6 +74,13 @@ end
     @test das28c isa DAS28CRP
 end
 
+@testset "Accessing DAS28CRP components" begin
+    @test tjc(das28c) == 4
+    @test sjc(das28c) == 5
+    @test pga(das28c) == 12u"mm"
+    @test apr(das28c) == 44u"mg/L"
+end
+
 @testset "Score DAS28CRP" begin
     @test i_das28c == 0.96
     @test score(das28c) isa Float64
@@ -95,6 +109,11 @@ end
     catch e
         e isa ErrorException
     end
+end
+
+@testset "Accessing modified scores" begin
+    @test tjc(faceted(das28c, facets)) == tjc(das28c)
+    @test tjc(faceted(das28e, facets)) == tjc(das28e)
 end
 
 @testset "Categorise DAS28CRP" begin

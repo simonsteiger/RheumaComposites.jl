@@ -120,3 +120,7 @@ Return the offsets to remission thresholds.
 offsets(x::Revised{<:BooleanComposite}) = x.offsets
 
 intercept(x::ModifiedComposite) = intercept(x.root)
+
+for func_name in keys(continuous_components)
+    @eval $(func_name)(x::ModifiedComposite) = $(func_name)(root(x))
+end

@@ -25,3 +25,7 @@ end
 @testset "Boolean" begin
     include("types/boolean.jl")
 end
+
+@testset "Helpers" begin
+    include("utils/auxfuns.jl")
+end

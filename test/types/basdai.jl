@@ -15,6 +15,15 @@ basdai_ref = 1.8
     @test basdai isa BASDAI
 end
 
+@testset "Accessing BASDAI components" begin
+    @test q1(basdai) == 10u"mm"
+    @test q2(basdai) == 20u"mm"
+    @test q3(basdai) == 20u"mm"
+    @test q4(basdai) == 20u"mm"
+    @test q5(basdai) == 10u"mm"
+    @test q6(basdai) == 30u"mm"
+end
+
 @testset "Score BASDAI" begin
     @test i_basdai == 0.0
     @test score(basdai) isa Float64

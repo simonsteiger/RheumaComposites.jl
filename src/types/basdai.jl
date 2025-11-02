@@ -44,10 +44,3 @@ struct BASDAI <: ContinuousComposite
 end
 
 WeightingScheme(::Type{<:BASDAI}) = IsWeighted()
-
-q1(c::BASDAI) = c.values[1]
-q2(c::BASDAI) = c.values[2]
-q3(c::BASDAI) = c.values[3]
-q4(c::BASDAI) = c.values[4]
-q5(c::BASDAI) = c.values[5]
-q6(c::BASDAI) = c.values[6]

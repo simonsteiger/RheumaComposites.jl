@@ -15,6 +15,10 @@ dapsa_ref = 7.0
     @test dapsa isa DAPSA
 end
 
+@testset "Accessing DAPSA components" begin
+    @test jpn(dapsa) == 1u"cm"
+end
+
 @testset "Score DAPSA" begin
     @test i_dapsa == 0.0
     @test score(dapsa) isa Float64

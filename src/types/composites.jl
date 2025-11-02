@@ -57,9 +57,9 @@ values(x::AbstractComposite) = x.values
 Return the values stored in `x` in their units.
 """
 function uvalues(x::AbstractComposite)
-    out = [hasproperty(units(x), n) ? v * getproperty(units(x), n) : v
-           for (n, v) in zip(names(x), values(x))]
-    return out
+    return map(names(x), values(x)) do n, v
+        hasproperty(units(x), n) ? v * getproperty(units(x), n) : v
+    end
 end
 
 """
@@ -94,4 +94,24 @@ function Base.show(io::IO, ::MIME"text/plain", x::AbstractComposite)
         "$((uppercase ∘ string)(component)): $(getproperty(x, component))"
     end
     print(io, join([header, fields...], "\n  "))
+end
+
+basdai_qs = [Symbol("q$x") => ContinuousComposite for x in 1:6]
+continuous_components = (;
+    :tjc => AbstractComposite,
+    :sjc => AbstractComposite,
+    :pga => AbstractComposite,
+    :crp => AbstractComposite,
+    :ega => ContinuousComposite,
+    :apr => ContinuousComposite,
+    :jpn => ContinuousComposite,
+    basdai_qs...
+)
+
+for (func_name, T) in zip(keys(continuous_components), values(continuous_components))
+    @eval function $(func_name)(x::$(QuoteNode(T)))
+        $(QuoteNode(func_name)) ∉ names(x) && return error("`$($(QuoteNode(func_name)))` is not a component of $(typeof(x))")
+        idx = [$(QuoteNode(func_name)) == nm for nm in names(x)]
+        return only(uvalues(x)[idx])
+    end
 end
