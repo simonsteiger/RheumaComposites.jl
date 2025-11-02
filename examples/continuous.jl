@@ -8,7 +8,7 @@ If you are not sure if a composite is continuous, you can always run:
 =#
 
 using RheumaComposites
-SDAI isa ContinuousComposite
+SDAI <: ContinuousComposite
 
 #=
 ## Scoring
