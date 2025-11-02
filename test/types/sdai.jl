@@ -16,6 +16,14 @@ sdai_u2 = SDAI(tjc=0, sjc=1, pga=1u"cm", ega=1u"cm", crp=1u"mg/dL")
     @test sdai isa SDAI
 end
 
+@testset "Accessing SDAI components" begin
+    @test tjc(sdai) == 1
+    @test sjc(sdai) == 0
+    @test pga(sdai) == 1u"cm"
+    @test ega(sdai) == 0u"cm"
+    @test crp(sdai) == 0.1u"mg/dL"
+end
+
 @testset "Score SDAI" begin
     @test i_sdai == 0.0
     @test score(sdai) isa Float64

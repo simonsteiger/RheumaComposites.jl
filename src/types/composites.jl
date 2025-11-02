@@ -57,9 +57,9 @@ values(x::AbstractComposite) = x.values
 Return the values stored in `x` in their units.
 """
 function uvalues(x::AbstractComposite)
-    out = [hasproperty(units(x), n) ? v * getproperty(units(x), n) : v
-           for (n, v) in zip(names(x), values(x))]
-    return out
+    return map(names(x), values(x)) do n, v
+        hasproperty(units(x), n) ? v * getproperty(units(x), n) : v
+    end
 end
 
 """
@@ -94,4 +94,30 @@ function Base.show(io::IO, ::MIME"text/plain", x::AbstractComposite)
         "$((uppercase ∘ string)(component)): $(getproperty(x, component))"
     end
     print(io, join([header, fields...], "\n  "))
+end
+
+basdai_qs = [Symbol("q$x") => ContinuousComposite for x in 1:6]
+accessor_dict = Dict(
+    :tjc => AbstractComposite,
+    :sjc => AbstractComposite,
+    :pga => AbstractComposite,
+    :crp => AbstractComposite,
+    :ega => ContinuousComposite,
+    :apr => ContinuousComposite,
+    :jpn => ContinuousComposite,
+    basdai_qs...
+)
+
+for (f, T) in accessor_dict
+    docstring = """
+        $f(x::$T)
+    
+    Return the component `$f` stored in `x`, if it exists.
+    """
+    @eval @doc $docstring function $(f)(x::$(QuoteNode(T)))
+        var = $(QuoteNode(f))
+        var ∉ names(x) && return error("`$var` is not a component of $(typeof(x))")
+        i = findfirst(==(var), names(x))
+        return only(getindex(uvalues(x), i))
+    end
 end

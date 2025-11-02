@@ -23,6 +23,10 @@ end
     @test score(cdai_u1) ≈ score(cdai_u2) atol = 1e-3
 end
 
+@testset "Accessing CDAI components" begin
+    @test ega(cdai) == 0u"cm"
+end
+
 @testset "CDAI Remission" begin
     @test isremission(cdai)
     @test !isremission(CDAI(tjc=3, sjc=4, pga=4u"cm", ega=4u"cm"))

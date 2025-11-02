@@ -120,3 +120,7 @@ Return the offsets to remission thresholds.
 offsets(x::Revised{<:BooleanComposite}) = x.offsets
 
 intercept(x::ModifiedComposite) = intercept(x.root)
+
+for f in keys(accessor_dict)
+    @eval $(f)(x::ModifiedComposite) = $(f)(root(x))
+end

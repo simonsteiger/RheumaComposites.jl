@@ -39,6 +39,9 @@ export score
 export isremission
 export decompose
 export categorise
+export tjc, sjc, pga, apr
+export ega, crp, jpn
+export q1, q2, q3, q4, q5, q6
 
 include("utils/units.jl")
 include("utils/constants.jl")
