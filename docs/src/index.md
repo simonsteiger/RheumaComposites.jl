@@ -31,18 +31,9 @@ hero:
 
 RheumaComposites.jl leverages Julia's type system and multiple dispatch to allow you to construct and work with common composite scores in Rheumatology.
 
-## Installation
-
-This package is not currently registered with the Julia package registry, so you have to install it via url:
-
-```julia
-import Pkg
-Pkg.add(url="https://github.com/simonsteiger/RheumaComposites.jl")
-```
-
 ## Getting started
 
-Now you're ready to start working with composite scores:
+All you need to get started are some appropriately formatted measurements, then plug them into the composite score you'd like to work with:
 
 ```julia
 using RheumaComposites, Unitful
