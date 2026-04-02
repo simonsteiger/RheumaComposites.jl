@@ -2,7 +2,7 @@
 basdai = BASDAI(q1=1u"cm", q2=2u"cm", q3=2u"cm", q4=2u"cm", q5=1u"cm", q6=3u"cm")
 
 # Intercept
-i_basdai = RheumaComposites.intercept(cdai)
+i_basdai = RheumaComposites.intercept(basdai)
 
 # Test if different unit scales lead to same results
 basdai_u1 = BASDAI(q1=10u"mm", q2=20u"mm", q3=20u"mm", q4=20u"mm", q5=10u"mm", q6=30u"mm")
