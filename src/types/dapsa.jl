@@ -1,5 +1,5 @@
 """
-    DAPSA(; tjc, sjc, pga, jpn[; units])
+    DAPSA(; tjc, sjc, crp, pga, jpn[; units])
 
 Store component measures of the index for Disease Activity in Psoriatic Arthritis, or DAPSA.
 
@@ -9,6 +9,7 @@ Optionally specify the units for each component using [`Unitful.@u_str`](@extref
 
 - `tjc` 66 tender joint count
 - `sjc` 68 swollen joint count
+- `crp` (mg/dL) c-reactive protein
 - `pga` (cm) patient's global assessment
 - `jpn` (cm) joint pain
 
