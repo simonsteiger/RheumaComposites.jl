@@ -1,4 +1,4 @@
-# Dummy CDAIs for testing
+# Dummy DAPSAs for testing
 dapsa = DAPSA(tjc=1, sjc=1, crp=3u"mg/dL", pga=1u"cm", jpn=1u"cm")
 
 # Intercept

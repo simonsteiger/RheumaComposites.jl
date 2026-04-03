@@ -39,5 +39,5 @@ end
 @testset "Categorise BASDAI" begin
     @test categorise(basdai) == "remission"
     @test categorise.(BASDAI, [3.99, 4.01]) == ["remission", "non-remission"]
-    @test categorise(BASDAI, 4.0) == "non-remission"  # strict < 4.0
+    @test categorise(BASDAI, 4.0) == "non-remission"  # BASDAI uses strict < (score of exactly 4.0 is not remission)
 end
