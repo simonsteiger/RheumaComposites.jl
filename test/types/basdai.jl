@@ -1,4 +1,4 @@
-# Dummy CDAIs for testing
+# Dummy BASDAIs for testing
 basdai = BASDAI(q1=1u"cm", q2=2u"cm", q3=2u"cm", q4=2u"cm", q5=1u"cm", q6=3u"cm")
 
 # Intercept
@@ -34,4 +34,10 @@ end
 
 @testset "BASDAI Remission" begin
     @test isremission(basdai)
+end
+
+@testset "Categorise BASDAI" begin
+    @test categorise(basdai) == "remission"
+    @test categorise.(BASDAI, [3.99, 4.01]) == ["remission", "non-remission"]
+    @test categorise(BASDAI, 4.0) == "non-remission"  # strict < 4.0
 end

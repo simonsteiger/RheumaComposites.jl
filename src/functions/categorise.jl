@@ -46,7 +46,7 @@ function categorise(::Type{DAPSA}, s::Real)
 end
 
 function categorise(::Type{BASDAI}, s::Real)
-    s < DAPSA_REMISSION ? "remission" :
+    s < BASDAI_REMISSION ? "remission" :
     "non-remission"
 end
 
