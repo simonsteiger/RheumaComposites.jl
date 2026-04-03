@@ -25,21 +25,21 @@ function categorise(::Type{DAS28CRP}, s::Real)
 end
 
 function categorise(::Type{SDAI}, s::Real)
-    s < SDAI_REMISSION ? "remission" :
+    s <= SDAI_REMISSION ? "remission" :
     s <= SDAI_LOW ? "low" :
     s <= SDAI_MODERATE ? "moderate" :
     "high"
 end
 
 function categorise(::Type{CDAI}, s::Real)
-    s < CDAI_REMISSION ? "remission" :
+    s <= CDAI_REMISSION ? "remission" :
     s <= CDAI_LOW ? "low" :
     s <= CDAI_MODERATE ? "moderate" :
     "high"
 end
 
 function categorise(::Type{DAPSA}, s::Real)
-    s < DAPSA_REMISSION ? "remission" :
+    s <= DAPSA_REMISSION ? "remission" :
     s <= DAPSA_LOW ? "low" :
     s <= DAPSA_MODERATE ? "moderate" :
     "high"

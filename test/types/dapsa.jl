@@ -37,3 +37,9 @@ end
     @test categorise.(DAPSA, [13.99, 14.01]) == ["low", "moderate"]
     @test categorise.(DAPSA, [27.99, 28.01]) == ["moderate", "high"]
 end
+
+@testset "DAPSA remission boundary" begin
+    @test categorise(DAPSA, 4.0) == "remission"
+    @test isremission(DAPSA, 4.0)
+    @test categorise(DAPSA, 4.0) == (isremission(DAPSA, 4.0) ? "remission" : "low")
+end

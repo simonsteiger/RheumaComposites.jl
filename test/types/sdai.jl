@@ -43,3 +43,9 @@ end
     @test categorise.(SDAI, [10.99, 11.01]) == ["low", "moderate"]
     @test categorise.(SDAI, [25.99, 26.01]) == ["moderate", "high"]
 end
+
+@testset "SDAI remission boundary" begin
+    @test categorise(SDAI, 3.3) == "remission"
+    @test isremission(SDAI, 3.3)
+    @test categorise(SDAI, 3.3) == (isremission(SDAI, 3.3) ? "remission" : "low")
+end
